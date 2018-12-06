@@ -1,6 +1,6 @@
 import grpc
 
-from pyost.grpc.github.com.iost_official.go_iost.rpc import apis_pb2_grpc
+from .grpc.rpc import apis_pb2_grpc
 from google.protobuf import empty_pb2
 
 
@@ -10,4 +10,7 @@ class IOST():
         self._stub = apis_pb2_grpc.ApisStub(self._channel)
 
     def get_net_id(self):
-        return self._stub.GetNetID(empty_pb2.Empty())
+        try:
+            return self._stub.GetNetID(empty_pb2.Empty())
+        except grpc.RpcError as e:
+            print(e)

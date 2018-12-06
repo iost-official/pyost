@@ -3,21 +3,27 @@
 #go get -u github.com/iost-official/go-iost
 #go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 
-cat $GOPATH/src/github.com/iost-official/go-iost/rpc/apis.proto | \
-sed 's|import "google/protobuf/Empty.proto"|import "google/protobuf/empty.proto"|' \
-> $GOPATH/src/github.com/iost-official/go-iost/rpc/apis.proto.tmp
+IOSTPATH=$GOPATH/src/github.com/iost-official/go-iost
+DEST="`dirname \"$0\"`/../pyost/grpc"
 
-mv $GOPATH/src/github.com/iost-official/go-iost/rpc/apis.proto.tmp \
-$GOPATH/src/github.com/iost-official/go-iost/rpc/apis.proto
+# Get the list of .proto files
+PROTO_FILES=`cd $IOSTPATH && find * -name "*.proto" | grep -v "vendor"`
 
-find $GOPATH/src/github.com/iost-official/go-iost/* -name "*.proto" | grep -v "vendor" | xargs -n1 \
-python -m grpc_tools.protoc -I. -I/usr/local/include -I$GOPATH/src \
--I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
---python_out=./pyost/grpc --grpc_python_out=./pyost/grpc
-
-find pyost/grpc/github.com -name \*py | while read f
-do cp "$f" "pyost/grpc/github/com${f#pyost/grpc/github.com}"
+# Recreate the hierarchy of folders locally
+for f in $PROTO_FILES; do
+    mkdir -p "$DEST/`dirname $f`"
 done
 
-rm -rf pyost/grpc/github.com
+# Copy the .proto files to the local hierarchy
+# Strip out the github references in the imports
+# Fix the empty.proto typo
+for f in $PROTO_FILES; do
+    cat "$IOSTPATH/$f" | sed -e "s|github.com/iost-official/go-iost/||" \
+            -e "s|google/protobuf/Empty.proto|google/protobuf/empty.proto|" \
+            > "$DEST/$f"
+done
 
+for f in $PROTO_FILES; do
+    python -m grpc_tools.protoc --proto_path="$DEST:$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis" \
+    --python_out="$DEST" --grpc_python_out="$DEST" "$DEST/$f"
+done
