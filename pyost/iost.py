@@ -1,8 +1,11 @@
 import grpc
 
 from pyost.api.rpc import apis_pb2_grpc, apis_pb2
-from google.protobuf import empty_pb2
+from pyost.api.core.event import event_pb2
+from google.protobuf.empty_pb2 import Empty
 from protobuf_to_dict import protobuf_to_dict
+import protobuf_to_dict as ptd
+
 
 class IOST():
     def __init__(self, url, timeout=10):
@@ -16,6 +19,8 @@ class IOST():
         else:
             self._stub = apis_pb2_grpc.ApisStub(self._channel)
 
+    # TODO: raise error if params don't match the type of protos
+    # TODO: by typing params or using assert?
     # rpc GetHeight (google.protobuf.Empty) returns (HeightRes) {
     #    option (google.api.http) = {
     #        get: "/getHeight"
@@ -26,8 +31,8 @@ class IOST():
     # 	int64 height=1;
     # }
     def get_height(self):
-        height_res = self._stub.GetHeight(empty_pb2.Empty())
-        return height_res.height
+        res = self._stub.GetHeight(Empty())
+        return res.height
 
     # // get the tx by hash
     # rpc GetTxByHash (HashReq) returns (txRes) {
@@ -64,8 +69,9 @@ class IOST():
     #     bytes pubKey = 3;
     # }
     def get_tx_by_hash(self, tx_hash):
-        tx_res = self._stub.GetTxByHash(apis_pb2.HashReq(hash=tx_hash))
-        return (protobuf_to_dict(tx_res.txRaw), tx_res.hash)
+        req = apis_pb2.HashReq(hash=tx_hash)
+        res = self._stub.GetTxByHash(req)
+        return (protobuf_to_dict(res.txRaw), res.hash)
 
     # // get receipt by hash
     # rpc GetTxReceiptByHash(HashReq) returns (txReceiptRes) {
@@ -96,8 +102,9 @@ class IOST():
     #     string content = 2;
     # }
     def get_tx_receipt_by_hash(self, receipt_hash):
-        tx_receipt_res = self._stub.GetTxReceiptByHash(apis_pb2.HashReq(hash=receipt_hash))
-        return (protobuf_to_dict(tx_receipt_res.txReceiptRaw), tx_receipt_res.hash)
+        req = apis_pb2.HashReq(hash=receipt_hash)
+        res = self._stub.GetTxReceiptByHash(req)
+        return (protobuf_to_dict(res.txReceiptRaw), res.hash)
 
     # // get receipt by txhash
     # rpc GetTxReceiptByTxHash(HashReq) returns (txReceiptRes) {
@@ -113,8 +120,9 @@ class IOST():
     # 	bytes hash = 2;
     # }
     def get_tx_receipt_by_tx_hash(self, tx_hash):
-        tx_receipt_res = self._stub.GetTxReceiptByTxHash(apis_pb2.HashReq(hash=tx_hash))
-        return (protobuf_to_dict(tx_receipt_res.txReceiptRaw), tx_receipt_res.hash)
+        req = apis_pb2.HashReq(hash=tx_hash)
+        res = self._stub.GetTxReceiptByTxHash(req)
+        return (protobuf_to_dict(res.txReceiptRaw), res.hash)
 
     # // get the block by hash
     # rpc GetBlockByHash (BlockByHashReq) returns (BlockInfo) {
@@ -135,9 +143,27 @@ class IOST():
     # 	repeated tx.TxReceiptRaw receipts = 5;
     # 	repeated bytes receiptHash = 6;
     # }
-    def get_block_by_hash(self, hash, complete=False):
-        res = self._stub.GetBlockByHash(hash, complete)
-        return res
+    # message BlockHead {
+    #     int64 version = 1;
+    #     bytes parentHash = 2;
+    #     bytes txsHash = 3;
+    #     bytes merkleHash = 4;
+    #     bytes info = 5;
+    #     int64 number = 6;
+    #     string witness = 7;
+    #     int64 time = 8;
+    # }
+    # TODO: where blockraw is used? when complete=Fase?
+    # message BlockRaw {
+    #     BlockHead head = 1;
+    #     bytes sign = 2;
+    #     repeated bytes txs = 3;
+    #     repeated bytes receipts = 4;
+    # }
+    def get_block_by_hash(self, block_hash, complete=False):
+        req = apis_pb2.BlockByHashReq(hash=block_hash, complete=complete)
+        res = self._stub.GetBlockByHash(req)
+        return protobuf_to_dict(res)
 
     # // get the block by number
     # rpc getBlockByNum (BlockByNumReq) returns (BlockInfo) {
@@ -150,10 +176,18 @@ class IOST():
     # 	// complete means return the whole block or just blockhead+txhash_list
     # 	bool complete=2;
     # }
-    #
-    def get_block_by_num(self, num, complete):
-        res = self._stub.getBlockByNum(num, complete)
-        return res
+    # message BlockInfo {
+    # 	block.BlockHead head = 1;
+    # 	bytes hash = 2;
+    # 	repeated tx.TxRaw txs = 3;
+    # 	repeated bytes txhash= 4 ;
+    # 	repeated tx.TxReceiptRaw receipts = 5;
+    # 	repeated bytes receiptHash = 6;
+    # }
+    def get_block_by_num(self, block_num, complete=False):
+        req = apis_pb2.BlockByNumReq(num=block_num, complete=complete)
+        res = self._stub.getBlockByNum(req)
+        return protobuf_to_dict(res)
 
     # // get the balance of some account by account ID
     # rpc GetBalance (GetBalanceReq) returns (GetBalanceRes) {
@@ -166,15 +200,14 @@ class IOST():
     # 	// useLongestChain means whether geting the balance also from pending blocks(in the longest chain)
     # 	bool useLongestChain = 2;
     # }
-    #
     # message GetBalanceRes {
     # 	// the queried balance
     # 	int64 balance=1;
     # }
-    #
-    def get_balance(self, id, use_longest_chain):
-        res = self._stub.GetBalance(id, use_longest_chain)
-        return res
+    def get_balance(self, account_id, use_longest_chain=False):
+        req = apis_pb2.GetBalanceReq(ID=account_id, useLongestChain=use_longest_chain)
+        res = self._stub.GetBalance(req)
+        return res.balance
 
     # // get the Net ID
     # rpc GetNetID (google.protobuf.Empty) returns (GetNetIDRes) {
@@ -185,9 +218,8 @@ class IOST():
     # message GetNetIDRes {
     # 	string ID=1;
     # }
-    #
     def get_net_id(self):
-        res = self._stub.GetNetID(empty_pb2.Empty())
+        res = self._stub.GetNetID(Empty())
         return res.ID
 
     # // get the value of the corresponding key in stateDB
@@ -201,14 +233,13 @@ class IOST():
     # 	// get the value from StateDB,field is needed if StateDB[key] is a map.(we get StateDB[key][field] in this case)
     # 	string field = 2;
     # }
-    #
     # message GetStateRes {
     # 	string value=1;
     # }
-    #
-    def get_state(self, key):
-        res = self._stub.GetState(key)
-        return res
+    def get_state(self, key, field=None):
+        req = apis_pb2.GetStateReq(key=key, field=field)
+        res = self._stub.GetState(req)
+        return res.value
 
     # // receive encoded tx
     # rpc SendRawTx (RawTxReq) returns (SendRawTxRes) {
@@ -221,15 +252,15 @@ class IOST():
     # 	// the rawdata of a tx
     # 	bytes data=1;
     # }
-    #
     # message SendRawTxRes {
     # 	// the hash of the received transaction
     # 	string hash=1;
     # }
-    #
-    def send_raw_tx(self, tx):
-        res = self._stub.SendRawTx(tx)
-        return res
+    # TODO: need to replace data with a tx.TxRaw? (or take raw_tx a dict and convert to proto)
+    def send_raw_tx(self, raw_tx):
+        req = apis_pb2.RawTxReq(data=raw_tx)
+        res = self._stub.SendRawTx(req)
+        return res.hash
 
     # // not supported yet
     # rpc EstimateGas (RawTxReq) returns (GasRes) {
@@ -242,14 +273,14 @@ class IOST():
     # 	// the rawdata of a tx
     # 	bytes data=1;
     # }
-    #
     # message GasRes {
     # 	uint64 gas=1;
     # }
-    #
-    def estimate_gas(self, tx):
-        res = self._stub.EstimateGas(tx)
-        return res
+    # TODO: need to replace data with a tx.TxRaw?
+    def estimate_gas(self, raw_tx):
+        req = apis_pb2.RawTxReq(data=raw_tx)
+        res = self._stub.EstimateGas(req)
+        return res.gas
 
     # // subscribe an event
     # rpc Subscribe (SubscribeReq) returns (stream SubscribeRes) {
@@ -261,12 +292,25 @@ class IOST():
     # message SubscribeReq {
     # 	repeated event.Event.Topic topics=1;
     # }
-    #
+    # message Event {
+    #     enum Topic {
+    #         TransactionResult = 0;
+    #         ContractEvent = 1;
+    #         ContractUserEvent = 2;
+    #         ContractSystemEvent = 3;
+    #     }
+    #     Topic topic = 1;
+    #     string data = 2;
+    #     int64 time = 3;
+    # }
     # message SubscribeRes {
     # 	event.Event ev=1;
     # }
-    #
-    def subscribe(self, req):
+    # TODO: event_topic is a list of enum (need to pass an iterator?)
+    # TODO: if topics is a scalar, transform it into a 1 element list
+    # TODO: check that each topic is a valid Enum value
+    def subscribe(self, topics):
+        print(ptd.get_field_names_and_options(event_pb2.Event))
+        req = apis_pb2.SubscribeReq(topics=topics)
         res = self._stub.Subscribe(req)
-        return res
-
+        return protobuf_to_dict(res.ev)

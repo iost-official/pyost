@@ -67,6 +67,10 @@ class TestIOST(TestCase):
         self.assertEqual(res_hash, base58.b58decode(receipt_hash))
         self.assertDictEqual(tx, compare_dict)
 
+    def test_get_balance(self):
+        account_id = '6d8jQzRcxawmTebQQhrWvBvbjpSp9CnPFCFQsuBoMWQc'
+        balance = self.iost.get_balance(account_id, False)
+        self.assertEqual(balance, 4000000000000)
 
 if __name__ == '__main__':
     main()
