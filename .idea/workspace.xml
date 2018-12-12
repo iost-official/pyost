@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9da18066-ed0a-4be2-9f61-7ae4af05926a" name="Default Changelist" comment="">
+    <list default="true" id="9da18066-ed0a-4be2-9f61-7ae4af05926a" name="Default Changelist" comment="auto fold .proto's generated files">
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PyOST.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PyOST.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyost/iost.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/iost.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_iost.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_iost.py" afterDir="false" />
     </list>
     <ignored path="iost-official/" />
     <ignored path="venv/" />
@@ -14,124 +19,23 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/PyOST$Unittests_in_test_IOST_py.coverage" NAME="Unittests for tests.test_iost.TestIOST Coverage Results" MODIFIED="1544136706547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/PyOST$test_pyost.coverage" NAME="test_pyost Coverage Results" MODIFIED="1544136018973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$test_pyost.coverage" NAME="test_pyost Coverage Results" MODIFIED="1544648269835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$Unittests_for_tests_test_iost_TestIOST.coverage" NAME="Unittests for tests.test_iost.TestIOST Coverage Results" MODIFIED="1544640419727" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$Unittests_in_test_IOST_py.coverage" NAME="Unittests for tests.test_iost.TestIOST Coverage Results" MODIFIED="1544139580308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="-2109500542">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="1" />
-          <entry key="project.open.time.4" value="1" />
-          <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="html" value="2" />
-          <entry key="js" value="26" />
-          <entry key="json" value="1" />
-          <entry key="md" value="1" />
-          <entry key="proto" value="12" />
-          <entry key="py" value="56" />
-          <entry key="sh" value="4" />
-          <entry key="txt" value="4" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="Bash" value="4" />
-          <entry key="HTML" value="2" />
-          <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="26" />
-          <entry key="Markdown" value="1" />
-          <entry key="PLAIN_TEXT" value="8" />
-          <entry key="PROTO" value="8" />
-          <entry key="Python" value="56" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="dummy" value="12" />
-          <entry key="js" value="95" />
-          <entry key="py" value="4011" />
-          <entry key="sh" value="1952" />
-          <entry key="txt" value="1029" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="Bash" value="1952" />
-          <entry key="JavaScript" value="95" />
-          <entry key="PLAIN_TEXT" value="1041" />
-          <entry key="Python" value="4011" />
-        </counts>
-      </usages-collector>
-    </session>
+  <component name="FavoritesManager">
+    <favorites_list name="PyOST" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pyost/iost.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="209" column="26" lean-forward="true" selection-start-line="209" selection-start-column="26" selection-end-line="209" selection-end-column="26" />
+            <state relative-caret-position="194">
+              <caret line="509" column="30" lean-forward="true" selection-start-line="509" selection-start-column="30" selection-end-line="509" selection-end-column="30" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <marker date="1544136176799" expanded="true" signature="283:682" ph="..." />
-                <marker date="1544136176799" expanded="true" signature="2093:2240" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/api/core/event/event.proto">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="25" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/api/core/event/event_pb2.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="33" column="29" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/api/core/event/event_pb2_grpc.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/api/core/tx/tx.proto">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/api/core/block/block.proto">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" selection-start-line="4" selection-end-line="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/api/crypto/signature.proto">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
@@ -139,12 +43,21 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_iost.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="64" column="9" lean-forward="true" selection-start-line="64" selection-start-column="9" selection-end-line="64" selection-end-column="9" />
+            <state relative-caret-position="267">
+              <caret line="182" column="26" lean-forward="true" selection-start-line="182" selection-start-column="26" selection-end-line="182" selection-end-column="26" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <marker date="1544136224337" expanded="true" signature="121:171" ph="..." />
+                <marker date="1544648269828" expanded="true" signature="121:167" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pyost/api/rpc/apis.proto">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="163" column="19" lean-forward="true" selection-start-line="163" selection-start-column="19" selection-end-line="163" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -152,17 +65,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/api/rpc/apis_pb2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
+            <state relative-caret-position="11254">
               <caret line="662" selection-start-line="662" selection-end-line="662" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/api/rpc/apis_pb2_grpc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="9" lean-forward="true" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
+            <state relative-caret-position="238">
+              <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
               <folding>
                 <element signature="e#70#81#0" expanded="true" />
               </folding>
@@ -181,7 +94,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>empty_pb2</find>
       <find>empty</find>
       <find>GetNet</find>
       <find>grpc</find>
@@ -208,6 +120,10 @@
       <find>HeightRes</find>
       <find>TxRaw</find>
       <find>TransactionResult</find>
+      <find>TxReceiptRaw</find>
+      <find>ts</find>
+      <find>base58</find>
+      <find>getNode</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -236,35 +152,11 @@
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="362" />
     <option name="y" value="23" />
     <option name="width" value="1078" />
     <option name="height" value="877" />
-  </component>
-  <component name="ProjectInspectionProfilesVisibleTreeState">
-    <entry key="Project Default">
-      <profile-state>
-        <expanded-state>
-          <State />
-          <State>
-            <id>GeneralJavaScript</id>
-          </State>
-          <State>
-            <id>JavaScript</id>
-          </State>
-          <State>
-            <id>Python</id>
-          </State>
-        </expanded-state>
-      </profile-state>
-    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -273,6 +165,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -296,44 +189,6 @@
               <item name="PyOST" type="462c0819:PsiDirectoryNode" />
               <item name="pyost" type="462c0819:PsiDirectoryNode" />
               <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="pyost" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="block" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="pyost" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="event" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="pyost" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="tx" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="pyost" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="crypto" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="pyost" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
               <item name="rpc" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -350,7 +205,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -359,20 +213,21 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="io.protostuff.jetbrains.plugin.settings.ProtobufSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
+      <recent name="$PROJECT_DIR$/tests" />
+      <recent name="$PROJECT_DIR$/scripts" />
+      <recent name="$PROJECT_DIR$/pyost/grpc/github/com/iost_official/go_iost/rpc" />
+      <recent name="$PROJECT_DIR$/pyost/grpc/github/com/iost_official" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pyost/grpc/rpc" />
       <recent name="$PROJECT_DIR$/pyost/grpc" />
       <recent name="$PROJECT_DIR$/pyost/grpc/core" />
       <recent name="$PROJECT_DIR$/tests" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/tests" />
-      <recent name="$PROJECT_DIR$/scripts" />
-      <recent name="$PROJECT_DIR$/pyost/grpc/github/com/iost_official/go_iost/rpc" />
-      <recent name="$PROJECT_DIR$/pyost/grpc/github/com/iost_official" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -387,7 +242,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for tests.test_iost.TestIOST">
+  <component name="RunManager" selected="Python.test_pyost">
     <configuration name="test_pyost" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PyOST" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -432,8 +287,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for tests.test_iost.TestIOST" />
         <item itemvalue="Python.test_pyost" />
+        <item itemvalue="Python tests.Unittests for tests.test_iost.TestIOST" />
       </list>
     </recent_temporary>
   </component>
@@ -447,6 +302,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1544031762979</updated>
+      <workItem from="1544241389155" duration="406000" />
+      <workItem from="1544241821663" duration="5146000" />
+      <workItem from="1544640115114" duration="8856000" />
     </task>
     <task id="LOCAL-00001" summary="generate grpc python files from proto files">
       <created>1544107413908</created>
@@ -476,31 +334,17 @@
       <option name="project" value="LOCAL" />
       <updated>1544136354194</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="auto fold .proto's generated files">
+      <created>1544136790481</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1544136790481</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_test_IOST_py - 2018.12.07 at 04h 08m 19s.xml">
-      <configuration name="Unittests in test_IOST.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_IOST_py - 2018.12.07 at 04h 08m 31s.xml">
-      <configuration name="Unittests in test_IOST.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_IOST_py - 2018.12.07 at 04h 09m 04s.xml">
-      <configuration name="Unittests in test_IOST.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_IOST_py - 2018.12.07 at 04h 09m 23s.xml">
-      <configuration name="Unittests in test_IOST.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_iost_py - 2018.12.07 at 05h 41m 31s.xml">
-      <configuration name="Unittests in test_iost.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_iost_py - 2018.12.07 at 05h 42m 34s.xml">
-      <configuration name="Unittests in test_iost.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_iost_py - 2018.12.07 at 05h 42m 57s.xml">
-      <configuration name="Unittests in test_iost.py" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_in_test_iost_py - 2018.12.07 at 05h 43m 44s.xml">
       <configuration name="Unittests in test_iost.py" configurationId="tests" />
     </history-entry>
@@ -510,18 +354,42 @@
     <history-entry file="Unittests_for_tests_test_iost_TestIOST - 2018.12.07 at 05h 52m 02s.xml">
       <configuration name="Unittests for tests.test_iost.TestIOST" configurationId="tests" />
     </history-entry>
+    <history-entry file="Unittests_for_tests_test_iost_TestIOST - 2018.12.07 at 06h 05m 52s.xml">
+      <configuration name="Unittests for tests.test_iost.TestIOST" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_test_iost_TestIOST - 2018.12.07 at 06h 06m 34s.xml">
+      <configuration name="Unittests for tests.test_iost.TestIOST" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_test_iost_TestIOST - 2018.12.07 at 06h 16m 23s.xml">
+      <configuration name="Unittests for tests.test_iost.TestIOST" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_test_iost_TestIOST - 2018.12.07 at 06h 20m 29s.xml">
+      <configuration name="Unittests for tests.test_iost.TestIOST" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_test_iost_TestIOST - 2018.12.07 at 06h 23m 44s.xml">
+      <configuration name="Unittests for tests.test_iost.TestIOST" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_test_iost_TestIOST - 2018.12.07 at 06h 39m 57s.xml">
+      <configuration name="Unittests for tests.test_iost.TestIOST" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_test_iost_TestIOST - 2018.12.13 at 01h 47m 15s.xml">
+      <configuration name="Unittests for tests.test_iost.TestIOST" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="14408000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="362" y="23" width="1078" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22490348" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.39363056" visible="true" weight="0.2007722" />
+      <window_info id="Structure" order="1" sideWeight="0.60636944" side_tool="true" visible="true" weight="0.2007722" />
       <window_info id="DB Browser" order="2" weight="0.32965687" />
-      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Favorites" order="3" sideWeight="0.50063694" side_tool="true" weight="0.2007722" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3299363" />
+      <window_info anchor="bottom" id="Run" internal_type="SLIDING" order="2" weight="0.3656051" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -533,7 +401,9 @@
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" weight="0.3299363" />
       <window_info anchor="bottom" id="Messages" order="13" />
-      <window_info anchor="bottom" id="Python Console" order="14" />
+      <window_info anchor="bottom" id="Python Console" order="14" weight="0.3299363" />
+      <window_info anchor="bottom" id="Concurrent Activities Diagram" order="15" visible="true" weight="0.3299363" />
+      <window_info anchor="bottom" x="0" y="0" width="219" height="677" id="Documentation" order="16" side_tool="true" weight="0.32866243" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -544,9 +414,6 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$/iost.js" />
@@ -555,15 +422,10 @@
     <MESSAGE value="change all .proto imports to relative path" />
     <MESSAGE value="implement get tx api calls and unittest" />
     <MESSAGE value="add all remaining api calls" />
-    <option name="LAST_COMMIT_MESSAGE" value="add all remaining api calls" />
+    <MESSAGE value="auto fold .proto's generated files" />
+    <option name="LAST_COMMIT_MESSAGE" value="auto fold .proto's generated files" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/iost.js/lib/crypto/crypto_test.js" />
-    <entry file="file://$PROJECT_DIR$/iost.js/lib/provider/HTTPProvider.js" />
-    <entry file="file://$PROJECT_DIR$/iost.js/lib/rpc.js" />
-    <entry file="file://$PROJECT_DIR$/tests/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/iost.js/examples/example.js" />
     <entry file="file://$PROJECT_DIR$/scripts/iwallet_install.sh">
       <provider selected="true" editor-type-id="text-editor">
@@ -658,23 +520,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_iost.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="26" lean-forward="true" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/grpc/_channel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="551">
           <caret line="543" column="23" selection-start-line="543" selection-start-column="23" selection-end-line="543" selection-end-column="23" />
-          <folding>
-            <element signature="e#631#645#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -683,13 +532,7 @@
         <state relative-caret-position="-208" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/protobuf_to_dict.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/protobuf_to_dict.py" />
     <entry file="file://$PROJECT_DIR$/pyost/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -701,20 +544,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/api/rpc/apis.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2975">
-          <caret line="175" lean-forward="true" selection-start-line="88" selection-end-line="175" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/api/crypto/signature.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
@@ -742,20 +571,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/api/core/block/block.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" selection-start-line="4" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/api/core/tx/tx.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pyost/api/core/event/event.proto">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -763,52 +578,105 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/api/core/event/event_pb2_grpc.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/pyost/api/core/event/event_pb2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
+        <state relative-caret-position="561">
           <caret line="33" column="29" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/iost.py">
+    <entry file="file://$PROJECT_DIR$/pyost/api/core/event/event_pb2_grpc.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/api/core/tx/tx.proto">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="209" column="26" lean-forward="true" selection-start-line="209" selection-start-column="26" selection-end-line="209" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <marker date="1544136176799" expanded="true" signature="283:682" ph="..." />
-            <marker date="1544136176799" expanded="true" signature="2093:2240" ph="..." />
-          </folding>
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_iost.py">
+    <entry file="file://$PROJECT_DIR$/docs/index.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/_build/html/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="64" column="9" lean-forward="true" selection-start-line="64" selection-start-column="9" selection-end-line="64" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <marker date="1544136224337" expanded="true" signature="121:171" ph="..." />
-          </folding>
+        <state relative-caret-position="102">
+          <caret line="6" column="59" selection-start-line="6" selection-start-column="59" selection-end-line="6" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/_build/doctrees/grpc/src/python/grpcio/README.doctree">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="95" column="1" lean-forward="true" selection-start-line="95" selection-start-column="1" selection-end-line="95" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/sphinx-quickstart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/api/core/block/block.proto">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="23" lean-forward="true" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/api/crypto/signature.proto">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pyost/api/rpc/apis_pb2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
+        <state relative-caret-position="11254">
           <caret line="662" selection-start-line="662" selection-end-line="662" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pyost/api/rpc/apis_pb2_grpc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="9" lean-forward="true" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
+        <state relative-caret-position="238">
+          <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
           <folding>
             <element signature="e#70#81#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_iost.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="182" column="26" lean-forward="true" selection-start-line="182" selection-start-column="26" selection-end-line="182" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1544648269828" expanded="true" signature="121:167" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/api/rpc/apis.proto">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="163" column="19" lean-forward="true" selection-start-line="163" selection-start-column="19" selection-end-line="163" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/iost.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="509" column="30" lean-forward="true" selection-start-line="509" selection-start-column="30" selection-end-line="509" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
