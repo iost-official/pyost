@@ -5,6 +5,7 @@
       <excludeFolder url="file://$MODULE_DIR$/grpc" />
       <excludeFolder url="file://$MODULE_DIR$/iost-official" />
       <excludeFolder url="file://$MODULE_DIR$/iost.js" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.7 (PyOST)" jdkType="Python SDK" />

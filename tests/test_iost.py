@@ -12,7 +12,7 @@ class TestIOST(TestCase):
         self.assertGreaterEqual(height, 0)
 
     def test_get_tx_by_hash(self):
-        tx_hash = '6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'
+        tx_hash = b'6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'
         tx, res_hash = self.iost.get_tx_by_hash(tx_hash)
         compare_dict = {
             'time': 1544123981522270000,
@@ -26,35 +26,33 @@ class TestIOST(TestCase):
             }],
             'publisher': {
                 'algorithm': 2,
-                'sig': b'\xe6\x99~\xf5P\xe1\xf0P\x83tK\xc3\xc8^\x06>\xc3\x1a\x13.f=\xe6\x86\x9e\x88\xcc\x8ehK\xcd&\xa4\x8d1\xe4&>\x07\xac\x15\x13\xfa\xe6\x18\x8f\x05\x1d\xfbR\x8e\x8cI&\x9f\xbb\xa8-\xc2\xf6\xdbO\xba\x01',
-                'pubKey': b'W1\xad\xeb]\x1a\x80~\xc9\xc48%8\x9e^\xdf\xf7\x04\x12\xe4d:\x94b\x9ae*\xf1\xbf\xcf/\x08'
+                'sig': b'5cQU984cVcLbncwzaRWesBKs5XeWZjDNeFWFNWYC5ipF22JuvR5ogNNdtExhgFHdGhWvT47ix3ZdfTfqF5GUwqk4',
+                'pubKey': b'6sNQa7PV2SFzqCBtQUcQYJGGoU7XaB6R4xuCQVXNZe6b'
             }
         }
-        # TODO What is this value?
-        # print(base58.b58encode(compare_dict['publisher']['pubKey']))
-        self.assertEqual(res_hash, base58.b58decode(tx_hash))
+        self.assertEqual(res_hash, tx_hash)
         self.assertDictEqual(tx, compare_dict)
 
     def test_get_tx_receipt_by_hash(self):
-        tx_hash = '6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'
-        receipt_hash = 'GWh7aHCZZeEjJXzQjtRcez6j1rbzNtbdGTQ7arNsB25i'
+        tx_hash = b'6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'
+        receipt_hash = b'GWh7aHCZZeEjJXzQjtRcez6j1rbzNtbdGTQ7arNsB25i'
         tx, res_hash = self.iost.get_tx_receipt_by_hash(receipt_hash)
         compare_dict = {
-            'txHash': b"T\xefO\x9fD\x87\xca\xf01q'4\x04\xcb\xc9\xa9Y\xfa\x80(\xf2\xaa\x07Y\xfcY\xd6\xcd\x10b\xde\xea",
+            'txHash': b'6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb',
             'gasUsage': 303,
             'status': {},
             'succActionNum': 1
         }
-        self.assertEqual(compare_dict['txHash'], base58.b58decode(tx_hash))
-        self.assertEqual(res_hash, base58.b58decode(receipt_hash))
+        self.assertEqual(compare_dict['txHash'], tx_hash)
+        self.assertEqual(res_hash, receipt_hash)
         self.assertDictEqual(tx, compare_dict)
 
     def test_get_tx_receipt_by_tx_hash(self):
-        tx_hash = '6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'
-        receipt_hash = 'GWh7aHCZZeEjJXzQjtRcez6j1rbzNtbdGTQ7arNsB25i'
+        tx_hash = b'6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'
+        receipt_hash = b'GWh7aHCZZeEjJXzQjtRcez6j1rbzNtbdGTQ7arNsB25i'
         tx, res_hash = self.iost.get_tx_receipt_by_tx_hash(tx_hash)
         compare_dict = {
-            'txHash': b"T\xefO\x9fD\x87\xca\xf01q'4\x04\xcb\xc9\xa9Y\xfa\x80(\xf2\xaa\x07Y\xfcY\xd6\xcd\x10b\xde\xea",
+            'txHash': b'6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb',
             'gasUsage': 303,
             'status': {},
             'succActionNum': 1
@@ -64,7 +62,7 @@ class TestIOST(TestCase):
         self.assertDictEqual(tx, compare_dict)
 
     def test_get_block_by_hash(self):
-        block_hash = '3VkWkdWf9ixSVNqqh9Cod22GXkaPQjhCzKD69Xx3nzDX'
+        block_hash = b'3VkWkdWf9ixSVNqqh9Cod22GXkaPQjhCzKD69Xx3nzDX'
         block_info = self.iost.get_block_by_hash(block_hash)
         compare_dict = {
             'head': {
@@ -182,6 +180,9 @@ class TestIOST(TestCase):
 
 if __name__ == '__main__':
     # main()
+    hash = b"T\xefO\x9fD\x87\xca\xf01q'4\x04\xcb\xc9\xa9Y\xfa\x80(\xf2\xaa\x07Y\xfcY\xd6\xcd\x10b\xde\xea"
+    b58str = base58.b58encode(hash)
+    print(b58str)
     tester = TestIOST()
     tester.setUp()
-    tester.test_get_state()
+    tester.test_get_block_by_hash()

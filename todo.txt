@@ -1,0 +1,43 @@
+Hi,
+
+Not sure how much coverage I have because there are a lot of discrepancies between:
+- the API calls in the RPC proto files
+- the developers documentation at https://developers.iost.io/docs/en/6-reference/API/
+- the JavaScript implementation
+I thought the RPC API should be up to date but it seems that they have a few calls that
+do not exist in the REST API and vice versa. What is the official and final reference
+for all API calls? Which call should be included or excluded in the SDK?
+See below for the details.
+The source code is available here: https://github.com/dossiman/pyost
+
+I have implemented and unittested the following API calls:
+get /getHeight
+get /getTxByHash/{hash}
+get /getTxReceiptByHash/{hash}
+get /getTxReceiptByTxHash/{hash}
+get /getBlockByHash/{hash}/{complete}
+get /getBlockByNum/{num}/{complete}
+get /getBalance/{ID}/{useLongestChain}
+get /getNetID
+get /getState/{key}
+
+Those are still a work in progress:
+post /sendRawTx
+post /estimateGas
+post /subscribe
+
+The online doc and the JS module references those calls but they are not in the RPC proto files:
+get /getChainInfo
+get /getNodeInfo
+
+The JS module implements those calls but they are neither in the doc nor in the RPC API:
+get /getContract
+post /getContractStorage
+post /sendTx
+
+The online doc and JS module do not mention those calls that are in the RPC API:
+get /getHeight
+get /getState/{key}
+post /sendRawTx
+post /estimateGas
+post /subscribe

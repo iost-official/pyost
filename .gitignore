@@ -1,4 +1,3 @@
-iost-official
-grpc
+vendor
 venv
 __pycache__/
