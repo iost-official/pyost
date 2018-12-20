@@ -179,6 +179,14 @@ class TestIOST(TestCase):
 
 
 if __name__ == '__main__':
+    def test(a, b, *c):
+        print(a)
+        print(b)
+        print(c)
+
+
+    test(1, 2, 3, 4, 5)
+
     # main()
     hash = b"T\xefO\x9fD\x87\xca\xf01q'4\x04\xcb\xc9\xa9Y\xfa\x80(\xf2\xaa\x07Y\xfcY\xd6\xcd\x10b\xde\xea"
     b58str = base58.b58encode(hash)
