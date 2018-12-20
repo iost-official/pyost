@@ -6,14 +6,7 @@ from protobuf_to_dict import protobuf_to_dict
 import protobuf_to_dict as ptd
 
 from pyost.api.rpc import apis_pb2_grpc, apis_pb2
-from pyost.api.core.block import block_pb2
-from pyost.api.core.contract import contract_pb2
 from pyost.api.core.event import event_pb2
-from pyost.api.core.merkletree import merkle_tree_pb2
-from pyost.api.core.message import message_pb2
-from pyost.api.core.tx import tx_pb2
-from pyost.api.crypto import signature_pb2
-from pyost.account import Account
 from pyost.transaction import Transaction
 
 
@@ -361,44 +354,38 @@ class IOST():
         res = self._stub.GetState(req)
         return res.value
 
-    # // receive encoded tx
-    # rpc SendRawTx (RawTxReq) returns (SendRawTxRes) {
-    #    option (google.api.http) = {
-    #        post: "/sendRawTx"
-    #        body: "*"
-    #    };
-    # }
-    # message RawTxReq {
-    # 	// the rawdata of a tx
-    # 	bytes data=1;
-    # }
-    # message SendRawTxRes {
-    # 	// the hash of the received transaction
-    # 	string hash=1;
-    # }
-    # TODO: need to replace data with a tx.TxRaw? (or take raw_tx a dict and convert to proto)
-    def send_raw_tx(self, raw_tx: bytes) -> str:
-        req = apis_pb2.RawTxReq(data=raw_tx)
+    def send_tx(self, tx: Transaction) -> str:
+        """
+        Sends a Transaction encoded as a TxRaw.
+
+        Notes:
+            REST API: POST "/sendRawTx" (tx in the body)
+
+        Args:
+            tx (Transaction): The transaction to serialize.
+
+        Returns:
+            str: The hash of the received transaction.
+        """
+        req = apis_pb2.RawTxReq(data=tx.encode())
         res = self._stub.SendRawTx(req)
         return res.hash
 
-    # // not supported yet
-    # rpc EstimateGas (RawTxReq) returns (GasRes) {
-    #    option (google.api.http) = {
-    #        post: "/estimateGas"
-    #        body: "*"
-    #    };
-    # }
-    # message RawTxReq {
-    # 	// the rawdata of a tx
-    # 	bytes data=1;
-    # }
-    # message GasRes {
-    # 	uint64 gas=1;
-    # }
-    # TODO: need to replace data with a tx.TxRaw?
-    def estimate_gas(self, raw_tx: bytes) -> int:
-        req = apis_pb2.RawTxReq(data=raw_tx)
+    def estimate_gas(self, tx: Transaction) -> int:
+        """
+        Estimates the gas required to send a Transaction.
+
+        Notes:
+            NOT SUPPORTED YET
+            REST API: POST "/estimateGas" (tx in the body)
+
+        Args:
+            tx (Transaction): A Transaction that will be serialized to a TxRaw..
+
+        Returns:
+            str: The amount of gas required to execute a Transaction..
+        """
+        req = apis_pb2.RawTxReq(data=tx.encode())
         res = self._stub.EstimateGas(req)
         return res.gas
 
@@ -436,7 +423,6 @@ class IOST():
         return protobuf_to_dict(res.ev)
 
     def call(self, contract, abi, args):
-
         tx = Transaction(self.gas_ratio, self.gas_limit, self.delay)
         tx.add_action(contract, abi, json.dumps(args))
         tx.set_time(90, 0)

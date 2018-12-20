@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import ed25519
 import ecdsa
+import base58
 import hashlib
 
 
@@ -54,39 +55,6 @@ class Algorithm(ABC):
         pass
 
 
-class Ed25519(Algorithm):
-    ID = 1
-    NAME = 'ed25519'
-
-    @classmethod
-    def __int__(cls) -> int:
-        return Ed25519.ID
-
-    @classmethod
-    def __str__(cls) -> str:
-        return Ed25519.NAME
-
-    @classmethod
-    def sign(cls, message: bytes, seckey: bytes) -> bytes:
-        sk = ed25519.SigningKey(seckey)
-        return sk.sign(message)
-
-    @classmethod
-    def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
-        vk = ed25519.VerifyingKey(pubkey)
-        return vk.verify(sig, message)
-
-    @classmethod
-    def get_pubkey(cls, seckey: bytes) -> bytes:
-        sk = ed25519.SigningKey(seckey)
-        return sk.get_verifying_key().to_bytes()
-
-    @classmethod
-    def gen_seckey(cls) -> bytes:
-        sk, vk = ed25519.create_keypair()
-        return sk.to_bytes()
-
-
 class Secp256k1(Algorithm):
     ID = 0
     NAME = 'secp256k1'
@@ -111,7 +79,7 @@ class Secp256k1(Algorithm):
 
     @classmethod
     def get_pubkey(cls, seckey: bytes) -> bytes:
-        sk = ecdsa.SigningKey.from_string(seckey, ecdsa.SECP256k1, hashlib.sha3_256)
+        sk = ecdsa.SigningKey.from_string(seckey, ecdsa.SECP256k1)
         return sk.get_verifying_key().to_string()
 
     @classmethod
@@ -120,9 +88,66 @@ class Secp256k1(Algorithm):
         return sk.to_string()
 
 
+class Ed25519(Algorithm):
+    ID = 1
+    NAME = 'ed25519'
+
+    @classmethod
+    def __int__(cls) -> int:
+        return Ed25519.ID
+
+    @classmethod
+    def __str__(cls) -> str:
+        return Ed25519.NAME
+
+    @classmethod
+    def sign(cls, message: bytes, seckey: bytes) -> bytes:
+        sk = ed25519.SigningKey(seckey)
+        return sk.sign(message)
+
+    @classmethod
+    def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
+        vk = ed25519.VerifyingKey(pubkey)
+        try:
+            vk.verify(sig, message)
+        except ed25519.BadSignatureError:
+            return False
+        return True
+
+    @classmethod
+    def get_pubkey(cls, seckey: bytes) -> bytes:
+        sk = ed25519.SigningKey(seckey)
+        return sk.get_verifying_key().to_bytes()
+
+    @classmethod
+    def gen_seckey(cls) -> bytes:
+        sk, vk = ed25519.create_keypair()
+        return sk.to_bytes()
+
+
 from base58 import b58encode, b58decode
 
-if __name__ == '__main__':
+
+
+def selftest():
     algo = Ed25519
-    sk = algo.gen_seckey()
-    print(b58encode(sk))
+    message = b"crypto libraries should always test themselves at powerup"
+    seckey = algo.gen_seckey()
+    print('sk', base58.b58encode(seckey))
+    pubkey = algo.get_pubkey(seckey)
+    print('vk', base58.b58encode(pubkey))
+
+    seckey2 = algo.gen_seckey()
+    print('sk2', base58.b58encode(seckey2))
+    pubkey2 = algo.get_pubkey(seckey2)
+    print('vk2', base58.b58encode(pubkey2))
+
+    #sk = ed25519.SigningKey(seckey)
+    #return sk.sign(message)
+    sig = algo.sign(message, seckey)
+    print('sig', base58.b58encode(sig))
+    algo.verify(message, pubkey2, sig)
+
+
+if __name__ == '__main__':
+    selftest()

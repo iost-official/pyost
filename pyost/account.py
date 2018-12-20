@@ -7,7 +7,7 @@ from pyost.crc32 import parity
 
 
 class Account():
-    def __init__(self, seckey: bytes or None, algo: Type[Algorithm] = Ed25519):
+    def __init__(self, seckey: bytes = None, algo: Type[Algorithm] = Ed25519):
         if seckey is None:
             seckey = algo.gen_seckey()
 
@@ -19,6 +19,9 @@ class Account():
         self.seckey: bytes = seckey
         self.pubkey: bytes = algo.get_pubkey(seckey)
         self.id: str = get_id_by_pubkey(self.pubkey)
+
+    def __str__(self) -> str:
+        return f'Account(id={self.id} algo={self.algorithm} seckey={len(self.seckey)}b pubkey={len(self.pubkey)}b'
 
     def sign(self, info: bytes) -> Signature:
         return Signature(self.algorithm, info, self.seckey)

@@ -21,7 +21,7 @@ def get_default_key_path(filename: str = None):
 def create_account(nickname: str = 'id', key_path: str = get_default_key_path(),
                    sign_algo: str = Ed25519.NAME):
     if re.match('[?*:|/\\\]', nickname) or len(nickname) > 16:
-        raise ValueError('Invalid nickname, it should be less than 16'
+        raise ValueError('Invalid nickname, it should be less than 16 '
                          'characters and exclude special characters: ?*:|/\\')
 
     algo = Algorithm.get_algorithm_by_name(sign_algo)
@@ -39,7 +39,7 @@ def create_account(nickname: str = 'id', key_path: str = get_default_key_path(),
     with open(filename, 'wb') as f:
         f.write(b58encode(account.seckey))
 
-    print('The IOST account ID is:')
+    print('The IOST account id is:')
     print(get_id_by_pubkey(account.pubkey))
     print(f'The keys have been saved in {filename}(.pub)')
 
@@ -114,6 +114,9 @@ def handle_transfer_data(data: str) -> str:
 
     return f'["{js[0]}", "{js[1]}", "{max_int64 / 1e8}"]'
 
+
+def publish()
+    pass
 
 if __name__ == '__main__':
     call(1, 2, 3, 4, gas_limit=1, gas_price=1)

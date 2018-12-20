@@ -1,7 +1,9 @@
 from typing import Type
 from hashlib import sha3_256 as sha3
+from protobuf_to_dict import protobuf_to_dict
+
 from pyost.api.crypto.signature_pb2 import SignatureRaw
-from pyost.algorithm import Algorithm, Secp256k1
+from pyost.algorithm import Algorithm, Secp256k1, Ed25519
 
 
 class Signature():
@@ -10,12 +12,14 @@ class Signature():
     #     bytes sig = 2;
     #     bytes pubKey = 3;
     # }
-    def __init__(self, algorithm: Type[Algorithm] = Secp256k1, info: bytes = None, privkey: bytes = None):
+    def __init__(self, algorithm: Type[Algorithm] = Ed25519, info: bytes = None, privkey: bytes = None):
         self.algorithm: Type[Algorithm] = algorithm
         self.sig: bytes = algorithm.sign(info, privkey) if info is not None and privkey is not None else None
         self.pubkey: bytes = algorithm.get_pubkey(privkey) if privkey is not None else None
 
     def verify(self, info: bytes) -> bool:
+        if self.pubkey is None or self.sig is None:
+            raise ValueError('The Signature is missing pubkey and/or sig.')
         return self.algorithm.verify(info, self.pubkey, self.sig)
 
     def to_raw(self) -> SignatureRaw:
@@ -39,3 +43,11 @@ class Signature():
 
     def hash(self) -> bytes:
         return sha3(self.encode())
+
+    def __str__(self) -> str:
+        return str(protobuf_to_dict(self.to_raw()))
+        #return f'Signature(algo={self.algorithm} sig={len(self.sig)}b pubkey={len(self.pubkey)}b'
+
+
+if __name__ == '__main__':
+    pass

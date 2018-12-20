@@ -1,6 +1,7 @@
 from typing import List, Dict
 from time import time_ns
 from hashlib import sha3_256 as sha3
+from protobuf_to_dict import protobuf_to_dict
 
 from pyost.api.core.tx.tx_pb2 import TxRaw, ActionRaw
 from pyost.api.crypto.signature_pb2 import SignatureRaw
@@ -19,6 +20,10 @@ class Action():
         self.contract: str = contract
         self.action_name: str = action_name
         self.data: str = data
+
+    def __str__(self) -> str:
+        return protobuf_to_dict(self.to_raw())
+        # return f'Action(contract={self.contract} name={self.name} data={self.data}'
 
     def to_raw(self) -> ActionRaw:
         return ActionRaw(
@@ -63,27 +68,31 @@ class Transaction():
         self.signs: List[Signature] = []
         self.publisher: Signature = None
 
+    def __str__(self):
+        return str(protobuf_to_dict(self.to_raw()))
+
     def _contain_signer(self, pubkey: bytes) -> bool:
         return pubkey in self.signers
 
     def _base_hash(self) -> bytes:
-        tr = self.to_raw(set_signs=False, set_publisher=False)
-        return sha3(tr.SerializeToString())
+        tr = self.to_raw(no_signs=True, no_publisher=True)
+        return sha3(tr.SerializeToString()).digest()
 
     def _publish_hash(self) -> bytes:
-        tr = self.to_raw(set_publisher=False)
-        return sha3(tr.SerializeToString())
+        tr = self.to_raw(no_publisher=True)
+        return sha3(tr.SerializeToString()).digest()
 
-    def to_raw(self, set_signs: bool = True, set_publisher: bool = True) -> TxRaw:
+    def to_raw(self, no_signs: bool = False, no_publisher: bool = False) -> TxRaw:
         return TxRaw(
             time=self.time,
             expiration=self.expiration,
-            gas_limit=self.gas_limit,
-            gas_price=self.gas_price,
+            gasLimit=self.gas_limit,
+            gasPrice=self.gas_price,
             actions=[action.to_raw() for action in self.actions],
             signers=self.signers,
-            signs=[sign.to_raw() for sign in self.signs] if set_signs else [],
-            publisher=self.publisher.to_raw() if self.publisher is not None and set_publisher else None, )
+            signs=[] if no_signs else [sign.to_raw() for sign in self.signs],
+            publisher=None if no_publisher or self.publisher is None
+            else self.publisher.to_raw())
 
     def encode(self) -> bytes:
         return self.to_raw().SerializeToString()
@@ -106,24 +115,28 @@ class Transaction():
 
     def hash(self) -> bytes:
         if self._hash is None:
-            self._hash = sha3(self.encode())
+            self._hash = sha3(self.encode()).digest()
         return self._hash
 
-    def verify_self(self) -> None:
-        basehash = self._base_hash()
+    def verify_self(self) -> bool:
+        base_hash = self._base_hash()
         has_signed: List[bytes] = []
 
         for sign in self.signs:
-            if not sign.verify(basehash):
-                raise PermissionError('signer error')
+            if not sign.verify(base_hash):
+                raise PermissionError('A signature did not sign the base hash.')
             has_signed.append(sign.pubkey)
 
         for signer in self.signers:
             if signer not in has_signed:
-                raise PermissionError('signer not enough')
+                raise PermissionError('A required signer has not signed yet.')
 
-        if self.publisher is None or self.publisher.verify(self._publish_hash()):
-            raise PermissionError('publisher error')
+        if self.publisher is None:
+            raise PermissionError('A publisher is required.')
+        if not self.publisher.verify(self._publish_hash()):
+            raise PermissionError('The publisher has not signed yet.')
+
+        return True
 
     def verify_signer(self, sig: Signature) -> bool:
         return sig.verify(self._base_hash())
@@ -131,7 +144,7 @@ class Transaction():
 
 def sign_tx_content(tx: Transaction, account: Account) -> Signature:
     if not tx._contain_signer(account.pubkey):
-        raise ValueError('account not included in signer list of this transaction')
+        raise PermissionError('This account is not in the transaction\'s signers list.')
     return account.sign(tx._base_hash())
 
 

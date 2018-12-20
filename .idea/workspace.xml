@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9da18066-ed0a-4be2-9f61-7ae4af05926a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/pyost/crc32.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pyost/wallet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_signature.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyost/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyost/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/account.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyost/algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/algorithm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyost/iost.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/iost.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyost/signature.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/signature.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyost/transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/transaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyost/wallet.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/wallet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_transaction.py" afterDir="false" />
     </list>
     <ignored path="iost-official/" />
     <ignored path="venv/" />
@@ -23,18 +22,21 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_signature_TestSign_test_sign_and_verify.coverage" NAME="Unittests for test_signature.TestSign.test_sign_and_verify Coverage Results" MODIFIED="1545303572690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/PyOST$algorithm.coverage" NAME="algorithm Coverage Results" MODIFIED="1545308784367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pyost" />
+    <SUITE FILE_PATH="coverage/PyOST$algorithm.coverage" NAME="algorithm Coverage Results" MODIFIED="1545325825918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pyost" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_signature_TestSign_test_get_pubkey.coverage" NAME="Unittests for test_signature.TestSign.test_get_pubkey Coverage Results" MODIFIED="1545303897452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_tests_test_iost_TestIOST.coverage" NAME="Unittests for tests.test_iost.TestIOST Coverage Results" MODIFIED="1544977123326" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_transaction_TestTransaction.coverage" NAME="Unittests for test_transaction.TestTransaction Coverage Results" MODIFIED="1545327556735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_signature_TestSign.coverage" NAME="Unittests for test_signature.TestSign Coverage Results" MODIFIED="1545304183399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/PyOST$wallet.coverage" NAME="wallet Coverage Results" MODIFIED="1545308959742" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pyost" />
+    <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_transaction_TestTransaction_test_serialize_proto.coverage" NAME="Unittests for test_transaction.TestTransaction.test_serialize_proto Coverage Results" MODIFIED="1545327332002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$wallet.coverage" NAME="wallet Coverage Results" MODIFIED="1545309787347" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pyost" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_in_test_IOST_py.coverage" NAME="Unittests for tests.test_iost.TestIOST Coverage Results" MODIFIED="1544139580308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_transaction_TestTransaction_test_new_action.coverage" NAME="Unittests for test_transaction.TestTransaction.test_new_action Coverage Results" MODIFIED="1544991364687" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_signature_TestSignature_test_encode_decode.coverage" NAME="Unittests for test_signature.TestSignature.test_encode_decode Coverage Results" MODIFIED="1545301612317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_in_test_transaction_py.coverage" NAME="Unittests in test_transaction.py Coverage Results" MODIFIED="1545281677011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$test_pyost.coverage" NAME="test_pyost Coverage Results" MODIFIED="1545281775368" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/PyOST$Unittests_in_test_signature_py.coverage" NAME="Unittests in test_signature.py Coverage Results" MODIFIED="1545303202795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/PyOST$transaction.coverage" NAME="transaction Coverage Results" MODIFIED="1545287994896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pyost" />
+    <SUITE FILE_PATH="coverage/PyOST$Unittests_in_test_signature_py.coverage" NAME="Unittests in test_signature.py Coverage Results" MODIFIED="1545331948732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_transaction_TestTransaction_test_sig_and_verify.coverage" NAME="Unittests for test_transaction.TestTransaction.test_sig_and_verify Coverage Results" MODIFIED="1545331697700" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$transaction.coverage" NAME="transaction Coverage Results" MODIFIED="1545327318849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pyost" />
     <SUITE FILE_PATH="coverage/PyOST$test_transaction.coverage" NAME="test_transaction Coverage Results" MODIFIED="1545281733043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_signature_TestSign_test_hash160.coverage" NAME="Unittests for test_signature.TestSign.test_hash160 Coverage Results" MODIFIED="1545303891585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$crc32.coverage" NAME="crc32 Coverage Results" MODIFIED="1545297306702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pyost" />
@@ -44,11 +46,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-485">
-              <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
+            <state relative-caret-position="2097">
+              <caret line="135" selection-start-line="135" selection-end-line="135" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -59,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/signature.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="34" column="42" lean-forward="true" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
+            <state relative-caret-position="164">
+              <caret line="21" column="73" selection-start-line="21" selection-start-column="73" selection-end-line="21" selection-end-column="73" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -69,22 +71,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_signature.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="42" column="69" lean-forward="true" selection-start-line="42" selection-start-column="69" selection-end-line="42" selection-end-column="69" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/account.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="17" column="20" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
+            <state relative-caret-position="374">
+              <caret line="22" column="29" lean-forward="true" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -95,8 +85,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/algorithm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="960">
-              <caret line="124" selection-start-line="124" selection-end-line="124" />
+            <state relative-caret-position="117">
+              <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/test_signature.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="164">
+              <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -107,8 +109,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/ed25519/keys.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2873">
-              <caret line="171" column="29" lean-forward="true" selection-start-line="171" selection-start-column="29" selection-end-line="171" selection-end-column="29" />
+            <state relative-caret-position="138">
+              <caret line="162" selection-start-line="162" selection-end-line="162" />
             </state>
           </provider>
         </entry>
@@ -116,8 +118,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/iost.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="622">
-              <caret line="455" selection-start-line="455" selection-end-line="455" />
+            <state relative-caret-position="6936">
+              <caret line="408" column="26" lean-forward="true" selection-start-line="408" selection-start-column="26" selection-end-line="408" selection-end-column="26" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -126,22 +128,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/wallet.py">
+        <entry file="file://$PROJECT_DIR$/tests/test_transaction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="86">
-              <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+            <state relative-caret-position="2142">
+              <caret line="126" lean-forward="true" selection-start-line="126" selection-end-line="126" />
               <folding>
-                <element signature="e#0#24#0" expanded="true" />
+                <element signature="e#0#35#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/__init__.py">
+        <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/ecdsa/keys.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+            <state relative-caret-position="165">
+              <caret line="148" selection-start-line="148" selection-end-line="148" />
             </state>
           </provider>
         </entry>
@@ -157,7 +159,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>BlockByNumReq</find>
       <find>GetBalanceReq</find>
       <find>GetStateReq</find>
       <find>RawTxReq</find>
@@ -187,6 +188,7 @@
       <find>_dict_to_protobuf</find>
       <find>Serialize</find>
       <find>contain_signer</find>
+      <find>Signature</find>
     </findStrings>
     <replaceStrings>
       <replace>post</replace>
@@ -219,25 +221,25 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/vendor/iost.js/iost/iost.js" />
         <option value="$PROJECT_DIR$/pyost/crypto.py" />
-        <option value="$PROJECT_DIR$/tests/test_transaction.py" />
         <option value="$PROJECT_DIR$/tests/test_iost.py" />
-        <option value="$PROJECT_DIR$/pyost/transaction.py" />
         <option value="$PROJECT_DIR$/pyost/crc32.py" />
-        <option value="$PROJECT_DIR$/pyost/signature.py" />
         <option value="$PROJECT_DIR$/tests/test_signature.py" />
-        <option value="$PROJECT_DIR$/pyost/iost.py" />
         <option value="$PROJECT_DIR$/pyost/walleet.py" />
         <option value="$PROJECT_DIR$/pyost/__init__.py" />
-        <option value="$PROJECT_DIR$/pyost/account.py" />
-        <option value="$PROJECT_DIR$/pyost/algorithm.py" />
         <option value="$PROJECT_DIR$/pyost/wallet.py" />
+        <option value="$PROJECT_DIR$/pyost/iost.py" />
+        <option value="$PROJECT_DIR$/pyost/algorithm.py" />
+        <option value="$PROJECT_DIR$/pyost/account.py" />
+        <option value="$PROJECT_DIR$/pyost/transaction.py" />
+        <option value="$PROJECT_DIR$/tests/test_transaction.py" />
+        <option value="$PROJECT_DIR$/pyost/signature.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="682" />
+    <option name="x" value="368" />
     <option name="y" value="23" />
-    <option name="width" value="758" />
+    <option name="width" value="1072" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -311,7 +313,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.wallet">
+  <component name="RunManager" selected="Python tests.Unittests in test_signature.py">
     <configuration name="algorithm" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PyOST" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -378,29 +380,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="wallet" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="PyOST" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pyost" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pyost/wallet.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for test_signature.TestSign" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_transaction.TestTransaction" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="PyOST" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -411,11 +391,11 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_signature.TestSign&quot;" />
+      <option name="_new_target" value="&quot;test_transaction.TestTransaction&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_signature.TestSign.test_get_pubkey" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_transaction.TestTransaction.test_serialize_proto" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="PyOST" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -426,11 +406,11 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_signature.TestSign.test_get_pubkey&quot;" />
+      <option name="_new_target" value="&quot;test_transaction.TestTransaction.test_serialize_proto&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_signature.TestSign.test_hash160" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_transaction.TestTransaction.test_sig_and_verify" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="PyOST" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -441,26 +421,41 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_signature.TestSign.test_hash160&quot;" />
+      <option name="_new_target" value="&quot;test_transaction.TestTransaction.test_sig_and_verify&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in test_signature.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="PyOST" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_signature.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Python.test_transaction" />
       <item itemvalue="Python.transaction" />
-      <item itemvalue="Python tests.Unittests for test_signature.TestSign.test_hash160" />
-      <item itemvalue="Python tests.Unittests for test_signature.TestSign" />
-      <item itemvalue="Python tests.Unittests for test_signature.TestSign.test_get_pubkey" />
-      <item itemvalue="Python.wallet" />
       <item itemvalue="Python.algorithm" />
+      <item itemvalue="Python tests.Unittests for test_transaction.TestTransaction.test_sig_and_verify" />
+      <item itemvalue="Python tests.Unittests for test_transaction.TestTransaction.test_serialize_proto" />
+      <item itemvalue="Python tests.Unittests for test_transaction.TestTransaction" />
+      <item itemvalue="Python tests.Unittests in test_signature.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.wallet" />
+        <item itemvalue="Python tests.Unittests in test_signature.py" />
+        <item itemvalue="Python tests.Unittests for test_transaction.TestTransaction.test_sig_and_verify" />
+        <item itemvalue="Python tests.Unittests for test_transaction.TestTransaction" />
+        <item itemvalue="Python tests.Unittests for test_transaction.TestTransaction.test_serialize_proto" />
         <item itemvalue="Python.algorithm" />
-        <item itemvalue="Python tests.Unittests for test_signature.TestSign" />
-        <item itemvalue="Python tests.Unittests for test_signature.TestSign.test_get_pubkey" />
-        <item itemvalue="Python tests.Unittests for test_signature.TestSign.test_hash160" />
       </list>
     </recent_temporary>
   </component>
@@ -479,7 +474,7 @@
       <workItem from="1544640115114" duration="13191000" />
       <workItem from="1544975000836" duration="16003000" />
       <workItem from="1545218338532" duration="15000" />
-      <workItem from="1545274625439" duration="28335000" />
+      <workItem from="1545274625439" duration="47155000" />
     </task>
     <task id="LOCAL-00001" summary="generate grpc python files from proto files">
       <created>1544107413908</created>
@@ -537,55 +532,69 @@
       <option name="project" value="LOCAL" />
       <updated>1545288503931</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add Account class&#10;add Signature unittest&#10;add crc32 file&#10;add wallet file with create_account()&#10;change Algorithm to return a class type rather than creating a new instance">
+      <created>1545309273182</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1545309273182</updated>
+    </task>
+    <task id="LOCAL-00010" summary="implement iwallet's call command">
+      <created>1545313581968</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1545313581968</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_for_test_signature_TestSign_test_hash160 - 2018.12.20 at 18h 04m 41s.xml">
-      <configuration name="Unittests for test_signature.TestSign.test_hash160" configurationId="tests" />
+    <history-entry file="Unittests_for_test_transaction_TestTransaction_test_sig_and_verify - 2018.12.21 at 01h 34m 19s.xml">
+      <configuration name="Unittests for test_transaction.TestTransaction.test_sig_and_verify" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_signature_TestSign_test_hash160 - 2018.12.20 at 18h 04m 47s.xml">
-      <configuration name="Unittests for test_signature.TestSign.test_hash160" configurationId="tests" />
+    <history-entry file="Unittests_for_test_transaction_TestTransaction_test_sig_and_verify - 2018.12.21 at 01h 37m 31s.xml">
+      <configuration name="Unittests for test_transaction.TestTransaction.test_sig_and_verify" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_signature_TestSign_test_hash160 - 2018.12.20 at 18h 04m 50s.xml">
-      <configuration name="Unittests for test_signature.TestSign.test_hash160" configurationId="tests" />
+    <history-entry file="Unittests_for_test_transaction_TestTransaction_test_sig_and_verify - 2018.12.21 at 01h 39m 15s.xml">
+      <configuration name="Unittests for test_transaction.TestTransaction.test_sig_and_verify" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_signature_TestSign_test_hash160 - 2018.12.20 at 18h 04m 52s.xml">
-      <configuration name="Unittests for test_signature.TestSign.test_hash160" configurationId="tests" />
+    <history-entry file="Unittests_for_test_transaction_TestTransaction_test_sig_and_verify - 2018.12.21 at 01h 46m 06s.xml">
+      <configuration name="Unittests for test_transaction.TestTransaction.test_sig_and_verify" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_signature_TestSign_test_get_pubkey - 2018.12.20 at 18h 04m 57s.xml">
-      <configuration name="Unittests for test_signature.TestSign.test_get_pubkey" configurationId="tests" />
+    <history-entry file="Unittests_for_test_transaction_TestTransaction_test_sig_and_verify - 2018.12.21 at 01h 46m 28s.xml">
+      <configuration name="Unittests for test_transaction.TestTransaction.test_sig_and_verify" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_signature_TestSign - 2018.12.20 at 18h 05m 48s.xml">
-      <configuration name="Unittests for test_signature.TestSign" configurationId="tests" />
+    <history-entry file="Unittests_for_test_transaction_TestTransaction_test_sig_and_verify - 2018.12.21 at 01h 47m 19s.xml">
+      <configuration name="Unittests for test_transaction.TestTransaction.test_sig_and_verify" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_signature_TestSign - 2018.12.20 at 18h 06m 58s.xml">
-      <configuration name="Unittests for test_signature.TestSign" configurationId="tests" />
+    <history-entry file="Unittests_for_test_transaction_TestTransaction_test_sig_and_verify - 2018.12.21 at 01h 47m 54s.xml">
+      <configuration name="Unittests for test_transaction.TestTransaction.test_sig_and_verify" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_signature_TestSign - 2018.12.20 at 18h 07m 14s.xml">
-      <configuration name="Unittests for test_signature.TestSign" configurationId="tests" />
+    <history-entry file="Unittests_for_test_transaction_TestTransaction_test_sig_and_verify - 2018.12.21 at 01h 48m 18s.xml">
+      <configuration name="Unittests for test_transaction.TestTransaction.test_sig_and_verify" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_signature_TestSign - 2018.12.20 at 18h 09m 33s.xml">
-      <configuration name="Unittests for test_signature.TestSign" configurationId="tests" />
+    <history-entry file="Unittests_in_test_signature_py - 2018.12.21 at 01h 50m 09s.xml">
+      <configuration name="Unittests in test_signature.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_signature_TestSign - 2018.12.20 at 18h 09m 44s.xml">
-      <configuration name="Unittests for test_signature.TestSign" configurationId="tests" />
+    <history-entry file="Unittests_in_test_signature_py - 2018.12.21 at 01h 52m 30s.xml">
+      <configuration name="Unittests in test_signature.py" configurationId="tests" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63096000" />
+    <option name="totallyTimeSpent" value="81916000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="682" y="23" width="758" height="877" extended-state="0" />
+    <frame x="368" y="23" width="1072" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6815287" weight="0.22206704" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6815287" visible="true" weight="0.22135922" />
       <window_info id="Structure" order="1" sideWeight="0.31847134" side_tool="true" weight="0.2046332" />
       <window_info id="DB Browser" order="2" weight="0.32965687" />
       <window_info id="Favorites" order="3" sideWeight="0.50063694" side_tool="true" weight="0.2007722" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299363" />
-      <window_info anchor="bottom" id="Run" internal_type="SLIDING" order="2" visible="true" weight="0.28535032" />
+      <window_info active="true" anchor="bottom" id="Run" internal_type="SLIDING" order="2" visible="true" weight="0.2955414" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -625,30 +634,11 @@
     <MESSAGE value="add docstring and unittest for most methods" />
     <MESSAGE value="start implementation of library: transaction, account, algorithm, etc" />
     <MESSAGE value="add all methods in Transaction&#10;add serialization to Signature&#10;add secp256k1 to Algorithm" />
-    <option name="LAST_COMMIT_MESSAGE" value="add all methods in Transaction&#10;add serialization to Signature&#10;add secp256k1 to Algorithm" />
+    <MESSAGE value="add Account class&#10;add Signature unittest&#10;add crc32 file&#10;add wallet file with create_account()&#10;change Algorithm to return a class type rather than creating a new instance" />
+    <MESSAGE value="implement iwallet's call command" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement iwallet's call command" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/docs/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/todo.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="58" lean-forward="true" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/lib/provider/HTTPProvider.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="52" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pyost/api/core/tx/tx_pb2_grpc.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -837,16 +827,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_transaction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/Cellar/python/3.7.1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/hashlib.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
@@ -861,25 +841,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/ecdsa/keys.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="127" column="70" lean-forward="true" selection-start-line="127" selection-start-column="70" selection-end-line="127" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pyost/walleet.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/iost.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
-          <caret line="455" selection-start-line="455" selection-end-line="455" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pyost/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -888,37 +851,95 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/ed25519/keys.py">
+    <entry file="file:///usr/local/Cellar/python/3.7.1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/json/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2873">
-          <caret line="171" column="29" lean-forward="true" selection-start-line="171" selection-start-column="29" selection-end-line="171" selection-end-column="29" />
+        <state relative-caret-position="-416">
+          <caret line="298" column="4" selection-start-line="298" selection-start-column="4" selection-end-line="298" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/account.py">
+    <entry file="file://$PROJECT_DIR$/pyost/iost.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="17" column="20" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
+        <state relative-caret-position="6936">
+          <caret line="408" column="26" lean-forward="true" selection-start-line="408" selection-start-column="26" selection-end-line="408" selection-end-column="26" />
           <folding>
-            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pyost/wallet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+        <state relative-caret-position="-531">
+          <caret line="23" column="70" selection-start-line="23" selection-start-column="70" selection-end-line="23" selection-end-column="70" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/local/Cellar/python/3.7.1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/unittest/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Cellar/python/3.7.1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/unittest/case.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9615">
+          <caret line="619" selection-start-line="619" selection-end-line="619" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/ecdsa/keys.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="148" selection-start-line="148" selection-end-line="148" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/ed25519/keys.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="162" selection-start-line="162" selection-end-line="162" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/account.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="29" lean-forward="true" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2097">
+          <caret line="135" selection-start-line="135" selection-end-line="135" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_transaction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2142">
+          <caret line="126" lean-forward="true" selection-start-line="126" selection-end-line="126" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pyost/algorithm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="124" selection-start-line="124" selection-end-line="124" />
+        <state relative-caret-position="117">
+          <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -927,8 +948,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pyost/signature.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="34" column="42" lean-forward="true" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
+        <state relative-caret-position="164">
+          <caret line="21" column="73" selection-start-line="21" selection-start-column="73" selection-end-line="21" selection-end-column="73" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
@@ -937,20 +958,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_signature.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="42" column="69" lean-forward="true" selection-start-line="42" selection-start-column="69" selection-end-line="42" selection-end-column="69" />
+        <state relative-caret-position="164">
+          <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-485">
-          <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
