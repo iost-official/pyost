@@ -446,10 +446,10 @@ class IOST():
         return self.call('token.iost', 'Transfer', [token, from_, to, amount, memo])
 
     def new_account(self, name, creator, owner_key, active_key,
-                       initial_ram, initial_gas_pledge):
+                    initial_ram, initial_gas_pledge):
         tx = Transaction(self.gas_ratio, self.gas_limit, self.delay)
         tx.add_action('auth.iost', 'SignUp', json.dumps([name, owner_key, active_key]))
         tx.add_action('ram.iost', 'buy', json.dumps([creator, name, initial_ram]))
-        tx.add_action('gas.iost', 'pledge', json.dumps([creator, name, initial_gas_pledge+'']))
+        tx.add_action('gas.iost', 'pledge', json.dumps([creator, name, initial_gas_pledge + '']))
         tx.set_time(90, 0)
         return tx
