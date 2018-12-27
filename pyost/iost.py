@@ -436,7 +436,7 @@ class IOST():
     def new_account(self, name, creator, owner_key, active_key,
                     initial_ram, initial_gas_pledge):
         tx = Transaction(gas_limit=self.gas_limit, gas_price=self.gas_price, expiration=self.expiration)
-        tx.add_action('auth.iost', 'SignUp', json.dumps([name, owner_key, active_key]))
-        tx.add_action('ram.iost', 'buy', json.dumps([creator, name, initial_ram]))
-        tx.add_action('gas.iost', 'pledge', json.dumps([creator, name, initial_gas_pledge + '']))
+        tx.add_action('auth.iost', 'SignUp', name, owner_key, active_key)
+        tx.add_action('ram.iost', 'buy', creator, name, initial_ram)
+        tx.add_action('gas.iost', 'pledge', creator, name, str(initial_gas_pledge))
         return tx
