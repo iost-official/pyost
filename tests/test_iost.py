@@ -1,6 +1,7 @@
 from unittest import main, TestCase
 import base58
-from pyost import IOST
+from pyost.iost import IOST
+from pyost.transaction import Transaction
 
 
 class TestIOST(TestCase):
@@ -14,24 +15,10 @@ class TestIOST(TestCase):
     def test_get_tx_by_hash(self):
         tx_hash = b'6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'
         tx, res_hash = self.iost.get_tx_by_hash(tx_hash)
-        compare_dict = {
-            'time': 1544123981522270000,
-            'expiration': 1544124281522263000,
-            'gasLimit': 1000,
-            'gasPrice': 1,
-            'actions': [{
-                'contract': 'iost.system',
-                'actionName': 'Transfer',
-                'data': '["IOSTfQFocqDn7VrKV7vvPqhAQGyeFU9XMYo5SNn5yQbdbzC75wM7C", "6d8jQzRcxawmTebQQhrWvBvbjpSp9CnPFCFQsuBoMWQc", 1000000000000]'
-            }],
-            'publisher': {
-                'algorithm': 2,
-                'sig': b'5cQU984cVcLbncwzaRWesBKs5XeWZjDNeFWFNWYC5ipF22JuvR5ogNNdtExhgFHdGhWvT47ix3ZdfTfqF5GUwqk4',
-                'pubKey': b'6sNQa7PV2SFzqCBtQUcQYJGGoU7XaB6R4xuCQVXNZe6b'
-            }
-        }
+        tx_compare = Transaction() # add content
+        print(tx)
         self.assertEqual(res_hash, tx_hash)
-        self.assertDictEqual(tx, compare_dict)
+        #self.assertDictEqual(tx, tx_compare)
 
     def test_get_tx_receipt_by_hash(self):
         tx_hash = b'6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'
@@ -179,18 +166,6 @@ class TestIOST(TestCase):
 
 
 if __name__ == '__main__':
-    def test(a, b, *c):
-        print(a)
-        print(b)
-        print(c)
-
-
-    test(1, 2, 3, 4, 5)
-
-    # main()
-    hash = b"T\xefO\x9fD\x87\xca\xf01q'4\x04\xcb\xc9\xa9Y\xfa\x80(\xf2\xaa\x07Y\xfcY\xd6\xcd\x10b\xde\xea"
-    b58str = base58.b58encode(hash)
-    print(b58str)
     tester = TestIOST()
     tester.setUp()
-    tester.test_get_block_by_hash()
+    tester.test_get_tx_by_hash()

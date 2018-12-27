@@ -99,7 +99,7 @@ message BlockByHashReq {
 message BlockByNumReq {
 	int64 num=1;
 	// complete means return the whole block or just blockhead+txhash_list
-	bool complete=2;	
+	bool complete=2;
 }
 
 message GetBalanceReq {
@@ -143,7 +143,7 @@ message GetStateRes {
 
 message SendRawTxRes {
 	// the hash of the received transaction
-	string hash=1;
+	bytes hash=1;
 }
 
 message GasRes {

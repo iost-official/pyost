@@ -1,5 +1,6 @@
 import grpc
 import json
+from typing import Type, Dict, Tuple
 from base58 import b58decode, b58encode
 from google.protobuf.empty_pb2 import Empty
 from protobuf_to_dict import protobuf_to_dict
@@ -7,7 +8,7 @@ import protobuf_to_dict as ptd
 
 from pyost.api.rpc import apis_pb2_grpc, apis_pb2
 from pyost.api.core.event import event_pb2
-from pyost.transaction import Transaction
+from pyost.transaction import Transaction, Action
 
 
 class IOST():
@@ -16,7 +17,7 @@ class IOST():
     """
 
     def __init__(self, url: str, timeout: int = 10,
-                 gas_ratio: int = 1, gas_limit: int = 1000,
+                 gas_price: int = 1, gas_limit: int = 10000,
                  delay: int = 0, expiration: int = 90):
         """
         Connects to a node.
@@ -26,7 +27,7 @@ class IOST():
             timeout (int): Number of seconds to wait when querying the node until timing out.
         """
         self.timeout = timeout
-        self.gas_ratio = gas_ratio
+        self.gas_price = gas_price
         self.gas_limit = gas_limit
         self.delay = delay
         self.expiration = expiration
@@ -79,7 +80,7 @@ class IOST():
 
         return tx
 
-    def get_tx_by_hash(self, tx_hash: str) -> (dict, bytes):
+    def get_tx_by_hash(self, tx_hash: bytes) -> Transaction:
         """
         Gets a transaction by its hash value.
 
@@ -118,8 +119,10 @@ class IOST():
         """
         req = apis_pb2.HashReq(hash=tx_hash)
         res = self._stub.GetTxByHash(req)
-        tx = self._parse_tx_raw(res.txRaw)
-        return (tx, b58encode(res.hash))
+        assert tx_hash == b58encode(res.hash), 'The returned hash does not correspond to the one queried.'
+        tx = Transaction()
+        tx.from_raw(res.txRaw)
+        return tx
 
     def _parse_receipt_raw(self, receipt_raw) -> dict:
         """
@@ -304,7 +307,7 @@ class IOST():
         res = self._stub.getBlockByNum(req)
         return self._parse_block_info(res)
 
-    def get_balance(self, account_id: str, use_longest_chain: bool = True) -> int:
+    def get_balance(self, account_id: bytes, use_longest_chain: bool = True) -> int:
         """
         Gets the balance of an account by its id.
 
@@ -354,7 +357,7 @@ class IOST():
         res = self._stub.GetState(req)
         return res.value
 
-    def send_tx(self, tx: Transaction) -> str:
+    def send_tx(self, tx: Transaction) -> bytes:
         """
         Sends a Transaction encoded as a TxRaw.
 
@@ -369,7 +372,7 @@ class IOST():
         """
         req = apis_pb2.RawTxReq(data=tx.encode())
         res = self._stub.SendRawTx(req)
-        return res.hash
+        return b58encode(res.hash)
 
     def estimate_gas(self, tx: Transaction) -> int:
         """
@@ -422,20 +425,18 @@ class IOST():
         res = self._stub.Subscribe(req)
         return protobuf_to_dict(res.ev)
 
-    def call(self, contract, abi, args):
-        tx = Transaction(self.gas_ratio, self.gas_limit, self.delay)
-        tx.add_action(contract, abi, json.dumps(args))
-        tx.set_time(90, 0)
+    def call(self, contract, abi, *args):
+        tx = Transaction(gas_limit=self.gas_limit, gas_price=self.gas_price, expiration=self.expiration)
+        tx.add_action(contract, abi, *args)
         return tx
 
-    def transfer(self, token, from_, to, amount, memo=''):
-        return self.call('token.iost', 'Transfer', [token, from_, to, amount, memo])
+    def transfer(self, from_, to, amount):
+        return self.call('iost.system', 'Transfer', from_, to, amount)
 
     def new_account(self, name, creator, owner_key, active_key,
                     initial_ram, initial_gas_pledge):
-        tx = Transaction(self.gas_ratio, self.gas_limit, self.delay)
+        tx = Transaction(gas_limit=self.gas_limit, gas_price=self.gas_price, expiration=self.expiration)
         tx.add_action('auth.iost', 'SignUp', json.dumps([name, owner_key, active_key]))
         tx.add_action('ram.iost', 'buy', json.dumps([creator, name, initial_ram]))
         tx.add_action('gas.iost', 'pledge', json.dumps([creator, name, initial_gas_pledge + '']))
-        tx.set_time(90, 0)
         return tx

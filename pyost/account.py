@@ -18,22 +18,29 @@ class Account():
         self.algorithm: Type[Algorithm] = algo
         self.seckey: bytes = seckey
         self.pubkey: bytes = algo.get_pubkey(seckey)
-        self.id: str = get_id_by_pubkey(self.pubkey)
+        self.id: bytes = get_id_by_pubkey(self.pubkey)
 
     def __str__(self) -> str:
         return f'Account(id={self.id} algo={self.algorithm} seckey={len(self.seckey)}b pubkey={len(self.pubkey)}b'
+
+    def sign_tx_content(self, tx) -> None:
+        tx.sign_content(self)
+
+    def sign_tx(self, tx) -> None:
+        tx.sign(self)
 
     def sign(self, info: bytes) -> Signature:
         return Signature(self.algorithm, info, self.seckey)
 
 
-def get_id_by_pubkey(pubkey: bytes) -> str:
-    return 'IOST' + b58encode(pubkey + parity(pubkey)).hex()
+def get_id_by_pubkey(pubkey: bytes) -> bytes:
+    deckey = b58decode(pubkey)
+    return b'IOST' + b58encode(deckey + parity(deckey))
 
 
-def get_pubkey_by_id(id: str) -> bytes:
+def get_pubkey_by_id(id: bytes) -> bytes:
     b = b58decode(id[4:])
-    return b[:-4]
+    return b58encode(b[:-4])
 
 # class Account():
 #     def __init__(self, id):

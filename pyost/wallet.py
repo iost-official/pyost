@@ -1,11 +1,12 @@
 from pathlib import Path
 from base58 import b58encode
-from typing import List
+from typing import List, Type
 import re
 import json
 import math
 import time
 
+from pyost.iost import IOST
 from pyost.algorithm import Algorithm, Ed25519, Secp256k1
 from pyost.account import Account, get_id_by_pubkey, get_pubkey_by_id
 from pyost.transaction import Action, Transaction, sign_tx
@@ -65,8 +66,7 @@ def call(*args, gas_limit: int = 1000, gas_price: int = 1, expiration: int = 60 
     else:
         pubkeys = []
 
-    expiration_time = time.time_ns() + 60 * expiration
-    tx = Transaction(actions, pubkeys, gas_limit, gas_price, expiration_time)
+    tx = Transaction(actions, pubkeys, gas_limit, gas_price, expiration)
 
     if signers is None or len(signers) == 0:
         print(f'The transaction does not contain any signers so it will be directly'
@@ -80,7 +80,7 @@ def call(*args, gas_limit: int = 1000, gas_price: int = 1, expiration: int = 60 
 
         account = Account(seckey, sign_algo)
 
-        tx_hash = send_tx(sign_tx(tx, account))
+        tx_hash = iost.send_tx(sign_tx(tx, account))
 
         print('The transaction has been sent to the IOST node.')
         print(f'Tx hash: {tx_hash}')

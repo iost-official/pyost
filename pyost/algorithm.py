@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import ed25519
 import ecdsa
-import base58
+from base58 import b58encode, b58decode
 import hashlib
 
 
@@ -56,7 +56,7 @@ class Algorithm(ABC):
 
 
 class Secp256k1(Algorithm):
-    ID = 0
+    ID = 1
     NAME = 'secp256k1'
 
     @classmethod
@@ -89,7 +89,7 @@ class Secp256k1(Algorithm):
 
 
 class Ed25519(Algorithm):
-    ID = 1
+    ID = 2
     NAME = 'ed25519'
 
     @classmethod
@@ -102,12 +102,12 @@ class Ed25519(Algorithm):
 
     @classmethod
     def sign(cls, message: bytes, seckey: bytes) -> bytes:
-        sk = ed25519.SigningKey(seckey)
+        sk = ed25519.SigningKey(b58decode(seckey))
         return sk.sign(message)
 
     @classmethod
     def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
-        vk = ed25519.VerifyingKey(pubkey)
+        vk = ed25519.VerifyingKey(b58decode(pubkey))
         try:
             vk.verify(sig, message)
         except ed25519.BadSignatureError:
@@ -116,13 +116,13 @@ class Ed25519(Algorithm):
 
     @classmethod
     def get_pubkey(cls, seckey: bytes) -> bytes:
-        sk = ed25519.SigningKey(seckey)
-        return sk.get_verifying_key().to_bytes()
+        sk = ed25519.SigningKey(b58decode(seckey))
+        return b58encode(sk.get_verifying_key().to_bytes())
 
     @classmethod
     def gen_seckey(cls) -> bytes:
         sk, vk = ed25519.create_keypair()
-        return sk.to_bytes()
+        return b58encode(sk.to_bytes())
 
 
 from base58 import b58encode, b58decode
@@ -133,19 +133,19 @@ def selftest():
     algo = Ed25519
     message = b"crypto libraries should always test themselves at powerup"
     seckey = algo.gen_seckey()
-    print('sk', base58.b58encode(seckey))
+    print('sk', seckey)
     pubkey = algo.get_pubkey(seckey)
-    print('vk', base58.b58encode(pubkey))
+    print('vk', pubkey)
 
     seckey2 = algo.gen_seckey()
-    print('sk2', base58.b58encode(seckey2))
+    print('sk2', seckey2)
     pubkey2 = algo.get_pubkey(seckey2)
-    print('vk2', base58.b58encode(pubkey2))
+    print('vk2', pubkey2)
 
     #sk = ed25519.SigningKey(seckey)
     #return sk.sign(message)
     sig = algo.sign(message, seckey)
-    print('sig', base58.b58encode(sig))
+    print('sig', sig)
     algo.verify(message, pubkey2, sig)
 
 
