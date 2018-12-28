@@ -33,7 +33,8 @@ class TestTransaction(TestCase):
     def test_serialize_proto(self):
         tr = TxRaw(
             time=99,
-            actions=[ActionRaw(contract='contract1', actionName='actionname1', data='{\"num\": 1, \"message\": \"contract1\"}')],
+            actions=[ActionRaw(contract='contract1', actionName='actionname1',
+                               data='{\"num\": 1, \"message\": \"contract1\"}')],
             signers=[self.a1.pubkey],
         )
         b = tr.SerializeToString()
@@ -123,4 +124,3 @@ class TestTransaction(TestCase):
         with self.assertRaises(PermissionError) as cm:
             tx.verify_self()
         print(cm.exception)
-

@@ -6,19 +6,14 @@ from time import time_ns
 from hashlib import sha3_256 as sha3
 from protobuf_to_dict import protobuf_to_dict
 from base58 import b58encode, b58decode
+from pprint import pformat
 
 from pyost.api.rpc.pb import rpc_pb2 as pb
 from pyost.signature import Signature
-from pyost.account import Account
+import pyost.account
 
 
-class Action():
-    # message ActionRaw {
-    #     string contract = 1;
-    #     string actionName = 2;
-    #     string data = 3;
-    # }
-    #
+class Action:
     def __init__(self, contract: str = None, abi: str = None, *args):
         self.contract: str = contract
         self.action_name: str = abi
@@ -27,17 +22,7 @@ class Action():
         self.data: str = json.dumps(nobytes_args)
 
     def __str__(self) -> str:
-        return protobuf_to_dict(self.to_raw())
-        # return f'Action(contract={self.contract} name={self.name} data={self.data}'
-
-    def to_raw(self) -> pb.Action:
-        return pb.Action(
-            contract=self.contract,
-            action_name=self.action_name,
-            data=self.data)
-
-    def encode(self) -> bytes:
-        return self.to_raw().SerializeToString()
+        return pformat(protobuf_to_dict(self.to_raw()))
 
     def from_raw(self, ar: pb.Action) -> Action:
         self.contract = ar.contract
@@ -45,16 +30,20 @@ class Action():
         self.data = ar.data
         return self
 
-    def decode(self, data: bytes) -> Action:
-        ar = pb.Action()
-        ar.ParseFromString(data)
-        return self.from_raw(ar)
+    def to_raw(self) -> pb.Action:
+        return pb.Action(
+            contract=self.contract,
+            action_name=self.action_name,
+            data=self.data)
 
 
-class AmountLimit():
-    def __int__(self):
+class AmountLimit:
+    def __init__(self):
         self.token: str = ''
         self.value: float = 0.0
+
+    def __str__(self) -> str:
+        return pformat(protobuf_to_dict(self.to_raw()))
 
     def from_raw(self, al: pb.AmountLimit) -> AmountLimit:
         self.token = al.token
@@ -68,9 +57,9 @@ class AmountLimit():
         )
 
 
-class Transaction():
+class Transaction:
     class Status(Enum):
-        PENDIND = pb.TransactionResponse.PENDING
+        PENDING = pb.TransactionResponse.PENDIND
         PACKED = pb.TransactionResponse.PACKED
         IRREVERSIBLE = pb.TransactionResponse.IRREVERSIBLE
 
@@ -93,8 +82,8 @@ class Transaction():
         self.referred_tx: str = None
         self.tx_receipt: TxReceipt = None
 
-    def __str__(self):
-        return str(protobuf_to_dict(self.to_raw()))
+    def __str__(self) -> str:
+        return pformat(protobuf_to_dict(self.to_raw()))
 
     def add_action(self, contract: str, abi: str, *args) -> Transaction:
         self.actions.append(Action(contract, abi, *args))
@@ -115,27 +104,6 @@ class Transaction():
         tr = self.to_raw(no_publisher=True)
         return sha3(tr.SerializeToString()).digest()
 
-    def to_raw(self, no_signs: bool = False, no_publisher: bool = False) -> pb.TransactionRequest:
-        return pb.TransactionRequest(
-            time=self.time,
-            expiration=self.expiration,
-            gas_ratio=self.gas_ratio,
-            gas_limit=self.gas_limit,
-            delay=self.delay,
-            actions=[action.to_raw() for action in self.actions if
-                     action is not None] if self.actions is not None else [],
-            amount_limit=[limit.to_raw() for limit in self.amount_limit if
-                     limit is not None] if self.amount_limit is not None else [],
-            signers=[b58decode(signer) for signer in self.signers if
-                     signer is not None] if self.signers is not None else [],
-            signatures=[s.to_raw() for s in self.signatures if s is not None] if not no_signs else [],
-            publisher=self.publisher if not no_publisher else None,
-            publisher_sigs=[sign.to_raw() for sign in self.publisher_sigs if sign is not None] if not no_publisher else []
-        )
-
-    def encode(self) -> bytes:
-        return self.to_raw().SerializeToString()
-
     def from_raw(self, tr: pb.Transaction, status: Status = None) -> Transaction:
         self.status = status
         self._hash = tr.hash
@@ -144,9 +112,12 @@ class Transaction():
         self.gas_ratio = tr.gas_ratio
         self.gas_limit = tr.gas_limit
         self.delay = tr.delay
-        self.actions = [Action().from_raw(ar) for ar in tr.actions] if tr.actions is not None else []
-        self.amount_limit: [AmountLimit().from_raw(al) for al in tr.amount_limit] if tr.amount_limit is not None else []
-        self.signers = [b58encode(signer) for signer in tr.signers] if tr.signers is not None else []
+        self.actions = [Action().from_raw(ar) for ar in tr.actions
+                        ] if tr.actions is not None else []
+        self.amount_limit: [AmountLimit().from_raw(al) for al in tr.amount_limit
+                            ] if tr.amount_limit is not None else []
+        self.signers = [b58encode(signer) for signer in tr.signers
+                        ] if tr.signers is not None else []
         self.signatures = []
         self.publisher = tr.publisher
         self.publisher_sigs = []
@@ -154,19 +125,34 @@ class Transaction():
         self.tx_receipt = TxReceipt().from_raw(tr.tx_receipt)
         return self
 
-    def decode(self, data: bytes) -> Transaction:
-        tr = pb.Transaction()
-        tr.ParseFromString(data)
-        return self.from_raw(tr)
+    def to_raw(self, no_signs: bool = False, no_publisher: bool = False) -> pb.TransactionRequest:
+        return pb.TransactionRequest(
+            time=self.time,
+            expiration=self.expiration,
+            gas_ratio=self.gas_ratio,
+            gas_limit=self.gas_limit,
+            delay=self.delay,
+            actions=[a.to_raw() for a in self.actions
+                     ] if self.actions is not None else [],
+            amount_limit=[al.to_raw() for al in self.amount_limit
+                          ] if self.amount_limit is not None else [],
+            signers=[b58decode(s) for s in self.signers
+                     ] if self.signers is not None else [],
+            signatures=[s.to_raw() for s in self.signatures
+                        ] if not no_signs and self.signatures is not None else [],
+            publisher=self.publisher if not no_publisher else None,
+            publisher_sigs=[s.to_raw() for s in self.publisher_sigs
+                            ] if not no_publisher and self.publisher_sigs is not None else []
+        )
 
     def hash(self) -> str:
         if self._hash is None:
-            self._hash = sha3(self.encode()).digest()
+            self._hash = sha3(self.to_raw().SerializeToString()).digest()
         return self._hash
 
     def verify_self(self) -> bool:
         base_hash = self._base_hash()
-        has_signed: List[bytes] = []
+        has_signed: List[str] = []
 
         for sign in self.signatures:
             if not sign.verify(base_hash):
@@ -179,7 +165,7 @@ class Transaction():
 
         if self.publisher is None:
             raise PermissionError('A publisher is required.')
-        #if not self.publisher.verify(self._publish_hash()):
+        # if not self.publisher.verify(self._publish_hash()):
         #    raise PermissionError('The publisher has not signed yet.')
 
         return True
@@ -187,7 +173,7 @@ class Transaction():
     def verify_signer(self, sig: Signature) -> bool:
         return sig.verify(self._base_hash())
 
-    def sign_content(self, account: Account) -> Transaction:
+    def sign_content(self, account: pyost.account.Account) -> Transaction:
         if not self._contain_signer(account.pubkey):
             raise PermissionError('This account is not in the signers list.')
 
@@ -197,26 +183,26 @@ class Transaction():
         self.signatures.append(sig)
         return self
 
-    def sign(self, account: Account) -> Transaction:
+    def sign(self, account: pyost.account.Account) -> Transaction:
         self.publisher = account.sign(self._publish_hash())
         self._hash = None
         return self
 
 
-def sign_tx_content(tx: Transaction, account: Account) -> Signature:
-    if not tx._contain_signer(account.pubkey):
-        raise PermissionError('This account is not in the transaction\'s signers list.')
-    return account.sign(tx._base_hash())
+# def sign_tx_content(tx: Transaction, account: Account) -> Signature:
+#     if not tx._contain_signer(account.pubkey):
+#         raise PermissionError('This account is not in the transaction\'s signers list.')
+#     return account.sign(tx._base_hash())
+#
+#
+# def sign_tx(tx: Transaction, account: Account, *signs: Signature) -> Transaction:
+#     tx.signatures = [*tx.signatures, *signs]
+#     tx.publisher = account.sign(tx._publish_hash())
+#     tx.hash = None
+#     return tx
 
 
-def sign_tx(tx: Transaction, account: Account, *signs: Signature) -> Transaction:
-    tx.signatures = [*tx.signatures, *signs]
-    tx.publisher = account.sign(tx._publish_hash())
-    tx.hash = None
-    return tx
-
-
-class TxReceipt():
+class TxReceipt:
     class StatusCode(Enum):
         SUCCESS = pb.TxReceipt.SUCCESS
         GAS_RUN_OUT = pb.TxReceipt.GAS_RUN_OUT
@@ -228,17 +214,26 @@ class TxReceipt():
         DUPLICATE_SET_CODE = pb.TxReceipt.DUPLICATE_SET_CODE
         UNKNOWN_ERROR = pb.TxReceipt.UNKNOWN_ERROR
 
-    class Receipt():
-        def __int__(self):
+    class Receipt:
+        def __init__(self):
             self.func_name: str = ''
             self.content: str = ''
 
-        def from_raw(self, receipt: pb.TxReceipt.Receipt) -> TxReceipt.Receipt:
-            self.func_name = receipt.func_name
-            self.content = receipt.content
+        def __str__(self) -> str:
+            return pformat(protobuf_to_dict(self.to_raw()))
+
+        def from_raw(self, tr: pb.TxReceipt.Receipt) -> TxReceipt.Receipt:
+            self.func_name = tr.func_name
+            self.content = tr.content
             return self
 
-    def __int__(self):
+        def to_raw(self) -> pb.TxReceipt.Receipt:
+            return pb.TxReceipt.Receipt(
+                func_name=self.func_name,
+                content=self.content
+            )
+
+    def __init__(self):
         self.tx_hash: str = ''
         self.gas_usage: float = 0.0
         self.ram_usage: Dict[str, int] = {}
@@ -247,6 +242,9 @@ class TxReceipt():
         self.returns: List[str] = []
         self.receipts: List[TxReceipt.Receipt] = []
 
+    def __str__(self) -> str:
+        return pformat(protobuf_to_dict(self.to_raw()))
+
     def from_raw(self, tr: pb.TxReceipt) -> TxReceipt:
         self.tx_hash = tr.tx_hash
         self.gas_usage = tr.gas_usage
@@ -254,8 +252,19 @@ class TxReceipt():
         self.status_code = tr.status_code
         self.message = tr.message
         self.returns = tr.returns
-        self.receipts = tr.receipts
+        self.receipts = [TxReceipt.Receipt().from_raw(r) for r in tr.receipts]
         return self
+
+    def to_raw(self) -> pb.TxReceipt:
+        return pb.TxReceipt(
+            tx_hash=self.tx_hash,
+            gas_usage=self.gas_usage,
+            ram_usage=self.ram_usage,
+            status_code=self.status_code,
+            message=self.message,
+            returns=self.returns,
+            receipts=[r.to_raw() for r in self.receipts] if self.receipts is not None else []
+        )
 
 
 if __name__ == '__main__':

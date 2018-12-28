@@ -115,7 +115,7 @@ def handle_transfer_data(data: str) -> str:
     return f'["{js[0]}", "{js[1]}", "{max_int64 / 1e8}"]'
 
 
-def publish()
+def publish():
     pass
 
 if __name__ == '__main__':

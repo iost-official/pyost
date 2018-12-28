@@ -1,15 +1,17 @@
 from __future__ import annotations
 from base58 import b58encode, b58decode
 from typing import Type, List, Dict
+from protobuf_to_dict import protobuf_to_dict
+from pprint import pformat
 
 from pyost.api.rpc.pb import rpc_pb2 as pb
 from pyost.algorithm import Algorithm, Secp256k1, Ed25519
 from pyost.signature import Signature
-from pyost.transaction import Transaction
+import pyost.transaction
 from pyost.crc32 import parity
 
 
-class Account():
+class Account:
     def __init__(self, seckey: str = None, algo: Type[Algorithm] = Ed25519):
         if seckey is None:
             seckey = algo.gen_seckey()
@@ -24,12 +26,12 @@ class Account():
         self.id: str = get_id_by_pubkey(self.pubkey)
 
     def __str__(self) -> str:
-        return f'Account(id={self.id} algo={self.algorithm} seckey={len(self.seckey)}b pubkey={len(self.pubkey)}b'
+        return pformat(vars(self))
 
-    def sign_tx_content(self, tx: Transaction) -> None:
+    def sign_tx_content(self, tx: pyost.transaction.Transaction) -> None:
         tx.sign_content(self)
 
-    def sign_tx(self, tx:Transaction) -> None:
+    def sign_tx(self, tx: pyost.transaction.Transaction) -> None:
         tx.sign(self)
 
     def sign(self, info: str) -> Signature:
@@ -41,8 +43,8 @@ def get_id_by_pubkey(pubkey: str) -> str:
     return 'IOST' + b58encode(deckey + parity(deckey))
 
 
-def get_pubkey_by_id(id: str) -> str:
-    b = b58decode(id[4:])
+def get_pubkey_by_id(pubid: str) -> str:
+    b = b58decode(pubid[4:])
     return b58encode(b[:-4])
 
 
@@ -72,47 +74,75 @@ def get_pubkey_by_id(id: str) -> str:
 #         tx.add_publish_sign(self._id, self._key_pair['active'])
 
 
-class FrozenBalance():
+class FrozenBalance:
     def __init__(self):
         self.amount: float = 0.0
         self.time: int = 0
+
+    def __str__(self) -> str:
+        return pformat(protobuf_to_dict(self.to_raw()))
 
     def from_raw(self, fb: pb.FrozenBalance) -> FrozenBalance:
         self.amount = fb.amount
         self.time = fb.time
         return self
 
+    def to_raw(self) -> pb.FrozenBalance:
+        return pb.FrozenBalance(
+            amount=self.amount,
+            time=self.time
+        )
 
-class TokenBalance():
+
+class TokenBalance:
     def __init__(self):
         # token balance
         self.balance: float = 0.0
         # frozen balance information
         self.frozen_balances: List[FrozenBalance] = []
 
+    def __str__(self) -> str:
+        return pformat(protobuf_to_dict(self.to_raw()))
+
     def from_raw(self, tb: pb.GetTokenBalanceResponse) -> TokenBalance:
         self.balance = tb.balance
         self.frozen_balances = [FrozenBalance().from_raw(fb)
-                                for fb in tb.frozen_balances] if tb.frozen_balances is not None else []
+                                for fb in tb.frozen_balances
+                                ] if tb.frozen_balances is not None else []
         return self
 
+    def to_raw(self) -> pb.GetTokenBalanceResponse:
+        return pb.GetTokenBalanceResponse(
+            balance=self.balance,
+            frozen_balances=[fb.to_raw() for fb in self.frozen_balances]
+        )
 
-class AccountInfo():
+
+class AccountInfo:
     # The message defines account pledged coin information.
-    class PledgeInfo():
+    class PledgeInfo:
         def __init__(self):
             # the account who pledges
             self.pledger: str = ''
             # pledged amount
             self.amount: float = 0.0
 
+        def __str__(self) -> str:
+            return pformat(protobuf_to_dict(self.to_raw()))
+
         def from_raw(self, pi: pb.Account.PledgeInfo) -> AccountInfo.PledgeInfo:
             self.pledger = pi.pledger
             self.amount = pi.amount
             return self
 
+        def to_raw(self) -> pb.Account.PledgeInfo:
+            return pb.Account.PledgeInfo(
+                pledger=self.pledger,
+                amount=self.amount
+            )
+
     # The message defines account gas information.
-    class GasInfo():
+    class GasInfo:
         def __init__(self):
             # current total gas amount
             self.current_total: float = 0.0
@@ -125,6 +155,9 @@ class AccountInfo():
             # pledge information
             self.pledged_info: List[AccountInfo.PledgeInfo] = []
 
+        def __str__(self) -> str:
+            return pformat(protobuf_to_dict(self.to_raw()))
+
         def from_raw(self, gi: pb.Account.GasInfo) -> AccountInfo.GasInfo:
             self.current_total = gi.current_total
             self.transferable_gas = gi.transferable_gas
@@ -135,17 +168,35 @@ class AccountInfo():
                                  for pi in gi.pledged_info] if gi.pledged_info is not None else []
             return self
 
-    class RAMInfo():
+        def to_raw(self) -> pb.Account.GasInfo:
+            return pb.Account.GasInfo(
+                current_total=self.current_total,
+                transferable_gas=self.transferable_gas,
+                pledge_gas=self.pledge_gas,
+                increase_speed=self.increase_speed,
+                limit=self.limit,
+                pledged_info=[pi.to_raw() for pi in self.pledged_info]
+            )
+
+    class RAMInfo:
         def __init__(self):
             # available ram bytes
             self.available: int = 0
+
+        def __str__(self) -> str:
+            return pformat(protobuf_to_dict(self.to_raw()))
 
         def from_raw(self, ri: pb.Account.RAMInfo) -> AccountInfo.RAMInfo:
             self.available = ri.available
             return self
 
+        def to_raw(self) -> pb.Account.RAMInfo:
+            return pb.Account.RAMInfo(
+                available=self.available
+            )
+
     # The message defines permission item.
-    class Item():
+    class Item:
         def __init__(self):
             # permission name or key pair id
             self.id: str = ''
@@ -156,6 +207,9 @@ class AccountInfo():
             # permission
             self.permission: str = ''
 
+        def __str__(self) -> str:
+            return pformat(protobuf_to_dict(self.to_raw()))
+
         def from_raw(self, i: pb.Account.Item) -> AccountInfo.Item:
             self.id = i.id
             self.is_key_pair = i.is_key_pair
@@ -163,13 +217,24 @@ class AccountInfo():
             self.permission = i.permission
             return self
 
+        def to_raw(self) -> pb.Account.Item:
+            return pb.Account.Item(
+                id=self.id,
+                is_key_pair=self.is_key_pair,
+                weight=self.weight,
+                permission=self.permission
+            )
+
     # The message defines a permission group.
-    class Group():
+    class Group:
         def __init__(self):
             # group name
             self.name: str = ''
             # permission items
             self.items: List[AccountInfo.Item] = []
+
+        def __str__(self) -> str:
+            return pformat(protobuf_to_dict(self.to_raw()))
 
         def from_raw(self, g: pb.Account.Group) -> AccountInfo.Group:
             self.name = g.name
@@ -177,8 +242,14 @@ class AccountInfo():
                           for item in g.items] if g.items is not None else []
             return self
 
+        def to_raw(self) -> pb.Account.Group:
+            return pb.Account.Group(
+                name=self.name,
+                items=[item.to_raw() for item in self.items]
+            )
+
     # The message defines the permission struct.
-    class Permission():
+    class Permission:
         def __init__(self):
             # permission name
             self.name: str = ''
@@ -189,6 +260,9 @@ class AccountInfo():
             # permission threshold
             self.threshold: int = 0
 
+        def __str__(self) -> str:
+            return pformat(protobuf_to_dict(self.to_raw()))
+
         def from_raw(self, p: pb.Account.Permission) -> AccountInfo.Permission:
             self.name = p.name
             self.groups = p.groups
@@ -196,6 +270,14 @@ class AccountInfo():
                           for item in p.items] if p.items is not None else []
             self.threshold = p.threshold
             return self
+
+        def to_raw(self) -> pb.Account.Permission:
+            return pb.Account.Permission(
+                name=self.name,
+                groups=self.groups,
+                items=[item.to_raw() for item in self.items],
+                threshold=self.threshold
+            )
 
     def __init__(self):
         self.name: str = ''
@@ -211,6 +293,9 @@ class AccountInfo():
         # frozen balance information
         self.frozen_balances: List[FrozenBalance] = []
 
+    def __str__(self) -> str:
+        return pformat(protobuf_to_dict(self.to_raw()))
+
     def from_raw(self, a: pb.Account) -> AccountInfo:
         self.name = a.name
         self.balance = a.balance
@@ -223,3 +308,14 @@ class AccountInfo():
         self.frozen_balances = [FrozenBalance().from_raw(fb)
                                 for fb in a.frozen_balances] if a.frozen_balances is not None else []
         return self
+
+    def to_raw(self) -> pb.Account:
+        return pb.Account(
+            name=self.name,
+            balance=self.balance,
+            gas_info=self.gas_info.to_raw(),
+            ram_info=self.ram_info.to_raw(),
+            permissions={key: val.to_raw() for key, val in self.permissions},
+            groups={key: val.to_raw() for key, val in self.groups},
+            frozen_balances=[fb.to_raw() for fb in self.frozen_balances]
+        )

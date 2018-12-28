@@ -1,6 +1,5 @@
 from pyost.iost import IOST
 from pyost.account import Account
-from pyost.transaction import Transaction
 from pyost import algorithm
 from time import sleep
 
@@ -25,8 +24,8 @@ if __name__ == '__main__':
     tx = iost.transfer(account1.pubkey, account1.pubkey, 1)
     tx.gas_limit = 1
     tx.gas_price = 1
-    #tx.add_signer(account1.pubkey)
-    #account1.sign_tx_content(tx)
+    # tx.add_signer(account1.pubkey)
+    # account1.sign_tx_content(tx)
     account1.sign_tx(tx)
     tx.verify_self()
 

@@ -15,10 +15,10 @@ class TestIOST(TestCase):
     def test_get_tx_by_hash(self):
         tx_hash = b'6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'
         tx, res_hash = self.iost.get_tx_by_hash(tx_hash)
-        tx_compare = Transaction() # add content
+        tx_compare = Transaction()  # add content
         print(tx)
         self.assertEqual(res_hash, tx_hash)
-        #self.assertDictEqual(tx, tx_compare)
+        # self.assertDictEqual(tx, tx_compare)
 
     def test_get_tx_receipt_by_hash(self):
         tx_hash = b'6iYtt5eqwmEcDKfte7FhZFpcVXgsf7CR7wfbm1CqiHZb'

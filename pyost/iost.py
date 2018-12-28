@@ -7,12 +7,12 @@ from protobuf_to_dict import protobuf_to_dict
 import protobuf_to_dict as ptd
 
 from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
-from pyost.transaction import Transaction, TxReceipt, Action
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
 from pyost.account import AccountInfo, TokenBalance
+from pyost.transaction import Transaction, TxReceipt, Action
 
 
-class IOST():
+class IOST:
     """
     This class provides API access to the IOST blockchain.
     """
@@ -192,7 +192,7 @@ class IOST():
             REST API: "/getTxReceiptByTxHash/{hash}"
 
         Args:
-            receipt_hash (str): The base58 hash string of the transaction.
+            tx_hash (str): The base58 hash string of the transaction.
 
         Returns:
             (dict, bytes): A tuple containing the receipt content as a dict
@@ -336,7 +336,7 @@ class IOST():
 
     # get: "/getGasRatio"
     def get_gas_ratio(self) -> GasRatio:
-        res: pb.GasRatioResponse = self._stub.GetGasRatio(pb.EmptyRequest)
+        res: pb.GasRatioResponse = self._stub.GetGasRatio(pb.EmptyRequest())
         return GasRatio().from_raw(res)
 
     # def get_balance(self, account_id: bytes, use_longest_chain: bool = True) -> int:
@@ -402,7 +402,7 @@ class IOST():
         Returns:
             str: The hash of the received transaction.
         """
-        req = pb.TransactionRequest(data=tx.encode())
+        req = pb.TransactionRequest(data=tx.to_raw().SerializeToString())
         res: pb.TransactionResponse = self._stub.SendTransaction(req)
         return Transaction().from_raw(res.transaction, res.status)
 

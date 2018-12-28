@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 import ed25519
 import ecdsa
 from base58 import b58encode, b58decode
-import hashlib
 from pyost.api.rpc.pb.rpc_pb2 import Signature
 
 
@@ -129,10 +128,6 @@ class Ed25519(Algorithm):
         return b58encode(sk.to_bytes())
 
 
-from base58 import b58encode, b58decode
-
-
-
 def selftest():
     algo = Ed25519
     message = "crypto libraries should always test themselves at powerup"
@@ -146,8 +141,8 @@ def selftest():
     pubkey2 = algo.get_pubkey(seckey2)
     print('vk2', pubkey2)
 
-    #sk = ed25519.SigningKey(seckey)
-    #return sk.sign(message)
+    # sk = ed25519.SigningKey(seckey)
+    # return sk.sign(message)
     sig = algo.sign(message, seckey)
     print('sig', sig)
     algo.verify(message, pubkey2, sig)

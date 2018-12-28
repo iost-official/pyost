@@ -44,7 +44,7 @@ class TestSign(TestCase):
         self.assertEqual(m.hexdigest(), hash)
 
     def test_sign_and_verify(self):
-        info = sha256(bytearray([1,2,3,4])).digest()
+        info = sha256(bytearray([1, 2, 3, 4])).digest()
         sig = Secp256k1.sign(info, self.privkey)
         self.assertTrue(Secp256k1.verify(info, self.pubkey, sig))
-        self.assertFalse(Secp256k1.verify(info, self.pubkey, bytearray([5,6,7,8])))
+        self.assertFalse(Secp256k1.verify(info, self.pubkey, bytearray([5, 6, 7, 8])))
