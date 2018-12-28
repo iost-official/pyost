@@ -76,9 +76,9 @@ class Transaction:
         self.actions: List[Action] = actions if actions is not None else []
         self.amount_limit: List[AmountLimit] = []
         self.signers: List[str] = signers if signers is not None else []
-        self.signatures: List[Signature] = []
+        self.signs: List[Signature] = []
         self.publisher: str = None
-        self.publisher_sigs: List[Signature] = []
+        self.publisher_signs: List[Signature] = []
         self.referred_tx: str = None
         self.tx_receipt: TxReceipt = None
 
@@ -92,9 +92,6 @@ class Transaction:
     def add_signer(self, pubkey: str) -> Transaction:
         self.signers.append(pubkey)
         return self
-
-    def _contain_signer(self, pubkey: str) -> bool:
-        return pubkey in self.signers
 
     def _base_hash(self) -> str:
         tr = self.to_raw(no_signs=True, no_publisher=True)
@@ -118,9 +115,9 @@ class Transaction:
                             ] if tr.amount_limit is not None else []
         self.signers = [b58encode(signer) for signer in tr.signers
                         ] if tr.signers is not None else []
-        self.signatures = []
+        self.signs = []
         self.publisher = tr.publisher
-        self.publisher_sigs = []
+        self.publisher_signs = []
         self.referred_tx = tr.referred_fx
         self.tx_receipt = TxReceipt().from_raw(tr.tx_receipt)
         return self
@@ -138,11 +135,11 @@ class Transaction:
                           ] if self.amount_limit is not None else [],
             signers=[b58decode(s) for s in self.signers
                      ] if self.signers is not None else [],
-            signatures=[s.to_raw() for s in self.signatures
-                        ] if not no_signs and self.signatures is not None else [],
+            signatures=[s.to_raw() for s in self.signs
+                        ] if not no_signs and self.signs is not None else [],
             publisher=self.publisher if not no_publisher else None,
-            publisher_sigs=[s.to_raw() for s in self.publisher_sigs
-                            ] if not no_publisher and self.publisher_sigs is not None else []
+            # publisher_sigs=[s.to_raw() for s in self.publisher_sigs
+            #                ] if not no_publisher and self.publisher_sigs is not None else []
         )
 
     def hash(self) -> str:
@@ -154,7 +151,7 @@ class Transaction:
         base_hash = self._base_hash()
         has_signed: List[str] = []
 
-        for sign in self.signatures:
+        for sign in self.signs:
             if not sign.verify(base_hash):
                 raise PermissionError('A signature did not sign the base hash.')
             has_signed.append(sign.pubkey)
@@ -173,33 +170,24 @@ class Transaction:
     def verify_signer(self, sig: Signature) -> bool:
         return sig.verify(self._base_hash())
 
-    def sign_content(self, account: pyost.account.Account) -> Transaction:
-        if not self._contain_signer(account.pubkey):
+    def add_sign(self, account: pyost.account.Account) -> Transaction:
+        if account.pubkey not in self.signers:
             raise PermissionError('This account is not in the signers list.')
 
         sig = account.sign(self._base_hash())
         assert self.verify_signer(sig), 'The signature is invalid.'
 
-        self.signatures.append(sig)
+        self.signs.append(sig)
         return self
 
-    def sign(self, account: pyost.account.Account) -> Transaction:
-        self.publisher = account.sign(self._publish_hash())
+    def add_publisher_sign(self, account: pyost.account.Account) -> Transaction:
+        sig = account.sign(self._publish_hash())
+        assert self.verify_signer(sig), 'The signature is invalid.'
+
+        self.publisher_signs.append(account.sign(self._publish_hash()))
+        self.publisher = account.id
         self._hash = None
         return self
-
-
-# def sign_tx_content(tx: Transaction, account: Account) -> Signature:
-#     if not tx._contain_signer(account.pubkey):
-#         raise PermissionError('This account is not in the transaction\'s signers list.')
-#     return account.sign(tx._base_hash())
-#
-#
-# def sign_tx(tx: Transaction, account: Account, *signs: Signature) -> Transaction:
-#     tx.signatures = [*tx.signatures, *signs]
-#     tx.publisher = account.sign(tx._publish_hash())
-#     tx.hash = None
-#     return tx
 
 
 class TxReceipt:

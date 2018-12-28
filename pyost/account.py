@@ -29,10 +29,10 @@ class Account:
         return pformat(vars(self))
 
     def sign_tx_content(self, tx: pyost.transaction.Transaction) -> None:
-        tx.sign_content(self)
+        tx.add_sign(self)
 
     def sign_tx(self, tx: pyost.transaction.Transaction) -> None:
-        tx.sign(self)
+        tx.add_publisher_sign(self)
 
     def sign(self, info: str) -> Signature:
         return Signature(self.algorithm, info, self.seckey)
@@ -40,12 +40,12 @@ class Account:
 
 def get_id_by_pubkey(pubkey: str) -> str:
     deckey = b58decode(pubkey)
-    return 'IOST' + b58encode(deckey + parity(deckey))
+    return 'IOST' + b58encode(deckey + parity(deckey)).decode('latin1')
 
 
 def get_pubkey_by_id(pubid: str) -> str:
     b = b58decode(pubid[4:])
-    return b58encode(b[:-4])
+    return b58encode(b[:-4]).decode('latin1')
 
 
 # class Account():

@@ -6,10 +6,10 @@ from time import sleep
 if __name__ == '__main__':
     iost = IOST('192.168.99.100:30002')
 
-    node_seckey = '1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB'
-    node_account = Account(node_seckey, algorithm.Ed25519)
-    print(f'Node pubkey: {node_account.pubkey}')
-    print(f'Node balance: {iost.get_balance(node_account.id)}')
+    admin_seckey = '1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB'
+    admin_account = Account(admin_seckey, algorithm.Ed25519)
+    print(f'Admin account: {admin_account}')
+    print(f'Node balance: {iost.get_balance(admin_account.id)}')
 
     seckey1 = '3gLThtqcsJS4zgtXkfUksY9XM6pUXSM3mC6fZb9PkHURg171gsrpLXBtapme7Kwx24xi6qkE55CZaH7iBa5kWjNC'
     account1 = Account(seckey1, algorithm.Ed25519)
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     tx.gas_price = 1
     # tx.add_signer(account1.pubkey)
     # account1.sign_tx_content(tx)
-    account1.sign_tx(tx)
+    tx.add_publisher_sign(account1)
     tx.verify_self()
 
     tx_res = iost.send_tx(tx)

@@ -73,7 +73,7 @@ class Secp256k1(Algorithm):
     @classmethod
     def sign(cls, message: str, seckey: str) -> str:
         sk = ecdsa.SigningKey.from_string(seckey, ecdsa.SECP256k1)
-        return sk.sign(message)
+        return sk.add_publisher_sign(message)
 
     @classmethod
     def verify(cls, message: str, pubkey: str, sig: str) -> bool:

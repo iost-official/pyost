@@ -8,7 +8,7 @@ import protobuf_to_dict as ptd
 
 from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
-from pyost.account import AccountInfo, TokenBalance
+from pyost.account import Account, AccountInfo, TokenBalance
 from pyost.transaction import Transaction, TxReceipt, Action
 
 
@@ -19,7 +19,7 @@ class IOST:
 
     def __init__(self, url: str, timeout: int = 10,
                  gas_ratio: float = 1.0, gas_limit: float = 10000.0,
-                 delay: int = 0, expiration: int = 90):
+                 delay: int = 0, expiration: int = 90, publisher: Account = None):
         """
         Connects to a node.
 
@@ -32,6 +32,7 @@ class IOST:
         self.gas_limit: float = gas_limit
         self.delay: int = delay
         self.expiration: int = expiration
+        self.publisher: Account = publisher
         self._channel = grpc.insecure_channel(url)
         self._stub = None
 
@@ -402,8 +403,12 @@ class IOST:
         Returns:
             str: The hash of the received transaction.
         """
-        req = pb.TransactionRequest(data=tx.to_raw().SerializeToString())
-        res: pb.TransactionResponse = self._stub.SendTransaction(req)
+        if tx.publisher is None:
+            if self.publisher is None:
+                raise ValueError('No publisher has signed the transaction.')
+            self.publisher.sign_tx(tx)
+
+        res: pb.TransactionResponse = self._stub.SendTransaction(tx.to_raw())
         return Transaction().from_raw(res.transaction, res.status)
 
     # def estimate_gas(self, tx: Transaction) -> int:

@@ -5,7 +5,7 @@ from pyost import algorithm
 from time import sleep
 
 if __name__ == '__main__':
-    iost = IOST('localhost:30002')
+    iost = IOST('192.168.99.100:30002')
 
     node_seckey = '1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB'
     node_account = Account(node_seckey, algorithm.Ed25519)
