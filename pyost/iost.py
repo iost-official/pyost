@@ -6,9 +6,9 @@ from google.protobuf.empty_pb2 import Empty
 from protobuf_to_dict import protobuf_to_dict
 import protobuf_to_dict as ptd
 
-from pyost.api.rpc import apis_pb2_grpc, apis_pb2
-from pyost.api.core.event import event_pb2
-from pyost.transaction import Transaction, Action
+from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
+from pyost.transaction import Transaction, TxReceipt, Action
+from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo
 
 
 class IOST():
@@ -17,7 +17,7 @@ class IOST():
     """
 
     def __init__(self, url: str, timeout: int = 10,
-                 gas_price: int = 1, gas_limit: int = 10000,
+                 gas_ratio: float = 1.0, gas_limit: float = 10000.0,
                  delay: int = 0, expiration: int = 90):
         """
         Connects to a node.
@@ -26,11 +26,11 @@ class IOST():
             url (str): Node's IP address and port number.
             timeout (int): Number of seconds to wait when querying the node until timing out.
         """
-        self.timeout = timeout
-        self.gas_price = gas_price
-        self.gas_limit = gas_limit
-        self.delay = delay
-        self.expiration = expiration
+        self.timeout: int = timeout
+        self.gas_ratio: float = gas_ratio
+        self.gas_limit: float = gas_limit
+        self.delay: int = delay
+        self.expiration: int = expiration
         self._channel = grpc.insecure_channel(url)
         self._stub = None
 
@@ -39,48 +39,63 @@ class IOST():
         except grpc.FutureTimeoutError as e:
             raise ConnectionError('Error connecting to server') from e
         else:
-            self._stub = apis_pb2_grpc.ApisStub(self._channel)
+            self._stub = rpc_pb2_grpc.ApiServiceStub(self._channel)
 
-    def get_height(self) -> int:
-        """
-        Gets the current height of the blockchain.
+    #             get: "/getNodeInfo"
+    def get_node_info(self) -> NodeInfo:
+        res: pb.NodeInfoResponse = self._stub.GetNodeInfo(pb.EmptyRequest())
+        return NodeInfo().from_raw(res)
 
-        Note:
-            REST API: "/getHeight"
+    #             get: "/getChainInfo"
+    def get_chain_info(self) -> ChainInfo:
+        res: pb.ChainInfoResponse = self._stub.GetChainInfo(pb.EmptyRequest())
+        return ChainInfo().from_raw(res)
 
-        Returns:
-            The height of the blockchain.
-        """
-        res = self._stub.GetHeight(Empty())
-        return res.height
+    #             get: "/getRAMInfo"
+    def get_ram_info(self) -> RAMInfo:
+        res: pb.RAMInfoResponse = self._stub.GetRAMInfo(pb.EmptyRequest())
+        return RAMInfo().from_raw(res)
 
-    def _parse_tx_raw(self, tx_raw) -> dict:
-        """
-        Converts a TxRaw proto object to a dict and encodes hashes to base58 string.
+    # def get_height(self) -> int:
+    #     """
+    #     Gets the current height of the blockchain.
+    #
+    #     Note:
+    #         REST API: "/getHeight"
+    #
+    #     Returns:
+    #         The height of the blockchain.
+    #     """
+    #     res = self._stub.GetHeight(Empty())
+    #     return res.height
 
-        Args:
-            tx_raw (tx_pb2.TxRaw or dict): the TxRaw proto object to convert.
+    # def _parse_tx_raw(self, tx_raw) -> dict:
+    #     """
+    #     Converts a TxRaw proto object to a dict and encodes hashes to base58 string.
+    #
+    #     Args:
+    #         tx_raw (tx_pb2.TxRaw or dict): the TxRaw proto object to convert.
+    #
+    #     Returns:
+    #         dict: See ``get_tx_by_hash`` for the format.
+    #     """
+    #     tx = protobuf_to_dict(tx_raw) if not isinstance(tx_raw, dict) else tx_raw.copy()
+    #
+    #     if 'signers ' in tx:
+    #         tx['signers'] = [b58encode(signer) for signer in tx['signers']]
+    #     if 'signs' in tx:
+    #         tx['signs'] = [{
+    #             'algorithm': sign['algorithm'],
+    #             'sig': b58encode(sign['sig']),
+    #             'pubKey': b58encode(sign['pubKey'])
+    #         } for sign in tx['signs']]
+    #     if 'publisher' in tx:
+    #         tx['publisher']['sig'] = b58encode(tx['publisher']['sig'])
+    #         tx['publisher']['pubKey'] = b58encode(tx['publisher']['pubKey'])
+    #
+    #     return tx
 
-        Returns:
-            dict: See ``get_tx_by_hash`` for the format.
-        """
-        tx = protobuf_to_dict(tx_raw) if not isinstance(tx_raw, dict) else tx_raw.copy()
-
-        if 'signers ' in tx:
-            tx['signers'] = [b58encode(signer) for signer in tx['signers']]
-        if 'signs' in tx:
-            tx['signs'] = [{
-                'algorithm': sign['algorithm'],
-                'sig': b58encode(sign['sig']),
-                'pubKey': b58encode(sign['pubKey'])
-            } for sign in tx['signs']]
-        if 'publisher' in tx:
-            tx['publisher']['sig'] = b58encode(tx['publisher']['sig'])
-            tx['publisher']['pubKey'] = b58encode(tx['publisher']['pubKey'])
-
-        return tx
-
-    def get_tx_by_hash(self, tx_hash: bytes) -> Transaction:
+    def get_tx_by_hash(self, tx_hash: str) -> Transaction:
         """
         Gets a transaction by its hash value.
 
@@ -117,61 +132,58 @@ class IOST():
                     }
                 }
         """
-        req = apis_pb2.HashReq(hash=tx_hash)
-        res = self._stub.GetTxByHash(req)
-        assert tx_hash == b58encode(res.hash), 'The returned hash does not correspond to the one queried.'
-        tx = Transaction()
-        tx.from_raw(res.txRaw)
-        return tx
+        req = pb.TxHashRequest(hash=tx_hash)
+        res: pb.TransactionResponse = self._stub.GetTxByHash(req)
+        return Transaction().from_raw(res.transaction, res.status)
 
-    def _parse_receipt_raw(self, receipt_raw) -> dict:
-        """
-        Converts a TxReceiptRaw proto object to a dict and encodes hashes to base58 string.
+    # def _parse_receipt_raw(self, receipt_raw) -> dict:
+    #     """
+    #     Converts a TxReceiptRaw proto object to a dict and encodes hashes to base58 string.
+    #
+    #     Args:
+    #         receipt_raw (tx_pb2.TxReceiptRaw or dict): the TxReceiptRaw proto object to convert.
+    #
+    #     Returns:
+    #         dict: See ``get_tx_receipt_by_hash`` for the format.
+    #     """
+    #     receipt = protobuf_to_dict(receipt_raw) if not isinstance(receipt_raw, dict) else receipt_raw.copy()
+    #     receipt['txHash'] = b58encode(receipt['txHash'])
+    #     return receipt
 
-        Args:
-            receipt_raw (tx_pb2.TxReceiptRaw or dict): the TxReceiptRaw proto object to convert.
+    # def get_tx_receipt_by_hash(self, receipt_hash: str) -> (dict, bytes):
+    #     """
+    #     Gets a transaction receipt by its receipt hash value.
+    #
+    #     Note:
+    #         REST API: "/getTxReceiptByHash/{hash}"
+    #
+    #     Args:
+    #         receipt_hash (str): The base58 hash string of the transaction receipt.
+    #
+    #     Returns:
+    #         (dict, bytes): A tuple containing the receipt content as a dict
+    #             and its hash as bytes. The dict has the following format::
+    #
+    #             {
+    #                 'txHash': bytes,
+    #                 'gasUsage': int,
+    #                 'status': {
+    #                     'code': int,
+    #                     'message': string
+    #                 },
+    #                 'succActionNum': int,
+    #                 'receipts': [{
+    #                     'type': int,
+    #                     'content: string
+    #                 }]
+    #             }
+    #     """
+    #     req = pb.TxHashRequest(hash=receipt_hash)
+    #     res = self._stub.GetTxReceiptByTxHash(req)
+    #     receipt = self._parse_receipt_raw(res.txReceiptRaw)
+    #     return (receipt, b58encode(res.hash))
 
-        Returns:
-            dict: See ``get_tx_receipt_by_hash`` for the format.
-        """
-        receipt = protobuf_to_dict(receipt_raw) if not isinstance(receipt_raw, dict) else receipt_raw.copy()
-        receipt['txHash'] = b58encode(receipt['txHash'])
-        return receipt
-
-    def get_tx_receipt_by_hash(self, receipt_hash: str) -> (dict, bytes):
-        """
-        Gets a transaction receipt by its receipt hash value.
-
-        Note:
-            REST API: "/getTxReceiptByHash/{hash}"
-
-        Args:
-            receipt_hash (str): The base58 hash string of the transaction receipt.
-
-        Returns:
-            (dict, bytes): A tuple containing the receipt content as a dict
-                and its hash as bytes. The dict has the following format::
-
-                {
-                    'txHash': bytes,
-                    'gasUsage': int,
-                    'status': {
-                        'code': int,
-                        'message': string
-                    },
-                    'succActionNum': int,
-                    'receipts': [{
-                        'type': int,
-                        'content: string
-                    }]
-                }
-        """
-        req = apis_pb2.HashReq(hash=receipt_hash)
-        res = self._stub.GetTxReceiptByHash(req)
-        receipt = self._parse_receipt_raw(res.txReceiptRaw)
-        return (receipt, b58encode(res.hash))
-
-    def get_tx_receipt_by_tx_hash(self, tx_hash: str) -> (dict, bytes):
+    def get_tx_receipt_by_tx_hash(self, tx_hash: str) -> TxReceipt:
         """
         Gets a transaction receipt by its transaction hash value.
 
@@ -199,39 +211,38 @@ class IOST():
                     }]
                 }
         """
-        req = apis_pb2.HashReq(hash=tx_hash)
-        res = self._stub.GetTxReceiptByTxHash(req)
-        receipt = self._parse_receipt_raw(res.txReceiptRaw)
-        return (receipt, b58encode(res.hash))
+        req = pb.TxHashRequest(hash=tx_hash)
+        tr: pb.TxReceipt = self._stub.GetTxReceiptByTxHash(req)
+        return TxReceipt().from_raw(tr)
 
-    def _parse_block_info(self, block_info) -> dict:
-        """
-        Converts a BlockInfo proto object to a dict and encodes hashes to base58 string.
+    # def _parse_block_info(self, block_info) -> dict:
+    #     """
+    #     Converts a BlockInfo proto object to a dict and encodes hashes to base58 string.
+    #
+    #     Args:
+    #         block_info (apis_pb2.BlockInfo or dict): the BlockInfo proto object to convert.
+    #
+    #     Returns:
+    #         dict: See ``get_block_by_hash`` for the format.
+    #     """
+    #     block = protobuf_to_dict(block_info) if not isinstance(block_info, dict) else block_info.copy()
+    #
+    #     for hash in ['parentHash', 'txsHash' 'merkleHash']:
+    #         if hash in block['head']:
+    #             block['head'][hash] = b58encode(block['head'][hash])
+    #     block['hash'] = b58encode(block['hash'])
+    #     if 'txhash ' in block:
+    #         block['txhash'] = [b58encode(tx) for tx in block['txhash']]
+    #     if 'receiptHash ' in block:
+    #         block['receiptHash'] = [b58encode(receipt) for receipt in block['receiptHash']]
+    #     if 'txs' in block:
+    #         block['txs'] = [self._parse_tx_raw(tx) for tx in block['txs']]
+    #     if 'receipts' in block:
+    #         block['receipts'] = [self._parse_receipt_raw(receipt) for receipt in block['receipts']]
+    #
+    #     return block
 
-        Args:
-            block_info (apis_pb2.BlockInfo or dict): the BlockInfo proto object to convert.
-
-        Returns:
-            dict: See ``get_block_by_hash`` for the format.
-        """
-        block = protobuf_to_dict(block_info) if not isinstance(block_info, dict) else block_info.copy()
-
-        for hash in ['parentHash', 'txsHash' 'merkleHash']:
-            if hash in block['head']:
-                block['head'][hash] = b58encode(block['head'][hash])
-        block['hash'] = b58encode(block['hash'])
-        if 'txhash ' in block:
-            block['txhash'] = [b58encode(tx) for tx in block['txhash']]
-        if 'receiptHash ' in block:
-            block['receiptHash'] = [b58encode(receipt) for receipt in block['receiptHash']]
-        if 'txs' in block:
-            block['txs'] = [self._parse_tx_raw(tx) for tx in block['txs']]
-        if 'receipts' in block:
-            block['receipts'] = [self._parse_receipt_raw(receipt) for receipt in block['receipts']]
-
-        return block
-
-    def get_block_by_hash(self, block_hash: str, complete: bool = False) -> dict:
+    def get_block_by_hash(self, block_hash: str, complete: bool = False) -> Block:
         """
         Gets a block by its hash.
 
@@ -265,11 +276,11 @@ class IOST():
                     'receipts': [ TxReceiptRaw (see return type of ``get_tx_receipt_by_hash``) ]
                 }
         """
-        req = apis_pb2.BlockByHashReq(hash=block_hash, complete=complete)
-        res = self._stub.GetBlockByHash(req)
-        return self._parse_block_info(res)
+        req = pb.GetBlockByHashRequest(hash=block_hash, complete=complete)
+        res: pb.BlockResponse = self._stub.GetBlockByHash(req)
+        return Block().from_raw(res.block, res.status)
 
-    def get_block_by_num(self, block_num: int, complete: bool = False) -> dict:
+    def get_block_by_num(self, block_num: int, complete: bool = False) -> Block:
         """
         Gets a block by its number.
 
@@ -303,9 +314,9 @@ class IOST():
                     'receipts': [ TxReceiptRaw (see return type of ``get_tx_receipt_by_hash``) ]
                 }
         """
-        req = apis_pb2.BlockByNumReq(num=block_num, complete=complete)
-        res = self._stub.getBlockByNum(req)
-        return self._parse_block_info(res)
+        req = pb.GetBlockByNumberRequest(number=block_num, complete=complete)
+        res: pb.BlockResponse = self._stub.GetBlockByNumber(req)
+        return Block().from_raw(res.block, res.status)
 
     def get_balance(self, account_id: bytes, use_longest_chain: bool = True) -> int:
         """

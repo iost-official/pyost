@@ -18,12 +18,12 @@ done
 # Copy the .proto files to the local hierarchy
 # Strip out the github references in the imports
 # Fix the empty.proto typo
-#for f in $PROTO_FILES; do
-#    #RELPATH=$(realpath --relative-to="`dirname $IOSTPATH/$f`" "$IOSTPATH")
-#    cat "$IOSTPATH/$f" | sed -e "s|github.com/iost-official/go-iost/||" \
-#            -e "s|google/protobuf/Empty.proto|google/protobuf/empty.proto|" \
-#            > "$DEST/$f"
-#done
+for f in $PROTO_FILES; do
+    #RELPATH=$(realpath --relative-to="`dirname $IOSTPATH/$f`" "$IOSTPATH")
+    cat "$IOSTPATH/$f" | sed -e "s|github.com/iost-official/go-iost/||" \
+            -e "s|google/protobuf/Empty.proto|google/protobuf/empty.proto|" \
+            > "$DEST/$f"
+done
 
 for f in $PROTO_FILES; do
     python -m grpc_tools.protoc --proto_path=".:$DEST:$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis" \

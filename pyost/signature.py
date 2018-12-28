@@ -3,7 +3,7 @@ from hashlib import sha3_256 as sha3
 from protobuf_to_dict import protobuf_to_dict
 from base58 import b58encode, b58decode
 
-from pyost.api.crypto.signature_pb2 import SignatureRaw
+from pyost.api.rpc.pb import rpc_pb2 as pb
 from pyost.algorithm import Algorithm, Secp256k1, Ed25519
 
 
@@ -23,23 +23,23 @@ class Signature():
             raise ValueError('The Signature is missing pubkey and/or sig.')
         return self.algorithm.verify(info, self.pubkey, self.sig)
 
-    def to_raw(self) -> SignatureRaw:
-        return SignatureRaw(
+    def to_raw(self) -> pb.Signature:
+        return pb.Signature(
             algorithm=self.algorithm.__int__(),
             sig=self.sig,
-            pubKey=b58decode(self.pubkey)
+            public_key=b58decode(self.pubkey)
         )
 
     def encode(self) -> bytes:
         return self.to_raw().SerializeToString()
 
-    def from_raw(self, sr: SignatureRaw) -> None:
+    def from_raw(self, sr: pb.Signature) -> None:
         self.algorithm = Algorithm.get_algorithm_by_id(sr.algorithm)
         self.sig = sr.sig
-        self.pubkey = b58encode(sr.pubKey)
+        self.public_key = b58encode(sr.pubKey)
 
     def decode(self, data: bytes) -> None:
-        sr = SignatureRaw()
+        sr = pb.Signature()
         sr.ParseFromString(data)
         self.from_raw(sr)
 

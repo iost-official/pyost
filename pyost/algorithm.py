@@ -3,9 +3,13 @@ import ed25519
 import ecdsa
 from base58 import b58encode, b58decode
 import hashlib
+from pyost.api.rpc.pb.rpc_pb2 import Signature
 
 
 class Algorithm(ABC):
+    ID = Signature.UNKNOWN
+    NAME = 'UNKNOWN'
+
     @classmethod
     def get_algorithm_by_id(cls, id: int):
         if id == Ed25519.ID:
@@ -56,7 +60,7 @@ class Algorithm(ABC):
 
 
 class Secp256k1(Algorithm):
-    ID = 1
+    ID = Signature.SECP256K1
     NAME = 'secp256k1'
 
     @classmethod
@@ -89,7 +93,7 @@ class Secp256k1(Algorithm):
 
 
 class Ed25519(Algorithm):
-    ID = 2
+    ID = Signature.ED25519
     NAME = 'ed25519'
 
     @classmethod
