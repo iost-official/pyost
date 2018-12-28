@@ -9,6 +9,7 @@ import protobuf_to_dict as ptd
 from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.transaction import Transaction, TxReceipt, Action
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo
+from pyost.account import AccountInfo
 
 
 class IOST():
@@ -285,7 +286,7 @@ class IOST():
         Gets a block by its number.
 
         Note:
-            REST API: "/getBlockByNum/{num}/{complete}"
+            REST API: "/getBlockByNumber/{number}/{complete}"
 
         Args:
             block_num: The number of the block.
@@ -318,24 +319,30 @@ class IOST():
         res: pb.BlockResponse = self._stub.GetBlockByNumber(req)
         return Block().from_raw(res.block, res.status)
 
-    def get_balance(self, account_id: bytes, use_longest_chain: bool = True) -> int:
-        """
-        Gets the balance of an account by its id.
+    # get: "/getAccount/{name}/{by_longest_chain}"
+    def get_account(self, name: str, by_longest_chain: bool = False) -> AccountInfo:
+        req = pb.GetAccountRequest(name=name, by_longest_chain=by_longest_chain)
+        acc: pb.Account = self._stub.GetAccount(req)
+        return AccountInfo().from_raw(acc)
 
-        Note:
-            REST API: "/getBalance/{ID}/{useLongestChain}"
-
-        Args:
-            account_id (str): The ID of the account.
-            use_longest_chain (bool): If True, also gets balance from pending blocks
-                (in the longest chain)
-
-        Returns:
-            int: the balance of the account (units?).
-        """
-        req = apis_pb2.GetBalanceReq(ID=account_id, useLongestChain=use_longest_chain)
-        res = self._stub.GetBalance(req)
-        return res.balance
+    # def get_balance(self, account_id: bytes, use_longest_chain: bool = True) -> int:
+    #     """
+    #     Gets the balance of an account by its id.
+    #
+    #     Note:
+    #         REST API: "/getBalance/{ID}/{useLongestChain}"
+    #
+    #     Args:
+    #         account_id (str): The ID of the account.
+    #         use_longest_chain (bool): If True, also gets balance from pending blocks
+    #             (in the longest chain)
+    #
+    #     Returns:
+    #         int: the balance of the account (units?).
+    #     """
+    #     req = apis_pb2.GetBalanceReq(ID=account_id, useLongestChain=use_longest_chain)
+    #     res = self._stub.GetBalance(req)
+    #     return res.balance
 
     def get_net_id(self) -> str:
         """
