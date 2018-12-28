@@ -13,12 +13,13 @@ class Signature():
     #     bytes sig = 2;
     #     bytes pubKey = 3;
     # }
-    def __init__(self, algorithm: Type[Algorithm] = Ed25519, info: bytes = None, privkey: bytes = None):
+    def __init__(self, algorithm: Type[Algorithm] = Ed25519,
+                 info: str = None, privkey: str = None):
         self.algorithm: Type[Algorithm] = algorithm
-        self.sig: bytes = algorithm.sign(info, privkey) if info is not None and privkey is not None else None
-        self.pubkey: bytes = algorithm.get_pubkey(privkey) if privkey is not None else None
+        self.sig: str = algorithm.sign(info, privkey) if info is not None and privkey is not None else None
+        self.pubkey: str = algorithm.get_pubkey(privkey) if privkey is not None else None
 
-    def verify(self, info: bytes) -> bool:
+    def verify(self, info: str) -> bool:
         if self.pubkey is None or self.sig is None:
             raise ValueError('The Signature is missing pubkey and/or sig.')
         return self.algorithm.verify(info, self.pubkey, self.sig)
@@ -43,7 +44,7 @@ class Signature():
         sr.ParseFromString(data)
         self.from_raw(sr)
 
-    def hash(self) -> bytes:
+    def hash(self) -> str:
         return sha3(self.encode())
 
     def __str__(self) -> str:

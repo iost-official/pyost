@@ -40,22 +40,22 @@ class Algorithm(ABC):
 
     @classmethod
     @abstractmethod
-    def sign(cls, message: bytes, seckey: bytes) -> bytes:
+    def sign(cls, message: str, seckey: str) -> str:
         pass
 
     @classmethod
     @abstractmethod
-    def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
+    def verify(cls, message: str, pubkey: str, sig: str) -> bool:
         pass
 
     @classmethod
     @abstractmethod
-    def get_pubkey(cls, seckey: bytes) -> bytes:
+    def get_pubkey(cls, seckey: str) -> bytes:
         pass
 
     @classmethod
     @abstractmethod
-    def gen_seckey(cls) -> bytes:
+    def gen_seckey(cls) -> str:
         pass
 
 
@@ -72,22 +72,22 @@ class Secp256k1(Algorithm):
         return Secp256k1.NAME
 
     @classmethod
-    def sign(cls, message: bytes, seckey: bytes) -> bytes:
+    def sign(cls, message: str, seckey: str) -> str:
         sk = ecdsa.SigningKey.from_string(seckey, ecdsa.SECP256k1)
         return sk.sign(message)
 
     @classmethod
-    def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
+    def verify(cls, message: str, pubkey: str, sig: str) -> bool:
         vk = ecdsa.VerifyingKey.from_string(pubkey, ecdsa.SECP256k1)
         return vk.verify(sig, message)
 
     @classmethod
-    def get_pubkey(cls, seckey: bytes) -> bytes:
+    def get_pubkey(cls, seckey: str) -> str:
         sk = ecdsa.SigningKey.from_string(seckey, ecdsa.SECP256k1)
         return sk.get_verifying_key().to_string()
 
     @classmethod
-    def gen_seckey(cls) -> bytes:
+    def gen_seckey(cls) -> str:
         sk = ecdsa.SigningKey.generate(ecdsa.SECP256k1)
         return sk.to_string()
 
@@ -105,12 +105,12 @@ class Ed25519(Algorithm):
         return Ed25519.NAME
 
     @classmethod
-    def sign(cls, message: bytes, seckey: bytes) -> bytes:
+    def sign(cls, message: str, seckey: str) -> str:
         sk = ed25519.SigningKey(b58decode(seckey))
         return sk.sign(message)
 
     @classmethod
-    def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
+    def verify(cls, message: str, pubkey: str, sig: str) -> bool:
         vk = ed25519.VerifyingKey(b58decode(pubkey))
         try:
             vk.verify(sig, message)
@@ -119,12 +119,12 @@ class Ed25519(Algorithm):
         return True
 
     @classmethod
-    def get_pubkey(cls, seckey: bytes) -> bytes:
+    def get_pubkey(cls, seckey: str) -> str:
         sk = ed25519.SigningKey(b58decode(seckey))
         return b58encode(sk.get_verifying_key().to_bytes())
 
     @classmethod
-    def gen_seckey(cls) -> bytes:
+    def gen_seckey(cls) -> str:
         sk, vk = ed25519.create_keypair()
         return b58encode(sk.to_bytes())
 
@@ -135,7 +135,7 @@ from base58 import b58encode, b58decode
 
 def selftest():
     algo = Ed25519
-    message = b"crypto libraries should always test themselves at powerup"
+    message = "crypto libraries should always test themselves at powerup"
     seckey = algo.gen_seckey()
     print('sk', seckey)
     pubkey = algo.get_pubkey(seckey)

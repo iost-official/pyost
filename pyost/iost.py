@@ -358,38 +358,38 @@ class IOST():
     #     res = self._stub.GetBalance(req)
     #     return res.balance
 
-    def get_net_id(self) -> str:
-        """
-        Gets the ID of the node.
+    # def get_net_id(self) -> str:
+    #     """
+    #     Gets the ID of the node.
+    #
+    #     Note:
+    #         REST API: "/getNetID"
+    #
+    #     Returns:
+    #         The ID of the node as a base58 hash string.
+    #     """
+    #     res = self._stub.GetNetID(Empty())
+    #     return res.ID
 
-        Note:
-            REST API: "/getNetID"
+    # def get_state(self, key: str, field: str = None) -> str:
+    #     """
+    #     Gets the value of a key in the StateDB.
+    #
+    #     Note:
+    #         REST API: "/getState/{key}"
+    #
+    #     Args:
+    #         key (str): The key.
+    #         field (str): Required if `key` is a map.
+    #
+    #     Returns:
+    #         str: StateDB[`key`] or StateDB[`key`][`field`] if `key` is a map.
+    #     """
+    #     req = pb.GetStateReq(key=key, field=field)
+    #     res = self._stub.GetState(req)
+    #     return res.value
 
-        Returns:
-            The ID of the node as a base58 hash string.
-        """
-        res = self._stub.GetNetID(Empty())
-        return res.ID
-
-    def get_state(self, key: str, field: str = None) -> str:
-        """
-        Gets the value of a key in the StateDB.
-
-        Note:
-            REST API: "/getState/{key}"
-
-        Args:
-            key (str): The key.
-            field (str): Required if `key` is a map.
-
-        Returns:
-            str: StateDB[`key`] or StateDB[`key`][`field`] if `key` is a map.
-        """
-        req = apis_pb2.GetStateReq(key=key, field=field)
-        res = self._stub.GetState(req)
-        return res.value
-
-    def send_tx(self, tx: Transaction) -> bytes:
+    def send_tx(self, tx: Transaction) -> Transaction:
         """
         Sends a Transaction encoded as a TxRaw.
 
@@ -402,27 +402,27 @@ class IOST():
         Returns:
             str: The hash of the received transaction.
         """
-        req = apis_pb2.RawTxReq(data=tx.encode())
-        res = self._stub.SendRawTx(req)
-        return b58encode(res.hash)
+        req = pb.TransactionRequest(data=tx.encode())
+        res: pb.TransactionResponse = self._stub.SendTransaction(req)
+        return Transaction().from_raw(res.transaction, res.status)
 
-    def estimate_gas(self, tx: Transaction) -> int:
-        """
-        Estimates the gas required to send a Transaction.
-
-        Notes:
-            NOT SUPPORTED YET
-            REST API: POST "/estimateGas" (tx in the body)
-
-        Args:
-            tx (Transaction): A Transaction that will be serialized to a TxRaw..
-
-        Returns:
-            str: The amount of gas required to execute a Transaction..
-        """
-        req = apis_pb2.RawTxReq(data=tx.encode())
-        res = self._stub.EstimateGas(req)
-        return res.gas
+    # def estimate_gas(self, tx: Transaction) -> int:
+    #     """
+    #     Estimates the gas required to send a Transaction.
+    #
+    #     Notes:
+    #         NOT SUPPORTED YET
+    #         REST API: POST "/estimateGas" (tx in the body)
+    #
+    #     Args:
+    #         tx (Transaction): A Transaction that will be serialized to a TxRaw..
+    #
+    #     Returns:
+    #         str: The amount of gas required to execute a Transaction..
+    #     """
+    #     req = pb.RawTxReq(data=tx.encode())
+    #     res = self._stub.EstimateGas(req)
+    #     return res.gas
 
     # // subscribe an event
     # rpc Subscribe (SubscribeReq) returns (stream SubscribeRes) {
@@ -451,14 +451,15 @@ class IOST():
     # TODO: event_topic is a list of enum (need to pass an iterator?)
     # TODO: if topics is a scalar, transform it into a 1 element list
     # TODO: check that each topic is a valid Enum value
-    def subscribe(self, topics: [int]) -> dict:
-        print(ptd.get_field_names_and_options(event_pb2.Event))
-        req = apis_pb2.SubscribeReq(topics=topics)
-        res = self._stub.Subscribe(req)
-        return protobuf_to_dict(res.ev)
+    # def subscribe(self, topics: [int]) -> dict:
+    #     print(ptd.get_field_names_and_options(event_pb2.Event))
+    #     req = pb.SubscribeReq(topics=topics)
+    #     res = self._stub.Subscribe(req)
+    #     return protobuf_to_dict(res.ev)
 
     def call(self, contract, abi, *args):
-        tx = Transaction(gas_limit=self.gas_limit, gas_price=self.gas_price, expiration=self.expiration)
+        tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
+                         expiration=self.expiration, delay=self.delay)
         tx.add_action(contract, abi, *args)
         return tx
 
@@ -467,7 +468,8 @@ class IOST():
 
     def new_account(self, name, creator, owner_key, active_key,
                     initial_ram, initial_gas_pledge):
-        tx = Transaction(gas_limit=self.gas_limit, gas_price=self.gas_price, expiration=self.expiration)
+        tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
+                         expiration=self.expiration, delay=self.delay)
         tx.add_action('auth.iost', 'SignUp', name, owner_key, active_key)
         tx.add_action('ram.iost', 'buy', creator, name, initial_ram)
         tx.add_action('gas.iost', 'pledge', creator, name, str(initial_gas_pledge))

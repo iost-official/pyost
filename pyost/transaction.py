@@ -61,6 +61,12 @@ class AmountLimit():
         self.value = al.value
         return self
 
+    def to_raw(self) -> pb.AmountLimit:
+        return pb.AmountLimit(
+            token=self.token,
+            value=self.value,
+        )
+
 
 class Transaction():
     class Status(Enum):
@@ -68,16 +74,6 @@ class Transaction():
         PACKED = pb.TransactionResponse.PACKED
         IRREVERSIBLE = pb.TransactionResponse.IRREVERSIBLE
 
-    # message TxRaw {
-    #     int64 time = 1;
-    #     int64 expiration = 2;
-    #     int64 gasLimit = 3;
-    #     int64 gasPrice = 4;
-    #     repeated ActionRaw actions = 5;
-    #     repeated bytes signers = 6;
-    #     repeated crypto.SignatureRaw signs = 7;
-    #     crypto.SignatureRaw publisher = 8;
-    # }
     def __init__(self, actions: List[Action] = None, signers: List[str] = None,
                  expiration: int = 90, gas_ratio: float = 1, gas_limit: float = 10000,
                  delay: int = 0):
@@ -89,11 +85,12 @@ class Transaction():
         self.gas_limit: float = gas_limit
         self.delay: int = delay
         self.actions: List[Action] = actions if actions is not None else []
-        self.signers: List[str] = signers if signers is not None else []
-        self.signs: List[Signature] = []
-        self.publisher: str = None
-        self.referred_tx: str = None
         self.amount_limit: List[AmountLimit] = []
+        self.signers: List[str] = signers if signers is not None else []
+        self.signatures: List[Signature] = []
+        self.publisher: str = None
+        self.publisher_sigs: List[Signature] = []
+        self.referred_tx: str = None
         self.tx_receipt: TxReceipt = None
 
     def __str__(self):
@@ -103,23 +100,23 @@ class Transaction():
         self.actions.append(Action(contract, abi, *args))
         return self
 
-    def add_signer(self, pubkey: bytes) -> Transaction:
+    def add_signer(self, pubkey: str) -> Transaction:
         self.signers.append(pubkey)
         return self
 
-    def _contain_signer(self, pubkey: bytes) -> bool:
+    def _contain_signer(self, pubkey: str) -> bool:
         return pubkey in self.signers
 
-    def _base_hash(self) -> bytes:
+    def _base_hash(self) -> str:
         tr = self.to_raw(no_signs=True, no_publisher=True)
         return sha3(tr.SerializeToString()).digest()
 
-    def _publish_hash(self) -> bytes:
+    def _publish_hash(self) -> str:
         tr = self.to_raw(no_publisher=True)
         return sha3(tr.SerializeToString()).digest()
 
-    def to_raw(self, no_signs: bool = False, no_publisher: bool = False) -> pb.Transaction:
-        return pb.Transaction(
+    def to_raw(self, no_signs: bool = False, no_publisher: bool = False) -> pb.TransactionRequest:
+        return pb.TransactionRequest(
             time=self.time,
             expiration=self.expiration,
             gas_ratio=self.gas_ratio,
@@ -127,10 +124,13 @@ class Transaction():
             delay=self.delay,
             actions=[action.to_raw() for action in self.actions if
                      action is not None] if self.actions is not None else [],
+            amount_limit=[limit.to_raw() for limit in self.amount_limit if
+                     limit is not None] if self.amount_limit is not None else [],
             signers=[b58decode(signer) for signer in self.signers if
                      signer is not None] if self.signers is not None else [],
-            signs=[sign.to_raw() for sign in self.signs if sign is not None] if not no_signs else [],
-            publisher=self.publisher if not no_publisher else None
+            signatures=[s.to_raw() for s in self.signatures if s is not None] if not no_signs else [],
+            publisher=self.publisher if not no_publisher else None,
+            publisher_sigs=[sign.to_raw() for sign in self.publisher_sigs if sign is not None] if not no_publisher else []
         )
 
     def encode(self) -> bytes:
@@ -138,16 +138,20 @@ class Transaction():
 
     def from_raw(self, tr: pb.Transaction, status: Status = None) -> Transaction:
         self.status = status
-        self._hash = None
+        self._hash = tr.hash
         self.time = tr.time
         self.expiration = tr.expiration
         self.gas_ratio = tr.gas_ratio
         self.gas_limit = tr.gas_limit
         self.delay = tr.delay
         self.actions = [Action().from_raw(ar) for ar in tr.actions] if tr.actions is not None else []
+        self.amount_limit: [AmountLimit().from_raw(al) for al in tr.amount_limit] if tr.amount_limit is not None else []
         self.signers = [b58encode(signer) for signer in tr.signers] if tr.signers is not None else []
-        self.signs = [Signature().from_raw(sr) for sr in tr.signs] if tr.signs is not None else []
+        self.signatures = []
         self.publisher = tr.publisher
+        self.publisher_sigs = []
+        self.referred_tx = tr.referred_fx
+        self.tx_receipt = TxReceipt().from_raw(tr.tx_receipt)
         return self
 
     def decode(self, data: bytes) -> Transaction:
@@ -155,7 +159,7 @@ class Transaction():
         tr.ParseFromString(data)
         return self.from_raw(tr)
 
-    def hash(self) -> bytes:
+    def hash(self) -> str:
         if self._hash is None:
             self._hash = sha3(self.encode()).digest()
         return self._hash
@@ -164,7 +168,7 @@ class Transaction():
         base_hash = self._base_hash()
         has_signed: List[bytes] = []
 
-        for sign in self.signs:
+        for sign in self.signatures:
             if not sign.verify(base_hash):
                 raise PermissionError('A signature did not sign the base hash.')
             has_signed.append(sign.pubkey)
@@ -175,8 +179,8 @@ class Transaction():
 
         if self.publisher is None:
             raise PermissionError('A publisher is required.')
-        if not self.publisher.verify(self._publish_hash()):
-            raise PermissionError('The publisher has not signed yet.')
+        #if not self.publisher.verify(self._publish_hash()):
+        #    raise PermissionError('The publisher has not signed yet.')
 
         return True
 
@@ -190,7 +194,7 @@ class Transaction():
         sig = account.sign(self._base_hash())
         assert self.verify_signer(sig), 'The signature is invalid.'
 
-        self.signs.append(sig)
+        self.signatures.append(sig)
         return self
 
     def sign(self, account: Account) -> Transaction:
@@ -206,7 +210,7 @@ def sign_tx_content(tx: Transaction, account: Account) -> Signature:
 
 
 def sign_tx(tx: Transaction, account: Account, *signs: Signature) -> Transaction:
-    tx.signs = [*tx.signs, *signs]
+    tx.signatures = [*tx.signatures, *signs]
     tx.publisher = account.sign(tx._publish_hash())
     tx.hash = None
     return tx

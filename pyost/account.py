@@ -5,11 +5,12 @@ from typing import Type, List, Dict
 from pyost.api.rpc.pb import rpc_pb2 as pb
 from pyost.algorithm import Algorithm, Secp256k1, Ed25519
 from pyost.signature import Signature
+from pyost.transaction import Transaction
 from pyost.crc32 import parity
 
 
 class Account():
-    def __init__(self, seckey: bytes = None, algo: Type[Algorithm] = Ed25519):
+    def __init__(self, seckey: str = None, algo: Type[Algorithm] = Ed25519):
         if seckey is None:
             seckey = algo.gen_seckey()
 
@@ -18,29 +19,29 @@ class Account():
             raise ValueError('seckey length error')
 
         self.algorithm: Type[Algorithm] = algo
-        self.seckey: bytes = seckey
-        self.pubkey: bytes = algo.get_pubkey(seckey)
-        self.id: bytes = get_id_by_pubkey(self.pubkey)
+        self.seckey: str = seckey
+        self.pubkey: str = algo.get_pubkey(seckey)
+        self.id: str = get_id_by_pubkey(self.pubkey)
 
     def __str__(self) -> str:
         return f'Account(id={self.id} algo={self.algorithm} seckey={len(self.seckey)}b pubkey={len(self.pubkey)}b'
 
-    def sign_tx_content(self, tx) -> None:
+    def sign_tx_content(self, tx: Transaction) -> None:
         tx.sign_content(self)
 
-    def sign_tx(self, tx) -> None:
+    def sign_tx(self, tx:Transaction) -> None:
         tx.sign(self)
 
-    def sign(self, info: bytes) -> Signature:
+    def sign(self, info: str) -> Signature:
         return Signature(self.algorithm, info, self.seckey)
 
 
-def get_id_by_pubkey(pubkey: bytes) -> bytes:
+def get_id_by_pubkey(pubkey: str) -> str:
     deckey = b58decode(pubkey)
-    return b'IOST' + b58encode(deckey + parity(deckey))
+    return 'IOST' + b58encode(deckey + parity(deckey))
 
 
-def get_pubkey_by_id(id: bytes) -> bytes:
+def get_pubkey_by_id(id: str) -> str:
     b = b58decode(id[4:])
     return b58encode(b[:-4])
 
