@@ -82,6 +82,20 @@ class FrozenBalance():
         return self
 
 
+class TokenBalance():
+    def __init__(self):
+        # token balance
+        self.balance: float = 0.0
+        # frozen balance information
+        self.frozen_balances: List[FrozenBalance] = []
+
+    def from_raw(self, tb: pb.GetTokenBalanceResponse) -> TokenBalance:
+        self.balance = tb.balance
+        self.frozen_balances = [FrozenBalance().from_raw(fb)
+                                for fb in tb.frozen_balances] if tb.frozen_balances is not None else []
+        return self
+
+
 class AccountInfo():
     # The message defines account pledged coin information.
     class PledgeInfo():
@@ -159,7 +173,7 @@ class AccountInfo():
         def from_raw(self, g: pb.Account.Group) -> AccountInfo.Group:
             self.name = g.name
             self.items = [AccountInfo.Item().from_raw(item)
-                          for item in p.items] if p.items is not None else []
+                          for item in g.items] if g.items is not None else []
             return self
 
     # The message defines the permission struct.

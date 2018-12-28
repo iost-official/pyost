@@ -8,8 +8,8 @@ import protobuf_to_dict as ptd
 
 from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.transaction import Transaction, TxReceipt, Action
-from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo
-from pyost.account import AccountInfo
+from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
+from pyost.account import AccountInfo, TokenBalance
 
 
 class IOST():
@@ -324,6 +324,20 @@ class IOST():
         req = pb.GetAccountRequest(name=name, by_longest_chain=by_longest_chain)
         acc: pb.Account = self._stub.GetAccount(req)
         return AccountInfo().from_raw(acc)
+
+    # get: "/getTokenBalance/{account}/{token}/{by_longest_chain}"
+    def get_token_balance(self, account: str, token: str = 'iost', by_longest_chain: bool = False) -> TokenBalance:
+        req = pb.GetTokenBalanceRequest(account=account, token=token, by_longest_chain=by_longest_chain)
+        res: pb.GetTokenBalanceResponse = self._stub.GetTokenBalance(req)
+        return TokenBalance().from_raw(res)
+
+    def get_balance(self, account: str, token: str = 'iost', by_longest_chain: bool = False) -> float:
+        return self.get_token_balance(account, token, by_longest_chain).balance
+
+    # get: "/getGasRatio"
+    def get_gas_ratio(self) -> GasRatio:
+        res: pb.GasRatioResponse = self._stub.GetGasRatio(pb.EmptyRequest)
+        return GasRatio().from_raw(res)
 
     # def get_balance(self, account_id: bytes, use_longest_chain: bool = True) -> int:
     #     """

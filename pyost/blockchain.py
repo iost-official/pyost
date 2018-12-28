@@ -92,6 +92,19 @@ class RAMInfo():
         return self
 
 
+class GasRatio():
+    def __init__(self):
+        # lowest gas ratio in head block
+        self.lowest_gas_ratio: float = 0.0
+        # median gas ratio in head block
+        self.median_gas_ratio: float = 0.0
+
+    def from_raw(self, gr: pb.GasRatioResponse) -> GasRatio:
+        self.lowest_gas_ratio = gr.lowest_gas_ratio
+        self.median_gas_ratio = gr.median_gas_ratio
+        return self
+
+
 class Block():
     class Status(Enum):
         PENDING = pb.Block.PENDIND
