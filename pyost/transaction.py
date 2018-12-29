@@ -5,19 +5,18 @@ from enum import Enum
 from time import time_ns
 from hashlib import sha3_256 as sha3
 from protobuf_to_dict import protobuf_to_dict
-from base58 import b58encode, b58decode
 from pprint import pformat
 
 from pyost.api.rpc.pb import rpc_pb2 as pb
 from pyost.signature import Signature
-import pyost.account
+from pyost.algorithm import KeyPair
 
 
 class Action:
     def __init__(self, contract: str = None, abi: str = None, *args):
         self.contract: str = contract
         self.action_name: str = abi
-        nobytes_args = [arg.decode('latin1') if isinstance(arg, bytes) else arg
+        nobytes_args = [arg.decode('utf-8') if isinstance(arg, bytes) else arg
                         for arg in args]
         self.data: str = json.dumps(nobytes_args)
 
@@ -38,9 +37,9 @@ class Action:
 
 
 class AmountLimit:
-    def __init__(self):
-        self.token: str = ''
-        self.value: float = 0.0
+    def __init__(self, token: str = '', value: float = 0.0):
+        self.token: str = token
+        self.value: float = value
 
     def __str__(self) -> str:
         return pformat(protobuf_to_dict(self.to_raw()))
@@ -67,9 +66,8 @@ class Transaction:
                  expiration: int = 90, gas_ratio: float = 1, gas_limit: float = 10000,
                  delay: int = 0):
         self.status: Transaction.Status = None
-        self._hash: str = None
         self.time: int = time_ns()
-        self.expiration: int = self.time + expiration * 1000000000
+        self.expiration: int = self.set_expiration(expiration)
         self.gas_ratio: float = gas_ratio
         self.gas_limit: float = gas_limit
         self.delay: int = delay
@@ -89,8 +87,27 @@ class Transaction:
         self.actions.append(Action(contract, abi, *args))
         return self
 
-    def add_signer(self, pubkey: str) -> Transaction:
-        self.signers.append(pubkey)
+    def add_signer(self, name: str, permission: str) -> Transaction:
+        self.signers.append(f'{name}@{permission}')
+        return self
+
+    def add_limit(self, token: str, amount: float) -> Transaction:
+        self.amount_limit.append(AmountLimit(token, amount))
+        return self
+
+    def set_expiration(self, expiration: int) -> Transaction:
+        self.expiration = self.time + expiration * 1000000000
+        return self
+
+    def add_sign(self, kp: KeyPair) -> Transaction:
+        sign = Signature(self._base_hash(), kp)
+        self.signs.append(sign)
+        return self
+
+    def add_publisher_sign(self, name: str, kp: KeyPair) -> Transaction:
+        sign = Signature(self._publish_hash(), kp)
+        self.publisher_signs.append(sign)
+        self.publisher = name
         return self
 
     def _base_hash(self) -> str:
@@ -103,7 +120,6 @@ class Transaction:
 
     def from_raw(self, tr: pb.Transaction, status: Status = None) -> Transaction:
         self.status = status
-        self._hash = tr.hash
         self.time = tr.time
         self.expiration = tr.expiration
         self.gas_ratio = tr.gas_ratio
@@ -113,7 +129,7 @@ class Transaction:
                         ] if tr.actions is not None else []
         self.amount_limit: [AmountLimit().from_raw(al) for al in tr.amount_limit
                             ] if tr.amount_limit is not None else []
-        self.signers = [b58encode(signer) for signer in tr.signers
+        self.signers = [signer for signer in tr.signers
                         ] if tr.signers is not None else []
         self.signs = []
         self.publisher = tr.publisher
@@ -133,61 +149,37 @@ class Transaction:
                      ] if self.actions is not None else [],
             amount_limit=[al.to_raw() for al in self.amount_limit
                           ] if self.amount_limit is not None else [],
-            signers=[b58decode(s) for s in self.signers
+            signers=[s for s in self.signers
                      ] if self.signers is not None else [],
             signatures=[s.to_raw() for s in self.signs
                         ] if not no_signs and self.signs is not None else [],
             publisher=self.publisher if not no_publisher else None,
-            # publisher_sigs=[s.to_raw() for s in self.publisher_sigs
-            #                ] if not no_publisher and self.publisher_sigs is not None else []
+            publisher_sigs=[s.to_raw() for s in self.publisher_signs
+                            ] if not no_publisher and self.publisher_signs is not None else []
         )
 
-    def hash(self) -> str:
-        if self._hash is None:
-            self._hash = sha3(self.to_raw().SerializeToString()).digest()
-        return self._hash
+    def hash(self) -> bytes:
+        return sha3(self.to_raw().SerializeToString()).digest()
 
-    def verify_self(self) -> bool:
-        base_hash = self._base_hash()
-        has_signed: List[str] = []
-
-        for sign in self.signs:
-            if not sign.verify(base_hash):
-                raise PermissionError('A signature did not sign the base hash.')
-            has_signed.append(sign.pubkey)
-
-        for signer in self.signers:
-            if signer not in has_signed:
-                raise PermissionError('A required signer has not signed yet.')
-
-        if self.publisher is None:
-            raise PermissionError('A publisher is required.')
-        # if not self.publisher.verify(self._publish_hash()):
-        #    raise PermissionError('The publisher has not signed yet.')
-
-        return True
-
-    def verify_signer(self, sig: Signature) -> bool:
-        return sig.verify(self._base_hash())
-
-    def add_sign(self, account: pyost.account.Account) -> Transaction:
-        if account.pubkey not in self.signers:
-            raise PermissionError('This account is not in the signers list.')
-
-        sig = account.sign(self._base_hash())
-        assert self.verify_signer(sig), 'The signature is invalid.'
-
-        self.signs.append(sig)
-        return self
-
-    def add_publisher_sign(self, account: pyost.account.Account) -> Transaction:
-        sig = account.sign(self._publish_hash())
-        assert self.verify_signer(sig), 'The signature is invalid.'
-
-        self.publisher_signs.append(account.sign(self._publish_hash()))
-        self.publisher = account.id
-        self._hash = None
-        return self
+    # def verify_self(self) -> bool:
+    #     base_hash = self._base_hash()
+    #     has_signed: List[str] = []
+    #
+    #     for sign in self.signs:
+    #         if not sign.verify(base_hash):
+    #             raise PermissionError('A signature did not sign the base hash.')
+    #         has_signed.append(sign.pubkey)
+    #
+    #     for signer in self.signers:
+    #         if signer not in has_signed:
+    #             raise PermissionError('A required signer has not signed yet.')
+    #
+    #     if self.publisher is None:
+    #         raise PermissionError('A publisher is required.')
+    #     # if not self.publisher.verify(self._publish_hash()):
+    #     #    raise PermissionError('The publisher has not signed yet.')
+    #
+    #     return True
 
 
 class TxReceipt:

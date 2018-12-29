@@ -1,15 +1,9 @@
 import grpc
-import json
-from typing import Type, Dict, Tuple
-from base58 import b58decode, b58encode
-from google.protobuf.empty_pb2 import Empty
-from protobuf_to_dict import protobuf_to_dict
-import protobuf_to_dict as ptd
 
 from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
 from pyost.account import Account, AccountInfo, TokenBalance
-from pyost.transaction import Transaction, TxReceipt, Action
+from pyost.transaction import Transaction, TxReceipt
 
 
 class IOST:
@@ -406,7 +400,7 @@ class IOST:
         if tx.publisher is None:
             if self.publisher is None:
                 raise ValueError('No publisher has signed the transaction.')
-            self.publisher.sign_tx(tx)
+            self.publisher.sign_publish(tx)
 
         res: pb.TransactionResponse = self._stub.SendTransaction(tx.to_raw())
         return Transaction().from_raw(res.transaction, res.status)

@@ -1,10 +1,16 @@
 from pyost.iost import IOST
-from pyost.account import Account
+from pyost.account import Account, get_id_by_pubkey, get_pubkey_by_id
 from pyost.transaction import Transaction
 from pyost import algorithm
 from time import sleep
 
 if __name__ == '__main__':
+    pubkey = 'FMR2ZmpYjTD6kJWeqEAP69VDzRXF8uNSQLaN7FTyLJZ1'
+    id = get_id_by_pubkey(pubkey)
+    pubkey_from_id = get_pubkey_by_id(id)
+    print(id)
+    print(pubkey_from_id)
+
     iost = IOST('192.168.99.100:30002')
 
     node_seckey = '1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB'

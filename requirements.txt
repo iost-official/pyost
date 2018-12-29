@@ -1,3 +1,4 @@
+ecdsa
 grpc
 ed25519
 grpcio

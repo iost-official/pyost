@@ -1,24 +1,18 @@
 from pyost.iost import IOST
 from pyost.account import Account
 from pyost.algorithm import Algorithm, Ed25519, KeyPair
-from time import sleep
 
 if __name__ == '__main__':
-    iost = IOST('192.168.99.100:30002')
+    iost = IOST('35.180.171.246:30002')
 
-    admin_seckey = b'1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB'
-    admin_kp = KeyPair(Ed25519, admin_seckey)
-    admin = Account('admin')
-    admin.add_key_pair(admin_kp, 'active')
-    admin.add_key_pair(admin_kp, 'owner')
-    print(f'Admin account: {admin_seckey}')
-    print(f'Node balance: {iost.get_balance(admin.name)}')
+    acc1_seckey = b'58NCdrz3iUfqKnEk6AX57rGrv9qrvn8EXtiUvVXMLqkKJKSFuW6TR6iuuYBtjgzhwm9ew6e9Pjg3zx5n6ya9MHJ3'
+    acc1_kp = KeyPair(Ed25519, acc1_seckey)
+    acc1 = Account('iostsiri')
+    acc1.add_key_pair(acc1_kp, 'active')
+    acc1.add_key_pair(acc1_kp, 'owner')
+    print(f'Account 1: {acc1}')
+    print(f'Account 1 balance: {iost.get_balance(acc1.name)}')
 
-    # seckey1 = '3gLThtqcsJS4zgtXkfUksY9XM6pUXSM3mC6fZb9PkHURg171gsrpLXBtapme7Kwx24xi6qkE55CZaH7iBa5kWjNC'
-    # account1 = Account(seckey1, algorithm.Ed25519)
-    # print(f'Account 1 pubkey: {account1.pubkey}')
-    # print(f'Account 1 balance: {iost.get_balance(account1.pubkey)}')
-    #
     # seckey2 = '3vFoZPT1c3FSNVa9qrYMa2SQyxNQ8dfLSySNSzWokZQb4U1HToW1qUL3XzhpDE66MnjeUGwSDrYDJYgDFUary4Mb'
     # account2 = Account(seckey2, algorithm.Ed25519)
     # print(f'Account 2 pubkey: {account2.pubkey}')
@@ -37,8 +31,8 @@ if __name__ == '__main__':
     #
     # sleep(5)
     # try:
-    #     tx_res2 = iost.get_tx_by_hash(tx_res.tx_receipt.tx_hash)
-    #     print(tx_res2)
+    #     tx_res = iost.get_tx_by_hash(tx_res._hash)
+    #     print(tx_res)
     # except Exception as err:
     #     print(err)
     #

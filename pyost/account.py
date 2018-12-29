@@ -1,77 +1,29 @@
 from __future__ import annotations
-from base58 import b58encode, b58decode
-from typing import Type, List, Dict
+from typing import List, Dict
 from protobuf_to_dict import protobuf_to_dict
 from pprint import pformat
 
 from pyost.api.rpc.pb import rpc_pb2 as pb
-from pyost.algorithm import Algorithm, Secp256k1, Ed25519
-from pyost.signature import Signature
-import pyost.transaction
-from pyost.crc32 import parity
+from pyost.algorithm import KeyPair
+from pyost.transaction import Transaction
 
 
 class Account:
-    def __init__(self, seckey: str = None, algo: Type[Algorithm] = Ed25519):
-        if seckey is None:
-            seckey = algo.gen_seckey()
-
-        if (len(seckey) != 32 and isinstance(algo, Secp256k1)) \
-                or (len(seckey) != 64 and isinstance(algo, Ed25519)):
-            raise ValueError('seckey length error')
-
-        self.algorithm: Type[Algorithm] = algo
-        self.seckey: str = seckey
-        self.pubkey: str = algo.get_pubkey(seckey)
-        self.id: str = get_id_by_pubkey(self.pubkey)
+    def __init__(self, name: str):
+        self.name: str = name
+        self._kps: Dict[str, KeyPair] = {}
 
     def __str__(self) -> str:
         return pformat(vars(self))
 
-    def sign_tx_content(self, tx: pyost.transaction.Transaction) -> None:
-        tx.add_sign(self)
+    def add_key_pair(self, kp: KeyPair, permission: str = 'active'):
+        self._kps[permission] = kp
 
-    def sign_tx(self, tx: pyost.transaction.Transaction) -> None:
-        tx.add_publisher_sign(self)
+    def sign(self, tx: Transaction, permission: str = 'active') -> Transaction:
+        return tx.add_sign(self._kps[permission])
 
-    def sign(self, info: str) -> Signature:
-        return Signature(self.algorithm, info, self.seckey)
-
-
-def get_id_by_pubkey(pubkey: str) -> str:
-    deckey = b58decode(pubkey)
-    return 'IOST' + b58encode(deckey + parity(deckey)).decode('latin1')
-
-
-def get_pubkey_by_id(pubid: str) -> str:
-    b = b58decode(pubid[4:])
-    return b58encode(b[:-4]).decode('latin1')
-
-
-# class Account():
-#     def __init__(self, id):
-#         self._id = id
-#         self._key_id = {}
-#         self._key_pair = {}
-#
-#     def add_key_pair(self, kp, permission=''):
-#         if permission == '':
-#             if kp.id not in self._key_id:
-#                 raise KeyError(f'Key {kp.id} does not exist.')
-#             permission = self._key_id[kp.id]
-#         self._key_pair[permission] = kp
-#
-#     def get_id(self):
-#         return self._id
-#
-#     def get_key_pair(self, permission):
-#         return self._key_pair[permission]
-#
-#     def sign(self, tx, permission):
-#         tx.add_sign(self._key_pair[permission])
-#
-#     def sign_tx(self, tx):
-#         tx.add_publish_sign(self._id, self._key_pair['active'])
+    def sign_publish(self, tx: Transaction) -> Transaction:
+        return tx.add_publisher_sign(self.name, self._kps['active'])
 
 
 class FrozenBalance:
