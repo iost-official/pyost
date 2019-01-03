@@ -386,7 +386,7 @@ class IOST:
     #     res = self._stub.GetState(req)
     #     return res.value
 
-    def send_tx(self, tx: Transaction) -> Transaction:
+    def send_tx(self, tx: Transaction) -> str:
         """
         Sends a Transaction encoded as a TxRaw.
 
@@ -404,8 +404,8 @@ class IOST:
                 raise ValueError('No publisher has signed the transaction.')
             self.publisher.sign_publish(tx)
 
-        res: pb.TransactionResponse = self._stub.SendTransaction(tx.to_raw())
-        return Transaction().from_raw(res.transaction, res.status)
+        res: pb.SendTransactionResponse = self._stub.SendTransaction(tx.to_request_raw())
+        return res.hash
 
     # def estimate_gas(self, tx: Transaction) -> int:
     #     """
@@ -462,20 +462,21 @@ class IOST:
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
                          expiration=self.expiration, delay=self.delay)
         tx.add_action(contract, abi, *args)
-        tx.add_limit('*', self.default_limit)
+        tx.add_amount_limit('*', self.default_limit)
         return tx
 
     def transfer(self, token: str, from_: str, to: str, amount: str, memo=''):
         tx = self.call('token.iost', 'transfer', token, from_, to, amount, memo)
-        tx.add_limit('iost', amount)
+        tx.add_amount_limit('iost', amount)
         return tx
 
-    def new_account(self, name: str, creator: str, owner_key: bytes, active_key: bytes,
+    def new_account(self, name: str, creator: str,
+                    owner_kpid: str, active_kpdid: str,
                     initial_ram: float, initial_gas_pledge: float):
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
                          expiration=self.expiration, delay=self.delay)
-        tx.add_action('auth.iost', 'SignUp', name, owner_key, active_key)
+        tx.add_action('auth.iost', 'SignUp', name, owner_kpid, active_kpdid)
         tx.add_action('ram.iost', 'buy', creator, name, initial_ram)
         tx.add_action('gas.iost', 'pledge', creator, name, str(initial_gas_pledge))
-        tx.add_limit('*', self.default_limit)
+        tx.add_amount_limit('*', self.default_limit)
         return tx

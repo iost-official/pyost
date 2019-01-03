@@ -1,6 +1,6 @@
 from pyost.iost import IOST
 from pyost.account import Account
-from pyost.algorithm import Algorithm, Ed25519, KeyPair
+from pyost.algorithm import Ed25519, KeyPair
 
 if __name__ == '__main__':
     iost = IOST('35.180.171.246:30002')
@@ -10,8 +10,7 @@ if __name__ == '__main__':
     acc1 = Account('iostsiri')
     acc1.add_key_pair(acc1_kp, 'active')
     acc1.add_key_pair(acc1_kp, 'owner')
-    print(f'Account 1: {acc1}')
-    print(f'Account 1 balance: {iost.get_balance(acc1.name)}')
+    print(f'Account 1:\n{iost.get_account(acc1.name)}')
 
     # seckey2 = '3vFoZPT1c3FSNVa9qrYMa2SQyxNQ8dfLSySNSzWokZQb4U1HToW1qUL3XzhpDE66MnjeUGwSDrYDJYgDFUary4Mb'
     # account2 = Account(seckey2, algorithm.Ed25519)

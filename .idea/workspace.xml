@@ -6,14 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="9da18066-ed0a-4be2-9f61-7ae4af05926a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyost/algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/algorithm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyost/api/rpc/pb/rpc.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/api/rpc/pb/rpc.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyost/api/rpc/pb/rpc_pb2.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/api/rpc/pb/rpc_pb2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyost/api/rpc/pb/rpc_pb2_grpc.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/api/rpc/pb/rpc_pb2_grpc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyost/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/account.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyost/blockchain.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/blockchain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyost/iost.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/iost.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyost/signature.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/signature.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyost/transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyost/transaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/example_everest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/example_everest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/example_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/example_info.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/example_new_account.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/example_new_account.py" afterDir="false" />
     </list>
@@ -34,11 +31,11 @@
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_transaction_TestTransaction_test_serialize_proto.coverage" NAME="Unittests for test_transaction.TestTransaction.test_serialize_proto Coverage Results" MODIFIED="1545327332002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_transaction_TestTransaction_test_new_action.coverage" NAME="Unittests for test_transaction.TestTransaction.test_new_action Coverage Results" MODIFIED="1544991364687" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_signature_TestSignature_test_encode_decode.coverage" NAME="Unittests for test_signature.TestSignature.test_encode_decode Coverage Results" MODIFIED="1545301612317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/PyOST$example_everest.coverage" NAME="example_everest Coverage Results" MODIFIED="1546512613235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$example_everest.coverage" NAME="example_everest Coverage Results" MODIFIED="1546537305703" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_in_test_iost_py.coverage" NAME="Unittests in test_iost.py Coverage Results" MODIFIED="1545938120121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_transaction_TestTransaction_test_sig_and_verify.coverage" NAME="Unittests for test_transaction.TestTransaction.test_sig_and_verify Coverage Results" MODIFIED="1545331697700" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$transaction.coverage" NAME="transaction Coverage Results" MODIFIED="1546006991077" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pyost" />
-    <SUITE FILE_PATH="coverage/PyOST$example_new_account.coverage" NAME="example_new_account Coverage Results" MODIFIED="1546515024304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$example_new_account.coverage" NAME="example_new_account Coverage Results" MODIFIED="1546539316069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$crc32.coverage" NAME="crc32 Coverage Results" MODIFIED="1545297306702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pyost" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_signature_TestSign_test_get_pubkey.coverage" NAME="Unittests for test_signature.TestSign.test_get_pubkey Coverage Results" MODIFIED="1545303897452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_transaction_TestTransaction.coverage" NAME="Unittests for test_transaction.TestTransaction Coverage Results" MODIFIED="1545327556735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
@@ -51,17 +48,36 @@
     <SUITE FILE_PATH="coverage/PyOST$Unittests_in_test_signature_py.coverage" NAME="Unittests in test_signature.py Coverage Results" MODIFIED="1545331948732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/PyOST$test_transaction.coverage" NAME="test_transaction Coverage Results" MODIFIED="1545281733043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/PyOST$Unittests_for_test_signature_TestSign_test_hash160.coverage" NAME="Unittests for test_signature.TestSign.test_hash160 Coverage Results" MODIFIED="1545303891585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/PyOST$example_info.coverage" NAME="example_info Coverage Results" MODIFIED="1546512603496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/PyOST$example_info.coverage" NAME="example_info Coverage Results" MODIFIED="1546538347740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+  </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/pyost/api/rpc/pb/rpc.proto">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="-815">
+                    <caret line="211" column="18" selection-start-line="211" selection-start-column="7" selection-end-line="211" selection-end-column="18" />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
   </component>
   <component name="FavoritesManager">
     <favorites_list name="PyOST" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/iost.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
+            <state relative-caret-position="153">
               <caret line="406" selection-start-line="406" selection-end-line="406" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -71,13 +87,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/account.py">
+        <entry file="file://$PROJECT_DIR$/tests/example_info.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="175">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
             </state>
           </provider>
         </entry>
@@ -85,8 +98,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/example_transfer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="30" column="36" lean-forward="true" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
+            <state relative-caret-position="51">
+              <caret line="30" column="36" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -97,8 +110,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/example_everest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-57">
-              <caret line="11" column="39" lean-forward="true" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
+            <state relative-caret-position="306">
+              <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -107,10 +120,43 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="87" column="60" selection-start-line="87" selection-start-column="60" selection-end-line="87" selection-end-column="60" />
+              <folding>
+                <element signature="e#0#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pyost/blockchain.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3445">
+              <caret line="254" selection-start-line="254" selection-end-line="254" />
+              <folding>
+                <element signature="e#0#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/iost.js/lib/structs.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="316">
+              <caret line="95" column="21" selection-start-line="95" selection-start-column="21" selection-end-line="95" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/example_new_account.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
+            <state relative-caret-position="376">
+              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -119,55 +165,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/grpc/_channel.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="465" selection-start-line="465" selection-end-line="465" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="108" selection-start-line="108" selection-end-line="108" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/algorithm.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="200" lean-forward="true" selection-start-line="200" selection-end-line="200" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/api/rpc/pb/rpc.proto">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="453" lean-forward="true" selection-start-line="453" selection-end-line="453" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/signature.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="33" column="45" lean-forward="true" selection-start-line="33" selection-start-column="45" selection-end-line="33" selection-end-column="45" />
+            <state relative-caret-position="304">
+              <caret line="24" column="47" lean-forward="true" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_transaction.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1750">
+              <caret line="2" column="60" selection-start-line="2" selection-start-column="60" selection-end-line="2" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -183,26 +196,8 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>TxReceipt</find>
-      <find>NodeInfoResponse</find>
-      <find>NetworkInfo</find>
-      <find>GetChainInfo</find>
-      <find>ChainInfo</find>
-      <find>RAMInfoResponse</find>
-      <find>FrozenBalance</find>
-      <find>GasRatioResponse</find>
-      <find>signs</find>
-      <find>account</find>
-      <find>Block</find>
-      <find>encod</find>
-      <find>decode</find>
-      <find>encode</find>
-      <find>Seria</find>
-      <find>GasRatio</find>
-      <find>Transaction</find>
       <find>_contain_signer</find>
       <find>setPublisher</find>
-      <find>TransactionRequest</find>
       <find>this.publisher</find>
       <find>_key_id</find>
       <find>b58</find>
@@ -212,7 +207,25 @@
       <find>PENDIN</find>
       <find>add_li</find>
       <find>get_tx_by</find>
+      <find>SendTransactionResponse</find>
+      <find>NodeInfoResponse</find>
+      <find>NetworkInfo</find>
+      <find>ChainInfoResponse</find>
+      <find>RAMInfoResponse</find>
+      <find>TxHashRequest</find>
       <find>TransactionResponse</find>
+      <find>GetBlockByHashRequest</find>
+      <find>GetAccountRequest</find>
+      <find>GetTokenBalanceRequest</find>
+      <find>Account</find>
+      <find>map</find>
+      <find>Action</find>
+      <find>TransactionRequest</find>
+      <find>GetBlockByHash</find>
+      <find>BlockResponse</find>
+      <find>referred_fx</find>
+      <find>Block</find>
+      <find>Transaction</find>
     </findStrings>
     <replaceStrings>
       <replace>post</replace>
@@ -250,7 +263,6 @@
         <option value="$PROJECT_DIR$/pyost/api/rpc/apis.proto" />
         <option value="$PROJECT_DIR$/tests/example.py" />
         <option value="$PROJECT_DIR$/scripts/gen_rpc.sh" />
-        <option value="$PROJECT_DIR$/pyost/api/rpc/pb/rpc.proto" />
         <option value="$PROJECT_DIR$/pyost/wallet.py" />
         <option value="$PROJECT_DIR$/pyost/__init__.py" />
         <option value="$PROJECT_DIR$/tests/test_iost.py" />
@@ -260,22 +272,23 @@
         <option value="$PROJECT_DIR$/pyost/crc32.py" />
         <option value="$PROJECT_DIR$/vendor/iost.js/examples/example.js" />
         <option value="$PROJECT_DIR$/tests/example_transfer.py" />
-        <option value="$PROJECT_DIR$/tests/example_everest.py" />
+        <option value="$PROJECT_DIR$/pyost/signature.py" />
+        <option value="$PROJECT_DIR$/pyost/algorithm.py" />
         <option value="$PROJECT_DIR$/pyost/account.py" />
+        <option value="$PROJECT_DIR$/tests/example_everest.py" />
         <option value="$PROJECT_DIR$/tests/example_info.py" />
         <option value="$PROJECT_DIR$/pyost/blockchain.py" />
         <option value="$PROJECT_DIR$/pyost/iost.py" />
         <option value="$PROJECT_DIR$/pyost/transaction.py" />
-        <option value="$PROJECT_DIR$/pyost/signature.py" />
-        <option value="$PROJECT_DIR$/pyost/algorithm.py" />
+        <option value="$PROJECT_DIR$/pyost/api/rpc/pb/rpc.proto" />
         <option value="$PROJECT_DIR$/tests/example_new_account.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="368" />
+    <option name="x" value="370" />
     <option name="y" value="23" />
-    <option name="width" value="1072" />
+    <option name="width" value="1070" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -285,7 +298,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -347,6 +359,34 @@
               <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
               <item name="PyOST" type="462c0819:PsiDirectoryNode" />
               <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="go-iost" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="go-iost" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="go-iost" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="tx" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="go-iost" type="462c0819:PsiDirectoryNode" />
+              <item name="iwallet" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
               <item name="iost.js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -382,6 +422,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -610,9 +651,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.example_new_account" />
-        <item itemvalue="Python.algorithm" />
-        <item itemvalue="Python.example_everest" />
         <item itemvalue="Python.example_info" />
+        <item itemvalue="Python.example_everest" />
+        <item itemvalue="Python.algorithm" />
         <item itemvalue="Python.example" />
       </list>
     </recent_temporary>
@@ -635,7 +676,8 @@
       <workItem from="1545274625439" duration="49476000" />
       <workItem from="1545928924396" duration="42601000" />
       <workItem from="1546076113958" duration="6295000" />
-      <workItem from="1546510734382" duration="4308000" />
+      <workItem from="1546510734382" duration="4534000" />
+      <workItem from="1546531921305" duration="7076000" />
     </task>
     <task id="LOCAL-00001" summary="generate grpc python files from proto files">
       <created>1544107413908</created>
@@ -777,7 +819,14 @@
       <option name="project" value="LOCAL" />
       <updated>1546082421668</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="update with new proto file">
+      <created>1546515097579</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1546515097579</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -813,19 +862,18 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="137441000" />
+    <option name="totallyTimeSpent" value="144743000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="368" y="23" width="1072" height="877" extended-state="0" />
-    <editor active="true" />
+    <frame x="370" y="23" width="1070" height="877" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.2687898" visible="true" weight="0.23300971" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.2687898" visible="true" weight="0.2003891" />
       <window_info id="Structure" order="1" sideWeight="0.7312102" side_tool="true" weight="0.22524272" />
       <window_info id="DB Browser" order="2" weight="0.32965687" />
       <window_info id="Favorites" order="3" sideWeight="0.50063694" side_tool="true" weight="0.2007722" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299363" />
-      <window_info active="true" anchor="bottom" id="Run" internal_type="SLIDING" order="2" visible="true" weight="0.43694267" />
+      <window_info active="true" anchor="bottom" id="Run" internal_type="SLIDING" order="2" visible="true" weight="0.33630574" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -878,7 +926,9 @@
     <MESSAGE value="add to_raw and __str__ to all classes&#10;add example_info.py" />
     <MESSAGE value="rename sign methods and members" />
     <MESSAGE value="replace old signature system with KeyPair and permissions" />
-    <option name="LAST_COMMIT_MESSAGE" value="replace old signature system with KeyPair and permissions" />
+    <MESSAGE value="update with new proto file" />
+    <MESSAGE value="more fixes of new proto API" />
+    <option name="LAST_COMMIT_MESSAGE" value="more fixes of new proto API" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/vendor/go-iost/core/event/event.proto" />
@@ -907,11 +957,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/domain_test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3916" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pyost/wallet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="344">
@@ -935,13 +980,6 @@
     <entry file="file://$PROJECT_DIR$/pyost/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_transaction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="60" selection-start-line="2" selection-start-column="60" selection-end-line="2" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_iost.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -959,9 +997,6 @@
           <caret line="2" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/vmmethod_test.js">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/iost.js/lib/rpc.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -995,13 +1030,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/info.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/iost.js/lib/struct_test.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1052" />
@@ -1011,13 +1039,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/lib/crypto/key_pair.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="33" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -1038,18 +1059,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/example_info.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="31" lean-forward="true" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/system_test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2359" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/token721_test.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1058,11 +1067,6 @@
         <state relative-caret-position="170">
           <caret line="122" column="45" selection-start-line="122" selection-start-column="45" selection-end-line="122" selection-end-column="45" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/update_test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1443" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/tx.js">
@@ -1079,27 +1083,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/lib/structs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-483">
-          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/iost/iost.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="742">
-          <caret line="65" column="40" selection-start-line="65" selection-start-column="40" selection-end-line="65" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/example.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/gen_rpc.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="53">
@@ -1107,10 +1090,141 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/grpc/_channel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7752">
+          <caret line="465" selection-start-line="465" selection-end-line="465" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/example.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/info.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/update_test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1665" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/vmmethod_test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8031" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/domain_test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-337" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/iost.js/lib/crypto/key_pair.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="3" lean-forward="true" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/system_test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="63" column="10" lean-forward="true" selection-start-line="63" selection-start-column="10" selection-end-line="63" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/algorithm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="726">
+          <caret line="200" selection-start-line="200" selection-end-line="200" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/account.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="121">
+          <caret line="255" lean-forward="true" selection-start-line="255" selection-end-line="255" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/iost.js/iost/iost.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="32" column="20" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/example_everest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/example_info.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pyost/blockchain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="178" column="42" selection-start-line="178" selection-start-column="42" selection-end-line="178" selection-end-column="42" />
+        <state relative-caret-position="3445">
+          <caret line="254" selection-start-line="254" selection-end-line="254" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/iost.js/lib/structs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="95" column="21" selection-start-line="95" selection-start-column="21" selection-end-line="95" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/example_transfer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="30" column="36" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/iost.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="406" selection-start-line="406" selection-end-line="406" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="87" column="60" selection-start-line="87" selection-start-column="60" selection-end-line="87" selection-end-column="60" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
@@ -1119,92 +1233,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pyost/api/rpc/pb/rpc.proto">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="453" lean-forward="true" selection-start-line="453" selection-end-line="453" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/example_transfer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="30" column="36" lean-forward="true" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/example_everest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-57">
-          <caret line="11" column="39" lean-forward="true" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/account.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="108" selection-start-line="108" selection-end-line="108" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-815">
+          <caret line="211" column="18" selection-start-line="211" selection-start-column="7" selection-end-line="211" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pyost/signature.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="33" column="45" lean-forward="true" selection-start-line="33" selection-start-column="45" selection-end-line="33" selection-end-column="45" />
+        <state relative-caret-position="304">
+          <caret line="24" column="47" lean-forward="true" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/algorithm.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_transaction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="200" lean-forward="true" selection-start-line="200" selection-end-line="200" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/grpc/_channel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="465" selection-start-line="465" selection-end-line="465" />
+        <state relative-caret-position="-1750">
+          <caret line="2" column="60" selection-start-line="2" selection-start-column="60" selection-end-line="2" selection-end-column="60" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/example_new_account.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/iost.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="406" selection-start-line="406" selection-end-line="406" />
+        <state relative-caret-position="376">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>

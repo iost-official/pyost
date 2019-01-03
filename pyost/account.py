@@ -20,10 +20,10 @@ class Account:
         self._kps[permission] = kp
 
     def sign(self, tx: Transaction, permission: str = 'active') -> Transaction:
-        return tx.add_sign(self._kps[permission])
+        return tx.add_signature(self._kps[permission])
 
     def sign_publish(self, tx: Transaction) -> Transaction:
-        return tx.add_publisher_sign(self.name, self._kps['active'])
+        return tx.add_publisher_signature(self.name, self._kps['active'])
 
 
 class FrozenBalance:
@@ -134,17 +134,23 @@ class AccountInfo:
         def __init__(self):
             # available ram bytes
             self.available: int = 0
+            self.used: int = 0
+            self.total: int = 0
 
         def __str__(self) -> str:
             return pformat(protobuf_to_dict(self.to_raw()))
 
         def from_raw(self, ri: pb.Account.RAMInfo) -> AccountInfo.RAMInfo:
             self.available = ri.available
+            self.used = ri.used
+            self.total = ri.total
             return self
 
         def to_raw(self) -> pb.Account.RAMInfo:
             return pb.Account.RAMInfo(
-                available=self.available
+                available=self.available,
+                used=self.used,
+                total=self.total
             )
 
     # The message defines permission item.
@@ -254,9 +260,9 @@ class AccountInfo:
         self.gas_info = AccountInfo.GasInfo().from_raw(a.gas_info)
         self.ram_info = AccountInfo.RAMInfo().from_raw(a.ram_info)
         self.permissions = {key: AccountInfo.Permission().from_raw(val)
-                            for key, val in a.permissions} if a.permissions is not None else {}
+                            for key, val in a.permissions.items()} if a.permissions is not None else {}
         self.groups = {key: AccountInfo.Group().from_raw(val)
-                       for key, val in a.groups} if a.groups is not None else {}
+                       for key, val in a.groups.items()} if a.groups is not None else {}
         self.frozen_balances = [FrozenBalance().from_raw(fb)
                                 for fb in a.frozen_balances] if a.frozen_balances is not None else []
         return self
@@ -267,7 +273,7 @@ class AccountInfo:
             balance=self.balance,
             gas_info=self.gas_info.to_raw(),
             ram_info=self.ram_info.to_raw(),
-            permissions={key: val.to_raw() for key, val in self.permissions},
-            groups={key: val.to_raw() for key, val in self.groups},
+            permissions={key: val.to_raw() for key, val in self.permissions.items()},
+            groups={key: val.to_raw() for key, val in self.groups.items()},
             frozen_balances=[fb.to_raw() for fb in self.frozen_balances]
         )

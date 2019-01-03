@@ -178,6 +178,7 @@ class Block:
     class Status(Enum):
         PENDING = pb.BlockResponse.PENDING
         IRREVERSIBLE = pb.BlockResponse.IRREVERSIBLE
+        UNKNOWN = -1
 
     class Info:
         def __init__(self):
@@ -202,7 +203,7 @@ class Block:
             )
 
     def __init__(self):
-        self.status: Block.Status = None
+        self.status: Block.Status = Block.Status.UNKNOWN
         self.hash: str = ''
         self.version: int = 0
         self.parent_hash: str = ''
@@ -219,7 +220,7 @@ class Block:
     def __str__(self) -> str:
         return pformat(protobuf_to_dict(self.to_raw()))
 
-    def from_raw(self, rb: pb.Block, status: Status = None) -> Block:
+    def from_raw(self, rb: pb.Block, status: Status = Status.UNKNOWN) -> Block:
         self.status = status
         self.hash = rb.hash
         self.version = rb.version
@@ -232,7 +233,8 @@ class Block:
         self.gas_usage = rb.gas_usage
         self.tx_count = rb.tx_count
         self.info = Block.Info().from_raw(rb.info)
-        self.transactions = [Transaction().from_raw(tx) for tx in rb.transactions]
+        self.transactions = [Transaction().from_raw(tx) for tx in rb.transactions
+                             ] if rb.transactions is not None else []
         return self
 
     def to_raw(self) -> pb.Block:

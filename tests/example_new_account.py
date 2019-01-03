@@ -1,8 +1,7 @@
 import time
 from pyost.iost import IOST
 from pyost.account import Account
-from pyost.algorithm import Algorithm, Ed25519, KeyPair
-
+from pyost.algorithm import Ed25519, KeyPair
 
 if __name__ == '__main__':
     iost = IOST('35.180.171.246:30002')
@@ -15,15 +14,16 @@ if __name__ == '__main__':
     print(f'Account 1: {acc1}')
     print(f'Account 1 balance: {iost.get_balance(acc1.name)}')
 
-    tx = iost.new_account('iostsiri2', acc1.name, acc1._kps['owner'].pubkey,
-                          acc1._kps['active'].pubkey, 1024, 10)
+    acc2_kp = KeyPair(Ed25519)
+
+    tx = iost.new_account('iostsiri2', acc1.name, acc2_kp.id, acc2_kp.id, 1024, 1000)
+    acc1.sign(tx, 'owner')
     acc1.sign_publish(tx)
+
+    print('Signed transaction:')
     print(tx)
 
-    tx_res = iost.send_tx(tx)
-    print(tx_res)
-
-    tx_hash = tx_res.tx_receipt.tx_hash
+    tx_hash = iost.send_tx(tx)
     print(f'tx_hash={tx_hash}')
 
     while True:
