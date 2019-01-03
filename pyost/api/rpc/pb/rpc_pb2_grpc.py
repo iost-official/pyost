@@ -59,6 +59,21 @@ class ApiServiceStub(object):
         request_serializer=rpc_dot_pb_dot_rpc__pb2.GetTokenBalanceRequest.SerializeToString,
         response_deserializer=rpc_dot_pb_dot_rpc__pb2.GetTokenBalanceResponse.FromString,
         )
+    self.GetToken721Balance = channel.unary_unary(
+        '/rpcpb.ApiService/GetToken721Balance',
+        request_serializer=rpc_dot_pb_dot_rpc__pb2.GetTokenBalanceRequest.SerializeToString,
+        response_deserializer=rpc_dot_pb_dot_rpc__pb2.GetToken721BalanceResponse.FromString,
+        )
+    self.GetToken721Metadata = channel.unary_unary(
+        '/rpcpb.ApiService/GetToken721Metadata',
+        request_serializer=rpc_dot_pb_dot_rpc__pb2.GetToken721InfoRequest.SerializeToString,
+        response_deserializer=rpc_dot_pb_dot_rpc__pb2.GetToken721MetadataResponse.FromString,
+        )
+    self.GetToken721Owner = channel.unary_unary(
+        '/rpcpb.ApiService/GetToken721Owner',
+        request_serializer=rpc_dot_pb_dot_rpc__pb2.GetToken721InfoRequest.SerializeToString,
+        response_deserializer=rpc_dot_pb_dot_rpc__pb2.GetToken721OwnerResponse.FromString,
+        )
     self.GetGasRatio = channel.unary_unary(
         '/rpcpb.ApiService/GetGasRatio',
         request_serializer=rpc_dot_pb_dot_rpc__pb2.EmptyRequest.SerializeToString,
@@ -73,6 +88,11 @@ class ApiServiceStub(object):
         '/rpcpb.ApiService/GetContractStorage',
         request_serializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageRequest.SerializeToString,
         response_deserializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageResponse.FromString,
+        )
+    self.GetContractStorageFields = channel.unary_unary(
+        '/rpcpb.ApiService/GetContractStorageFields',
+        request_serializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageFieldsRequest.SerializeToString,
+        response_deserializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageFieldsResponse.FromString,
         )
     self.SendTransaction = channel.unary_unary(
         '/rpcpb.ApiService/SendTransaction',
@@ -158,6 +178,27 @@ class ApiServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetToken721Balance(self, request, context):
+    """get token721 balance
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetToken721Metadata(self, request, context):
+    """get token721 metadata
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetToken721Owner(self, request, context):
+    """get token721 owner
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def GetGasRatio(self, request, context):
     """get gas ratio infomation
     """
@@ -174,6 +215,13 @@ class ApiServiceServicer(object):
 
   def GetContractStorage(self, request, context):
     """get contract storage
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetContractStorageFields(self, request, context):
+    """get contract fields storage
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -248,6 +296,21 @@ def add_ApiServiceServicer_to_server(servicer, server):
           request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetTokenBalanceRequest.FromString,
           response_serializer=rpc_dot_pb_dot_rpc__pb2.GetTokenBalanceResponse.SerializeToString,
       ),
+      'GetToken721Balance': grpc.unary_unary_rpc_method_handler(
+          servicer.GetToken721Balance,
+          request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetTokenBalanceRequest.FromString,
+          response_serializer=rpc_dot_pb_dot_rpc__pb2.GetToken721BalanceResponse.SerializeToString,
+      ),
+      'GetToken721Metadata': grpc.unary_unary_rpc_method_handler(
+          servicer.GetToken721Metadata,
+          request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetToken721InfoRequest.FromString,
+          response_serializer=rpc_dot_pb_dot_rpc__pb2.GetToken721MetadataResponse.SerializeToString,
+      ),
+      'GetToken721Owner': grpc.unary_unary_rpc_method_handler(
+          servicer.GetToken721Owner,
+          request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetToken721InfoRequest.FromString,
+          response_serializer=rpc_dot_pb_dot_rpc__pb2.GetToken721OwnerResponse.SerializeToString,
+      ),
       'GetGasRatio': grpc.unary_unary_rpc_method_handler(
           servicer.GetGasRatio,
           request_deserializer=rpc_dot_pb_dot_rpc__pb2.EmptyRequest.FromString,
@@ -262,6 +325,11 @@ def add_ApiServiceServicer_to_server(servicer, server):
           servicer.GetContractStorage,
           request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageRequest.FromString,
           response_serializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageResponse.SerializeToString,
+      ),
+      'GetContractStorageFields': grpc.unary_unary_rpc_method_handler(
+          servicer.GetContractStorageFields,
+          request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageFieldsRequest.FromString,
+          response_serializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageFieldsResponse.SerializeToString,
       ),
       'SendTransaction': grpc.unary_unary_rpc_method_handler(
           servicer.SendTransaction,

@@ -1,33 +1,32 @@
+import time
 from pyost.iost import IOST
-from pyost.account import Account, get_id_by_pubkey, get_pubkey_by_id
-from pyost.transaction import Transaction
-from pyost import algorithm
-from time import sleep
+from pyost.account import Account
+from pyost.algorithm import Algorithm, Ed25519, KeyPair
+
 
 if __name__ == '__main__':
-    pubkey = 'FMR2ZmpYjTD6kJWeqEAP69VDzRXF8uNSQLaN7FTyLJZ1'
-    id = get_id_by_pubkey(pubkey)
-    pubkey_from_id = get_pubkey_by_id(id)
-    print(id)
-    print(pubkey_from_id)
+    iost = IOST('35.180.171.246:30002')
 
-    iost = IOST('192.168.99.100:30002')
+    acc1_seckey = b'58NCdrz3iUfqKnEk6AX57rGrv9qrvn8EXtiUvVXMLqkKJKSFuW6TR6iuuYBtjgzhwm9ew6e9Pjg3zx5n6ya9MHJ3'
+    acc1_kp = KeyPair(Ed25519, acc1_seckey)
+    acc1 = Account('iostsiri')
+    acc1.add_key_pair(acc1_kp, 'active')
+    acc1.add_key_pair(acc1_kp, 'owner')
+    print(f'Account 1: {acc1}')
+    print(f'Account 1 balance: {iost.get_balance(acc1.name)}')
 
-    node_seckey = '1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB'
-    node_account = Account(node_seckey, algorithm.Ed25519)
+    tx = iost.new_account('iostsiri2', acc1.name, acc1._kps['owner'].pubkey,
+                          acc1._kps['active'].pubkey, 1024, 10)
+    acc1.sign_publish(tx)
+    print(tx)
 
-    account = Account()
-    tx = iost.new_account('account1', 'Siri', node_account.id, node_account.id, 1024, 10)
-    node_account.sign_tx(tx)
-    tx.verify_self()
     tx_res = iost.send_tx(tx)
-    print(f'Transaction status: {tx_res.status}')
+    print(tx_res)
 
-    sleep(5)
-    try:
-        tx_res = iost.get_tx_by_hash(tx.hash)
-        print(tx_res)
-    except Exception as err:
-        print(err)
+    tx_hash = tx_res.tx_receipt.tx_hash
+    print(f'tx_hash={tx_hash}')
 
-    print(f'Account balance: {iost.get_balance(account.id)}')
+    while True:
+        receipt = iost.get_tx_receipt_by_tx_hash(tx_hash)
+        print(receipt)
+        time.sleep(5)

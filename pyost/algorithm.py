@@ -59,12 +59,12 @@ class Algorithm(ABC):
 
     @classmethod
     @abstractmethod
-    def sign(cls, message: str, seckey: bytes) -> bytes:
+    def sign(cls, message: bytes, seckey: bytes) -> bytes:
         pass
 
     @classmethod
     @abstractmethod
-    def verify(cls, message: str, pubkey: bytes, sig: bytes) -> bool:
+    def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
         pass
 
     @classmethod
@@ -95,15 +95,15 @@ class Secp256k1(Algorithm):
         return Secp256k1.NAME
 
     @classmethod
-    def sign(cls, message: str, seckey: bytes) -> bytes:
+    def sign(cls, message: bytes, seckey: bytes) -> bytes:
         sk = ecdsa.SigningKey.from_string(b58decode(seckey), ecdsa.SECP256k1)
-        return b58encode(sk.sign(message.encode('utf-8')))
+        return b58encode(sk.sign(message))
 
     @classmethod
-    def verify(cls, message: str, pubkey: bytes, sig: bytes) -> bool:
+    def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
         vk = ecdsa.VerifyingKey.from_string(b58decode(pubkey), ecdsa.SECP256k1)
         try:
-            vk.verify(b58decode(sig), message.encode('utf-8'))
+            vk.verify(b58decode(sig), message)
         except ecdsa.BadSignatureError:
             return False
         return True
@@ -136,15 +136,15 @@ class Ed25519(Algorithm):
         return Ed25519.NAME
 
     @classmethod
-    def sign(cls, message: str, seckey: bytes) -> bytes:
+    def sign(cls, message: bytes, seckey: bytes) -> bytes:
         sk = ed25519.SigningKey(b58decode(seckey))
-        return b58encode(sk.sign(message.encode('utf-8')))
+        return b58encode(sk.sign(message))
 
     @classmethod
-    def verify(cls, message: str, pubkey: bytes, sig: bytes) -> bool:
+    def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
         vk = ed25519.VerifyingKey(b58decode(pubkey))
         try:
-            vk.verify(b58decode(sig), message.encode('utf-8'))
+            vk.verify(b58decode(sig), message)
         except ed25519.BadSignatureError:
             return False
         return True
@@ -173,15 +173,15 @@ class KeyPair:
     def __repr__(self):
         return pformat(vars(self))
 
-    def sign(self, message: str) -> bytes:
+    def sign(self, message: bytes) -> bytes:
         return self.algo_cls.sign(message, self.seckey)
 
-    def verify(self, message: str, sig: bytes) -> bool:
+    def verify(self, message: bytes, sig: bytes) -> bool:
         return self.algo_cls.verify(message, self.pubkey, sig)
 
 
 def selftest():
-    message = "crypto libraries should always test themselves at powerup"
+    message = b"crypto libraries should always test themselves at powerup"
 
     for algo in [Ed25519, Secp256k1]:
         print(algo.NAME, algo.ID)

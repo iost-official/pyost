@@ -37,9 +37,9 @@ class Action:
 
 
 class AmountLimit:
-    def __init__(self, token: str = '', value: float = 0.0):
+    def __init__(self, token: str = '', value: str = ''):
         self.token: str = token
-        self.value: float = value
+        self.value: str = value
 
     def __str__(self) -> str:
         return pformat(protobuf_to_dict(self.to_raw()))
@@ -58,7 +58,7 @@ class AmountLimit:
 
 class Transaction:
     class Status(Enum):
-        PENDING = pb.TransactionResponse.PENDIND
+        PENDING = pb.TransactionResponse.PENDING
         PACKED = pb.TransactionResponse.PACKED
         IRREVERSIBLE = pb.TransactionResponse.IRREVERSIBLE
 
@@ -67,7 +67,8 @@ class Transaction:
                  delay: int = 0):
         self.status: Transaction.Status = None
         self.time: int = time_ns()
-        self.expiration: int = self.set_expiration(expiration)
+        self.expiration: int = 0
+        self.set_expiration(expiration)
         self.gas_ratio: float = gas_ratio
         self.gas_limit: float = gas_limit
         self.delay: int = delay
@@ -91,12 +92,12 @@ class Transaction:
         self.signers.append(f'{name}@{permission}')
         return self
 
-    def add_limit(self, token: str, amount: float) -> Transaction:
+    def add_limit(self, token: str, amount: str) -> Transaction:
         self.amount_limit.append(AmountLimit(token, amount))
         return self
 
     def set_expiration(self, expiration: int) -> Transaction:
-        self.expiration = self.time + expiration * 1000000000
+        self.expiration = self.time + expiration * int(1e9)
         return self
 
     def add_sign(self, kp: KeyPair) -> Transaction:

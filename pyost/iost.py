@@ -13,7 +13,8 @@ class IOST:
 
     def __init__(self, url: str, timeout: int = 10,
                  gas_ratio: float = 1.0, gas_limit: float = 10000.0,
-                 delay: int = 0, expiration: int = 90, publisher: Account = None):
+                 delay: int = 0, expiration: int = 90, default_limit='unlimited',
+                 publisher: Account = None):
         """
         Connects to a node.
 
@@ -26,6 +27,7 @@ class IOST:
         self.gas_limit: float = gas_limit
         self.delay: int = delay
         self.expiration: int = expiration
+        self.default_limit = default_limit
         self.publisher: Account = publisher
         self._channel = grpc.insecure_channel(url)
         self._stub = None
@@ -456,20 +458,24 @@ class IOST:
     #     res = self._stub.Subscribe(req)
     #     return protobuf_to_dict(res.ev)
 
-    def call(self, contract, abi, *args):
+    def call(self, contract: str, abi: str, *args):
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
                          expiration=self.expiration, delay=self.delay)
         tx.add_action(contract, abi, *args)
+        tx.add_limit('*', self.default_limit)
         return tx
 
-    def transfer(self, from_, to, amount):
-        return self.call('iost.system', 'Transfer', from_, to, amount)
+    def transfer(self, token: str, from_: str, to: str, amount: str, memo=''):
+        tx = self.call('token.iost', 'transfer', token, from_, to, amount, memo)
+        tx.add_limit('iost', amount)
+        return tx
 
-    def new_account(self, name, creator, owner_key, active_key,
-                    initial_ram, initial_gas_pledge):
+    def new_account(self, name: str, creator: str, owner_key: bytes, active_key: bytes,
+                    initial_ram: float, initial_gas_pledge: float):
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
                          expiration=self.expiration, delay=self.delay)
         tx.add_action('auth.iost', 'SignUp', name, owner_key, active_key)
         tx.add_action('ram.iost', 'buy', creator, name, initial_ram)
         tx.add_action('gas.iost', 'pledge', creator, name, str(initial_gas_pledge))
+        tx.add_limit('*', self.default_limit)
         return tx

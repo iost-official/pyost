@@ -176,7 +176,7 @@ class GasRatio:
 
 class Block:
     class Status(Enum):
-        PENDING = pb.BlockResponse.PENDIND
+        PENDING = pb.BlockResponse.PENDING
         IRREVERSIBLE = pb.BlockResponse.IRREVERSIBLE
 
     class Info:
