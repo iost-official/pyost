@@ -3,9 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Type
 import ed25519
 import ecdsa
-import hashlib
 from base58 import b58encode, b58decode
-from pprint import pformat
 
 from pyost.api.rpc.pb import rpc_pb2 as pb
 from pyost.crc32 import parity
@@ -27,15 +25,6 @@ def get_algorithm_by_name(name: str) -> Type[Algorithm]:
         return Secp256k1
     else:
         raise ValueError(f'no algorithm correspond to name {name}')
-
-
-def get_id_by_pubkey(pubkey: bytes) -> str:
-    return 'IOST' + b58encode(pubkey + parity(pubkey)).decode('utf-8')
-
-
-def get_pubkey_by_id(pubid: str) -> bytes:
-    b = b58decode(pubid[4:])
-    return b[:-4]
 
 
 class Algorithm(ABC):
@@ -166,26 +155,6 @@ class Ed25519(Algorithm):
     def gen_seckey(cls) -> bytes:
         sk, vk = ed25519.create_keypair()
         return sk.to_bytes()
-
-
-class KeyPair:
-    def __init__(self, algo_cls: Type[Algorithm], seckey: bytes = None):
-        self.algo_cls: Type[Algorithm] = algo_cls
-        self.seckey: bytes = seckey if seckey is not None else algo_cls.gen_seckey()
-        self.pubkey: bytes = algo_cls.get_pubkey(self.seckey)
-        self.id: str = get_id_by_pubkey(self.pubkey)
-
-    def __str__(self):
-        return f"{{'algo_cls': {self.algo_cls.__int__()},\n" \
-            f"'id': '{self.id}',\n" \
-            f"'pubkey': '{b58encode(self.pubkey)}',\n" \
-            f"'seckey': '{b58encode(self.seckey)}'}}"
-
-    def sign(self, message: bytes) -> bytes:
-        return self.algo_cls.sign(message, self.seckey)
-
-    def verify(self, message: bytes, sig: bytes) -> bool:
-        return self.algo_cls.verify(message, self.pubkey, sig)
 
 
 def selftest():

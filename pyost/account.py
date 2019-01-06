@@ -4,7 +4,7 @@ from protobuf_to_dict import protobuf_to_dict
 from pprint import pformat
 
 from pyost.api.rpc.pb import rpc_pb2 as pb
-from pyost.algorithm import KeyPair
+from pyost.signature import KeyPair
 from pyost.transaction import Transaction
 
 

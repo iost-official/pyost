@@ -8,9 +8,8 @@ from protobuf_to_dict import protobuf_to_dict
 from pprint import pformat
 
 from pyost.api.rpc.pb import rpc_pb2 as pb
-from pyost.signature import Signature
-from pyost.algorithm import KeyPair
-
+from pyost.signature import Signature, KeyPair
+from pyost.simplenotation import SimpleNotation
 
 class Action:
     def __init__(self, contract: str = None, abi: str = None, *args):
@@ -35,6 +34,13 @@ class Action:
             action_name=self.action_name,
             data=self.data)
 
+    def to_bytes(self) -> bytes:
+        sn = SimpleNotation()
+        sn.write_string(self.contract)
+        sn.write_string(self.action_name)
+        sn.write_string(self.data)
+        return sn.to_bytes()
+
 
 class AmountLimit:
     def __init__(self, token: str = '', value: str = ''):
@@ -55,6 +61,12 @@ class AmountLimit:
             value=self.value,
         )
 
+    def to_bytes(self) -> bytes:
+        sn = SimpleNotation()
+        sn.write_string(self.token)
+        sn.write_string(self.value)
+        return sn.to_bytes()
+
 
 class Transaction:
     class Status(Enum):
@@ -64,15 +76,15 @@ class Transaction:
         UNKNOWN = -1
 
     def __init__(self, expiration: int = 90, delay: int = 0,
-                 gas_ratio: float = 1, gas_limit: float = 10000,
+                 gas_ratio: int = 1, gas_limit: int = 10000,
                  amount_limits: List[AmountLimit] = None, actions: List[Action] = None,
                  signers: List[str] = None, publisher: str = ''):
-        self.hash: bytes = b''
+        self.hash: bytes = None
         self.time: int = time_ns()
         self.expiration: int = 0
         self.set_expiration(expiration)
-        self.gas_ratio: float = gas_ratio
-        self.gas_limit: float = gas_limit
+        self.gas_ratio: int = gas_ratio
+        self.gas_limit: int = gas_limit
         self.delay: int = delay
         self.actions: List[Action] = actions or []
         self.amount_limits: List[AmountLimit] = amount_limits or []
@@ -80,7 +92,7 @@ class Transaction:
         self.signatures: List[Signature] = []
         self.publisher: str = publisher
         self.publisher_signatures: List[Signature] = []
-        self.referred_tx: str = ''
+        self.referred_tx: bytes = b''
         self.tx_receipt: TxReceipt = None
         self.status: Transaction.Status = Transaction.Status.UNKNOWN
 
@@ -104,27 +116,25 @@ class Transaction:
         return self
 
     def add_signature(self, kp: KeyPair) -> Transaction:
-        signature = Signature(self._base_hash(), kp)
+        signature = kp.sign(self._base_hash())
         self.signatures.append(signature)
         return self
 
     def add_publisher_signature(self, name: str, kp: KeyPair) -> Transaction:
-        signature = Signature(self._publish_hash(), kp)
+        signature = kp.sign(self._publish_hash())
         self.publisher_signatures.append(signature)
         self.publisher = name
+        self.hash = None
         return self
 
     def _base_hash(self) -> bytes:
-        tr = self.to_request_raw(no_signatures=True, no_publisher=True)
-        return sha3(tr.SerializeToString()).digest()
+        return sha3(self.to_bytes('base')).digest()
 
     def _publish_hash(self) -> bytes:
-        tr = self.to_request_raw(no_publisher=True)
-        return sha3(tr.SerializeToString()).digest()
+        return sha3(self.to_bytes('publish')).digest()
 
     def _hash(self) -> bytes:
-        tr = self.to_request_raw()
-        self.hash = sha3(tr.SerializeToString()).digest()
+        self.hash = sha3(self.to_bytes('full')).digest()
         return self.hash
 
     def from_raw(self, tr: pb.Transaction, status: Status = Status.UNKNOWN) -> Transaction:
@@ -147,19 +157,19 @@ class Transaction:
         self.tx_receipt = TxReceipt().from_raw(tr.tx_receipt)
         return self
 
-    def to_request_raw(self, no_signatures: bool = False, no_publisher: bool = False) -> pb.TransactionRequest:
+    def to_request_raw(self) -> pb.TransactionRequest:
         return pb.TransactionRequest(
             time=self.time,
             expiration=self.expiration,
-            gas_ratio=int(self.gas_ratio),
-            gas_limit=int(self.gas_limit),
+            gas_ratio=self.gas_ratio,
+            gas_limit=self.gas_limit,
             delay=self.delay,
             actions=[a.to_raw() for a in self.actions],
             amount_limit=[al.to_raw() for al in self.amount_limits],
             signers=self.signers,
-            signatures=[s.to_raw() for s in self.signatures] if not no_signatures else [],
-            publisher=self.publisher if not no_publisher else '',
-            publisher_sigs=[s.to_raw() for s in self.publisher_signatures] if not no_publisher else []
+            signatures=[s.to_raw() for s in self.signatures],
+            publisher=self.publisher,
+            publisher_sigs=[s.to_raw() for s in self.publisher_signatures],
         )
 
     def to_raw(self) -> pb.Transaction:
@@ -173,9 +183,10 @@ class Transaction:
             actions=[a.to_raw() for a in self.actions],
             amount_limit=[al.to_raw() for al in self.amount_limits],
             signers=self.signers,
+            signatures=[s.to_raw() for s in self.signatures],
             publisher=self.publisher,
-            referred_tx=self.referred_tx,
-            tx_receipt=self.tx_receipt.to_raw() if self.tx_receipt is not None else None
+            publisher_sigs=[s.to_raw() for s in self.publisher_signatures],
+            referred_tx=self.referred_tx
         )
 
     def decode(self, data: bytes) -> None:
@@ -186,6 +197,23 @@ class Transaction:
     def encode(self) -> bytes:
         return self.to_raw().SerializeToString()
 
+    def to_bytes(self, level='base') -> bytes:
+        sn = SimpleNotation()
+        sn.write_int64(self.time)
+        sn.write_int64(self.expiration)
+        sn.write_int64(self.gas_ratio*100)
+        sn.write_int64(self.gas_limit*100)
+        sn.write_int64(self.delay)
+        sn.write_string_slice(self.signers)
+        sn.write_bytes_slice([a.to_bytes() for a in self.actions], False)
+        sn.write_bytes_slice([a.to_bytes() for a in self.amount_limits], False)
+        if level == 'publish' or level == 'full':
+            sn.write_bytes_slice([s.to_bytes() for s in self.signatures], False)
+        if level == 'full':
+            sn.write_bytes(self.referred_tx)
+            sn.write_string(self.publisher)
+            sn.write_bytes_slice([s.to_bytes() for s in self.publisher_signatures], False)
+        return sn.to_bytes()
 
     # def verify_self(self) -> bool:
     #     base_hash = self._base_hash()
@@ -275,8 +303,14 @@ class TxReceipt:
 
 
 if __name__ == '__main__':
-    receipt = TxReceipt()
-    print(TxReceipt.StatusCode.BALANCE_NOT_ENOUGH.value)
+    ba = bytearray()
+    byteorder = 'little'
+    ba = bytearray() + (12).to_bytes(4, byteorder) + (1).to_bytes(4, byteorder)
+    print(ba)
+
+    #receipt = TxReceipt()
+    #print(TxReceipt.StatusCode.BALANCE_NOT_ENOUGH.value)
+
     # tr = pb.Transaction(time=time_ns(), actions=[pb.Action(), pb.Action()],
     #            publisher=pb.Signature(algorithm=1, sig=b'ddfadsgadg'))
     # s = tr.SerializeToString()

@@ -12,7 +12,7 @@ class IOST:
     """
 
     def __init__(self, url: str, timeout: int = 10,
-                 gas_ratio: float = 1.0, gas_limit: float = 10000.0,
+                 gas_ratio: int = 1, gas_limit: int = 10000,
                  delay: int = 0, expiration: int = 90, default_limit='unlimited',
                  publisher: Account = None):
         """
@@ -23,8 +23,8 @@ class IOST:
             timeout (int): Number of seconds to wait when querying the node until timing out.
         """
         self.timeout: int = timeout
-        self.gas_ratio: float = gas_ratio
-        self.gas_limit: float = gas_limit
+        self.gas_ratio: int = gas_ratio
+        self.gas_limit: int = gas_limit
         self.delay: int = delay
         self.expiration: int = expiration
         self.default_limit = default_limit
