@@ -1,7 +1,6 @@
 from typing import Type
 from hashlib import sha3_256 as sha3
 from protobuf_to_dict import protobuf_to_dict
-from base58 import b58encode, b58decode
 from pprint import pformat
 
 from pyost.api.rpc.pb import rpc_pb2 as pb
@@ -24,18 +23,26 @@ class Signature:
 
     def from_raw(self, sr: pb.Signature) -> None:
         self.algo_cls = get_algorithm_by_id(sr.algorithm)
-        self.sig = b58encode(sr.signature)
-        self.pubkey = b58encode(sr.pubKey)
+        self.sig = sr.signature
+        self.pubkey = sr.public_key
 
     def to_raw(self) -> pb.Signature:
         return pb.Signature(
             algorithm=self.algo_cls.__int__(),
-            signature=b58decode(self.sig),
-            public_key=b58decode(self.pubkey)
+            signature=self.sig,
+            public_key=self.pubkey,
         )
 
+    def decode(self, data: bytes) -> None:
+        sr = pb.Signature()
+        sr.ParseFromString(data)
+        self.from_raw(sr)
+
+    def encode(self) -> bytes:
+        return self.to_raw().SerializeToString()
+
     def hash(self) -> bytes:
-        return sha3(self.to_raw().SerializeToString())
+        return sha3(self.encode()).digest()
 
 
 if __name__ == '__main__':

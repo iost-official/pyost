@@ -1,26 +1,26 @@
 from unittest import main, TestCase
-from hashlib import sha256
-import hashlib
+from hashlib import sha3_256 as sha3
 from base58 import b58decode, b58encode
+from base64 import b64decode, b64encode
 from pyost.signature import Signature
-from pyost.algorithm import Algorithm, Secp256k1
+from pyost.algorithm import Algorithm, Secp256k1, KeyPair
 
 
 class TestSignature(TestCase):
     def test_encode_decode(self):
-        info = sha256(b'hello').digest()
-        seckey = sha256(b'seckey').digest()
-        pubkey = Secp256k1.get_pubkey(seckey)
-        sig = Signature(Secp256k1, info, seckey)
-        self.assertEqual(sig.pubkey, pubkey)
+        info = sha3(b'hello').digest()
+        seckey = sha3(b'seckey').digest()
+        kp = KeyPair(Secp256k1, seckey)
+        sig = Signature(info, kp)
+        self.assertEqual(sig.pubkey, kp.pubkey)
         self.assertTrue(sig.verify(info))
 
         bsig = sig.encode()
         sig2 = Signature()
         sig2.decode(bsig)
-        self.assertEqual(b58encode(sig2.pubkey), b58encode(sig.pubkey))
-        self.assertEqual(b58encode(sig2.sig), b58encode(sig.sig))
-        self.assertEqual(sig.algorithm, sig2.algorithm)
+        self.assertEqual(sig2.pubkey, sig.pubkey)
+        self.assertEqual(sig2.sig, sig.sig)
+        self.assertEqual(sig.algo_cls, sig2.algo_cls)
 
 
 class TestSign(TestCase):
@@ -30,21 +30,15 @@ class TestSign(TestCase):
         self.pubkey = Secp256k1.get_pubkey(self.privkey)
 
     def test_sha256(self):
-        sha = 'd4daf0546cb71d90688b45488a8fa000b0821ec14b73677b2fb7788739228c8b'
-        self.assertEqual(sha256(self.privkey).hexdigest(), sha)
+        sha = 'f420b28b56ce97e52adf4778a72b622c3e91115445026cf6e641459ec478dae8'
+        self.assertEqual(sha, sha3(self.privkey).hexdigest())
 
     def test_get_pubkey(self):
         pub = '0314bf901a6640033ea07b39c6b3acb675fc0af6a6ab526f378216085a93e5c7a2'
-        self.assertEqual(self.pubkey.hex(), pub)
-
-    def test_hash160(self):
-        hash = '9c1185a5c5e9fc54612808977ee8f548b2258d31'
-        m = hashlib.new('ripemd160')
-        m.update(sha256(Secp256k1.get_pubkey(self.privkey)).digest())
-        self.assertEqual(m.hexdigest(), hash)
+        self.assertEqual(pub, Secp256k1.get_compressed_pubkey(self.privkey).hex())
 
     def test_sign_and_verify(self):
-        info = sha256(bytearray([1, 2, 3, 4])).digest()
+        info = sha3(bytearray([1, 2, 3, 4])).digest()
         sig = Secp256k1.sign(info, self.privkey)
         self.assertTrue(Secp256k1.verify(info, self.pubkey, sig))
-        self.assertFalse(Secp256k1.verify(info, self.pubkey, bytearray([5, 6, 7, 8])))
+        self.assertFalse(Secp256k1.verify(info, self.pubkey, bytearray([5, 6, 7, 8]*16)))

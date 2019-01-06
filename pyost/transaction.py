@@ -151,8 +151,8 @@ class Transaction:
         return pb.TransactionRequest(
             time=self.time,
             expiration=self.expiration,
-            gas_ratio=int(self.gas_ratio*100),
-            gas_limit=int(self.gas_limit*100),
+            gas_ratio=int(self.gas_ratio),
+            gas_limit=int(self.gas_limit),
             delay=self.delay,
             actions=[a.to_raw() for a in self.actions],
             amount_limit=[al.to_raw() for al in self.amount_limits],
@@ -177,6 +177,15 @@ class Transaction:
             referred_tx=self.referred_tx,
             tx_receipt=self.tx_receipt.to_raw() if self.tx_receipt is not None else None
         )
+
+    def decode(self, data: bytes) -> None:
+        tr = pb.Transaction()
+        tr.ParseFromString(data)
+        self.from_raw(tr)
+
+    def encode(self) -> bytes:
+        return self.to_raw().SerializeToString()
+
 
     # def verify_self(self) -> bool:
     #     base_hash = self._base_hash()

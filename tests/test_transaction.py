@@ -1,10 +1,10 @@
 from unittest import main, TestCase
 import base58
-from pyost.transaction import Transaction, Action, sign_tx, sign_tx_content
-from pyost.account import Account, get_id_by_pubkey
+from pyost.transaction import Transaction, Action
+from pyost.account import Account
 from pyost.signature import Signature
-from pyost.algorithm import Algorithm, Secp256k1, Ed25519
-from pyost.api.core.tx.tx_pb2 import TxRaw, ActionRaw
+from pyost.algorithm import Algorithm, Secp256k1, Ed25519, KeyPair
+from pyost.api.rpc.pb import rpc_pb2 as pb
 
 
 class TestAction(TestCase):
@@ -26,27 +26,29 @@ class TestTransaction(TestCase):
         self.actions.append(Action('contract1', 'actionname1', '{\"num\": 1, \"message\": \"contract1\"}'))
         self.actions.append(Action('contract2', 'actionname2', '1'))
 
-        self.a1 = Account(None, self.algo)
-        self.a2 = Account(None, self.algo)
-        self.a3 = Account(None, self.algo)
+        self.a1 = KeyPair(self.algo)
+        self.a2 = KeyPair(self.algo)
+        self.a3 = KeyPair(self.algo)
 
     def test_serialize_proto(self):
-        tr = TxRaw(
+        tr = pb.Transaction(
             time=99,
-            actions=[ActionRaw(contract='contract1', actionName='actionname1',
+            actions=[pb.Action(contract='contract1', actionName='actionname1',
                                data='{\"num\": 1, \"message\": \"contract1\"}')],
-            signers=[self.a1.pubkey],
+            signers=[self.a1.id],
         )
         b = tr.SerializeToString()
 
-        tx1 = TxRaw()
+        tx1 = pb.Transaction()
         tx1.ParseFromString(b)
         self.assertEqual(99, tx1.time)
 
     def encode_and_decode(self):
-        tx = Transaction(self.actions, [self.a1.pubkey], 100000, 100, 11)
-        tx1 = Transaction([], [], 0, 0, 0)
-        hash = tx.hash()
+        tx = Transaction(actions=self.actions, signers=[self.a1.id],
+                         gas_limit=100000, gas_ratio=100, expiration=11, delay=0)
+        tx1 = Transaction(actions=[], signers=[],
+                         gas_limit=0, gas_ratio=0, expiration=0, delay=0)
+        hash = tx._hash()
 
         encoded = tx.encode()
         self.assertIsNotNone(tx1.decode(encoded))

@@ -27,11 +27,13 @@ def checksum(data: bytes, table: List[int]) -> int:
     return update(0, table, data)
 
 
-def parity(bit: bytes) -> bytes:
+def parity(bit: bytes, little_endian=True) -> bytes:
     crc32q = make_table(KOOPMAN)
     crc = checksum(bit, crc32q)
-    return crc.to_bytes(4, 'little')
+    return crc.to_bytes(4, 'little' if little_endian else 'big')
 
 
 if __name__ == '__main__':
-    print(parity(b'meowmeowmeow'))
+    base = bytes.fromhex('12345abcde')
+
+    assert parity(base, little_endian=False).hex() == 'b98eda0f'

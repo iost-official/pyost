@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Type
 import ed25519
 import ecdsa
+import hashlib
 from base58 import b58encode, b58decode
 from pprint import pformat
 
@@ -29,13 +30,12 @@ def get_algorithm_by_name(name: str) -> Type[Algorithm]:
 
 
 def get_id_by_pubkey(pubkey: bytes) -> str:
-    deckey = b58decode(pubkey)
-    return 'IOST' + b58encode(deckey + parity(deckey)).decode('utf-8')
+    return 'IOST' + b58encode(pubkey + parity(pubkey)).decode('utf-8')
 
 
 def get_pubkey_by_id(pubid: str) -> bytes:
     b = b58decode(pubid[4:])
-    return b58encode(b[:-4])
+    return b[:-4]
 
 
 class Algorithm(ABC):
@@ -96,27 +96,35 @@ class Secp256k1(Algorithm):
 
     @classmethod
     def sign(cls, message: bytes, seckey: bytes) -> bytes:
-        sk = ecdsa.SigningKey.from_string(b58decode(seckey), ecdsa.SECP256k1)
-        return b58encode(sk.sign(message))
+        sk = ecdsa.SigningKey.from_string(seckey, ecdsa.SECP256k1)
+        return sk.sign(message)
 
     @classmethod
     def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
-        vk = ecdsa.VerifyingKey.from_string(b58decode(pubkey), ecdsa.SECP256k1)
+        vk = ecdsa.VerifyingKey.from_string(pubkey, ecdsa.SECP256k1)
         try:
-            vk.verify(b58decode(sig), message)
+            vk.verify(sig, message)
         except ecdsa.BadSignatureError:
             return False
         return True
 
     @classmethod
     def get_pubkey(cls, seckey: bytes) -> bytes:
-        sk = ecdsa.SigningKey.from_string(b58decode(seckey), ecdsa.SECP256k1)
-        return b58encode(sk.get_verifying_key().to_string())
+        sk = ecdsa.SigningKey.from_string(seckey, ecdsa.SECP256k1)
+        return sk.get_verifying_key().to_string()
+
+    @classmethod
+    def get_compressed_pubkey(cls, seckey: bytes) -> bytes:
+        sk = ecdsa.SigningKey.from_string(seckey, ecdsa.SECP256k1)
+        p = sk.get_verifying_key().pubkey.point
+        x_str = ecdsa.util.number_to_string(p.x(), ecdsa.SECP256k1.generator.order())
+        compressed = bytes(chr(2 + (p.y() & 1)), 'ascii') + x_str
+        return compressed
 
     @classmethod
     def gen_seckey(cls) -> bytes:
         sk = ecdsa.SigningKey.generate(ecdsa.SECP256k1)
-        return b58encode(sk.to_string())
+        return sk.to_string()
 
 
 class Ed25519(Algorithm):
@@ -137,27 +145,27 @@ class Ed25519(Algorithm):
 
     @classmethod
     def sign(cls, message: bytes, seckey: bytes) -> bytes:
-        sk = ed25519.SigningKey(b58decode(seckey))
-        return b58encode(sk.sign(message))
+        sk = ed25519.SigningKey(seckey)
+        return sk.sign(message)
 
     @classmethod
     def verify(cls, message: bytes, pubkey: bytes, sig: bytes) -> bool:
-        vk = ed25519.VerifyingKey(b58decode(pubkey))
+        vk = ed25519.VerifyingKey(pubkey)
         try:
-            vk.verify(b58decode(sig), message)
+            vk.verify(sig, message)
         except ed25519.BadSignatureError:
             return False
         return True
 
     @classmethod
     def get_pubkey(cls, seckey: bytes) -> bytes:
-        sk = ed25519.SigningKey(b58decode(seckey))
-        return b58encode(sk.get_verifying_key().to_bytes())
+        sk = ed25519.SigningKey(seckey)
+        return sk.get_verifying_key().to_bytes()
 
     @classmethod
     def gen_seckey(cls) -> bytes:
         sk, vk = ed25519.create_keypair()
-        return b58encode(sk.to_bytes())
+        return sk.to_bytes()
 
 
 class KeyPair:
@@ -168,10 +176,10 @@ class KeyPair:
         self.id: str = get_id_by_pubkey(self.pubkey)
 
     def __str__(self):
-        return pformat(vars(self))
-
-    def __repr__(self):
-        return pformat(vars(self))
+        return f"{{'algo_cls': {self.algo_cls.__int__()},\n" \
+            f"'id': '{self.id}',\n" \
+            f"'pubkey': '{b58encode(self.pubkey)}',\n" \
+            f"'seckey': '{b58encode(self.seckey)}'}}"
 
     def sign(self, message: bytes) -> bytes:
         return self.algo_cls.sign(message, self.seckey)
@@ -193,7 +201,7 @@ def selftest():
         print(kp2)
 
         sig = kp.sign(message)
-        print('sig', sig)
+        print('sig', b58encode(sig))
 
         print(kp.verify(message, sig))
         print(kp2.verify(message, sig))
