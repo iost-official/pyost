@@ -137,8 +137,7 @@ class Transaction:
         self.hash = sha3(self.to_bytes('full')).digest()
         return self.hash
 
-    def from_raw(self, tr: pb.Transaction, status: Status = Status.UNKNOWN) -> Transaction:
-        self.status = status
+    def from_raw(self, tr: pb.Transaction) -> Transaction:
         self.hash = tr.hash
         self.time = tr.time
         self.expiration = tr.expiration
@@ -283,7 +282,7 @@ class TxReceipt:
         self.tx_hash = tr.tx_hash
         self.gas_usage = tr.gas_usage
         self.ram_usage = tr.ram_usage
-        self.status_code = tr.status_code
+        self.status_code = TxReceipt.StatusCode(tr.status_code)
         self.message = tr.message
         self.returns = tr.returns
         self.receipts = [TxReceipt.Receipt().from_raw(r) for r in tr.receipts
@@ -295,7 +294,7 @@ class TxReceipt:
             tx_hash=self.tx_hash,
             gas_usage=self.gas_usage,
             ram_usage=self.ram_usage,
-            status_code=self.status_code,
+            status_code=self.status_code.value,
             message=self.message,
             returns=self.returns,
             receipts=[r.to_raw() for r in self.receipts]

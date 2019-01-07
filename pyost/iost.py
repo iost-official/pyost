@@ -1,4 +1,5 @@
 import grpc
+import time
 
 from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
@@ -14,6 +15,7 @@ class IOST:
     def __init__(self, url: str, timeout: int = 10,
                  gas_ratio: int = 1, gas_limit: int = 10000,
                  delay: int = 0, expiration: int = 90, default_limit='unlimited',
+                 wait_time: int = 3, wait_max_retry: int = 10,
                  publisher: Account = None):
         """
         Connects to a node.
@@ -27,7 +29,9 @@ class IOST:
         self.gas_limit: int = gas_limit
         self.delay: int = delay
         self.expiration: int = expiration
-        self.default_limit = default_limit
+        self.default_limit: str = default_limit
+        self.wait_time: int = wait_time
+        self.wait_max_retry: int = wait_max_retry
         self.publisher: Account = publisher
         self._channel = grpc.insecure_channel(url)
         self._stub = None
@@ -54,45 +58,6 @@ class IOST:
         res: pb.RAMInfoResponse = self._stub.GetRAMInfo(pb.EmptyRequest())
         return RAMInfo().from_raw(res)
 
-    # def get_height(self) -> int:
-    #     """
-    #     Gets the current height of the blockchain.
-    #
-    #     Note:
-    #         REST API: "/getHeight"
-    #
-    #     Returns:
-    #         The height of the blockchain.
-    #     """
-    #     res = self._stub.GetHeight(Empty())
-    #     return res.height
-
-    # def _parse_tx_raw(self, tx_raw) -> dict:
-    #     """
-    #     Converts a TxRaw proto object to a dict and encodes hashes to base58 string.
-    #
-    #     Args:
-    #         tx_raw (tx_pb2.TxRaw or dict): the TxRaw proto object to convert.
-    #
-    #     Returns:
-    #         dict: See ``get_tx_by_hash`` for the format.
-    #     """
-    #     tx = protobuf_to_dict(tx_raw) if not isinstance(tx_raw, dict) else tx_raw.copy()
-    #
-    #     if 'signers ' in tx:
-    #         tx['signers'] = [b58encode(signer) for signer in tx['signers']]
-    #     if 'signs' in tx:
-    #         tx['signs'] = [{
-    #             'algorithm': sign['algorithm'],
-    #             'sig': b58encode(sign['sig']),
-    #             'pubKey': b58encode(sign['pubKey'])
-    #         } for sign in tx['signs']]
-    #     if 'publisher' in tx:
-    #         tx['publisher']['sig'] = b58encode(tx['publisher']['sig'])
-    #         tx['publisher']['pubKey'] = b58encode(tx['publisher']['pubKey'])
-    #
-    #     return tx
-
     def get_tx_by_hash(self, tx_hash: str) -> Transaction:
         """
         Gets a transaction by its hash value.
@@ -104,82 +69,14 @@ class IOST:
             tx_hash (str): The base58 hash string of the transaction.
 
         Returns:
-            (dict, bytes): A tuple containing the transaction content as a dict
-                and its hash as bytes. The dict has the following format::
-
-                {
-                    'time': int,
-                    'expiration': int,
-                    'gasLimit': int,
-                    'gasPrice': 1,
-                    'actions': [{
-                        'contract': string,
-                        'actionName': string,
-                        'data': string
-                    }],
-                    'signers': [ bytes ],
-                    'signs': [{
-                        'algorithm': int,
-                        'sig': bytes,
-                        'pubKey':  bytes
-                    }],
-                    'publisher': {
-                        'algorithm': int,
-                        'sig': bytes,
-                        'pubKey': bytes
-                    }
-                }
+            Transaction: a Transaction deserialized from pb.Transaction.
+                the status attribute is set with the status code of pb.TransactionResponse.
         """
         req = pb.TxHashRequest(hash=tx_hash)
         res: pb.TransactionResponse = self._stub.GetTxByHash(req)
-        return Transaction().from_raw(res.transaction, res.status)
-
-    # def _parse_receipt_raw(self, receipt_raw) -> dict:
-    #     """
-    #     Converts a TxReceiptRaw proto object to a dict and encodes hashes to base58 string.
-    #
-    #     Args:
-    #         receipt_raw (tx_pb2.TxReceiptRaw or dict): the TxReceiptRaw proto object to convert.
-    #
-    #     Returns:
-    #         dict: See ``get_tx_receipt_by_hash`` for the format.
-    #     """
-    #     receipt = protobuf_to_dict(receipt_raw) if not isinstance(receipt_raw, dict) else receipt_raw.copy()
-    #     receipt['txHash'] = b58encode(receipt['txHash'])
-    #     return receipt
-
-    # def get_tx_receipt_by_hash(self, receipt_hash: str) -> (dict, bytes):
-    #     """
-    #     Gets a transaction receipt by its receipt hash value.
-    #
-    #     Note:
-    #         REST API: "/getTxReceiptByHash/{hash}"
-    #
-    #     Args:
-    #         receipt_hash (str): The base58 hash string of the transaction receipt.
-    #
-    #     Returns:
-    #         (dict, bytes): A tuple containing the receipt content as a dict
-    #             and its hash as bytes. The dict has the following format::
-    #
-    #             {
-    #                 'txHash': bytes,
-    #                 'gasUsage': int,
-    #                 'status': {
-    #                     'code': int,
-    #                     'message': string
-    #                 },
-    #                 'succActionNum': int,
-    #                 'receipts': [{
-    #                     'type': int,
-    #                     'content: string
-    #                 }]
-    #             }
-    #     """
-    #     req = pb.TxHashRequest(hash=receipt_hash)
-    #     res = self._stub.GetTxReceiptByTxHash(req)
-    #     receipt = self._parse_receipt_raw(res.txReceiptRaw)
-    #     return (receipt, b58encode(res.hash))
+        tx = Transaction().from_raw(res.transaction)
+        tx.status = Transaction.Status(res.status)
+        return tx
 
     def get_tx_receipt_by_tx_hash(self, tx_hash: str) -> TxReceipt:
         """
@@ -192,53 +89,11 @@ class IOST:
             tx_hash (str): The base58 hash string of the transaction.
 
         Returns:
-            (dict, bytes): A tuple containing the receipt content as a dict
-            and its hash as bytes. The dict has the following format::
-
-                {
-                    'txHash': bytes,
-                    'gasUsage': int,
-                    'status': {
-                        'code': int,
-                        'message': string
-                    },
-                    'succActionNum': int,
-                    'receipts': [{
-                        'type': int,
-                        'content: string
-                    }]
-                }
+            TxReceipt: a TxReceipt deserialized from pb.TxReceipt.
         """
         req = pb.TxHashRequest(hash=tx_hash)
         tr: pb.TxReceipt = self._stub.GetTxReceiptByTxHash(req)
         return TxReceipt().from_raw(tr)
-
-    # def _parse_block_info(self, block_info) -> dict:
-    #     """
-    #     Converts a BlockInfo proto object to a dict and encodes hashes to base58 string.
-    #
-    #     Args:
-    #         block_info (apis_pb2.BlockInfo or dict): the BlockInfo proto object to convert.
-    #
-    #     Returns:
-    #         dict: See ``get_block_by_hash`` for the format.
-    #     """
-    #     block = protobuf_to_dict(block_info) if not isinstance(block_info, dict) else block_info.copy()
-    #
-    #     for hash in ['parentHash', 'txsHash' 'merkleHash']:
-    #         if hash in block['head']:
-    #             block['head'][hash] = b58encode(block['head'][hash])
-    #     block['hash'] = b58encode(block['hash'])
-    #     if 'txhash ' in block:
-    #         block['txhash'] = [b58encode(tx) for tx in block['txhash']]
-    #     if 'receiptHash ' in block:
-    #         block['receiptHash'] = [b58encode(receipt) for receipt in block['receiptHash']]
-    #     if 'txs' in block:
-    #         block['txs'] = [self._parse_tx_raw(tx) for tx in block['txs']]
-    #     if 'receipts' in block:
-    #         block['receipts'] = [self._parse_receipt_raw(receipt) for receipt in block['receipts']]
-    #
-    #     return block
 
     def get_block_by_hash(self, block_hash: str, complete: bool = False) -> Block:
         """
@@ -253,26 +108,7 @@ class IOST:
                 returns the head and the list of transaction and receipt hashes.
 
         Returns:
-            dict: Contains `txs` and `receipts` if `complete` is True,
-                or only `txhash` and `receiptHash` if `complete` is False::
-
-                {
-                    'head': {
-                        #'version': int,
-                        #'parentHash': bytes,
-                        'txsHash': bytes,
-                        'merkleHash': bytes,
-                        #'info': bytes,
-                        #'number': int,
-                        'witness': string,
-                        #'time': int
-                    },
-                    'hash': bytes,
-                    'txhash': [ bytes ],
-                    'receiptHash': [ bytes ]
-                    'txs': [ TxRaw (see return type of ``get_tx_by_hash``) ],
-                    'receipts': [ TxReceiptRaw (see return type of ``get_tx_receipt_by_hash``) ]
-                }
+            Block: Contains a list of `transactions` if `complete` is True.
         """
         req = pb.GetBlockByHashRequest(hash=block_hash, complete=complete)
         res: pb.BlockResponse = self._stub.GetBlockByHash(req)
@@ -291,104 +127,36 @@ class IOST:
                 otherwise returns the head and the list of transaction hashes.
 
         Returns:
-            dict: Contains `txs` and `receipts` if `complete` is True,
-                or only `txhash` and `receiptHash` if `complete` is False::
-
-                {
-                    'head': {
-                        #'version': int,
-                        #'parentHash': bytes,
-                        'txsHash': bytes,
-                        'merkleHash': bytes,
-                        #'info': bytes,
-                        #'number': int,
-                        'witness': string,
-                        #'time': int
-                    },
-                    'hash': bytes,
-                    'txhash': [ bytes ],
-                    'receiptHash': [ bytes ]
-                    'txs': [ TxRaw (see return type of ``get_tx_by_hash``) ],
-                    'receipts': [ TxReceiptRaw (see return type of ``get_tx_receipt_by_hash``) ]
-                }
+            Block: Contains a list of `transactions` if `complete` is True.
         """
         req = pb.GetBlockByNumberRequest(number=block_num, complete=complete)
         res: pb.BlockResponse = self._stub.GetBlockByNumber(req)
         return Block().from_raw(res.block, res.status)
 
     # get: "/getAccount/{name}/{by_longest_chain}"
-    def get_account(self, name: str, by_longest_chain: bool = False) -> AccountInfo:
-        req = pb.GetAccountRequest(name=name, by_longest_chain=by_longest_chain)
+    def get_account_info(self, account_name: str, by_longest_chain: bool = False) -> AccountInfo:
+        req = pb.GetAccountRequest(name=account_name, by_longest_chain=by_longest_chain)
         acc: pb.Account = self._stub.GetAccount(req)
         return AccountInfo().from_raw(acc)
 
     # get: "/getTokenBalance/{account}/{token}/{by_longest_chain}"
-    def get_token_balance(self, account: str, token: str = 'iost', by_longest_chain: bool = False) -> TokenBalance:
-        req = pb.GetTokenBalanceRequest(account=account, token=token, by_longest_chain=by_longest_chain)
+    def get_token_balance(self, account_name: str, token: str = 'iost', by_longest_chain: bool = False) -> TokenBalance:
+        req = pb.GetTokenBalanceRequest(account=account_name, token=token, by_longest_chain=by_longest_chain)
         res: pb.GetTokenBalanceResponse = self._stub.GetTokenBalance(req)
         return TokenBalance().from_raw(res)
 
-    def get_balance(self, account: str, token: str = 'iost', by_longest_chain: bool = False) -> float:
-        return self.get_token_balance(account, token, by_longest_chain).balance
+    def get_balance(self, account_name: str, token: str = 'iost', by_longest_chain: bool = False) -> float:
+        return self.get_token_balance(account_name, token, by_longest_chain).balance
 
     # get: "/getGasRatio"
     def get_gas_ratio(self) -> GasRatio:
         res: pb.GasRatioResponse = self._stub.GetGasRatio(pb.EmptyRequest())
         return GasRatio().from_raw(res)
 
-    # def get_balance(self, account_id: bytes, use_longest_chain: bool = True) -> int:
-    #     """
-    #     Gets the balance of an account by its id.
-    #
-    #     Note:
-    #         REST API: "/getBalance/{ID}/{useLongestChain}"
-    #
-    #     Args:
-    #         account_id (str): The ID of the account.
-    #         use_longest_chain (bool): If True, also gets balance from pending blocks
-    #             (in the longest chain)
-    #
-    #     Returns:
-    #         int: the balance of the account (units?).
-    #     """
-    #     req = apis_pb2.GetBalanceReq(ID=account_id, useLongestChain=use_longest_chain)
-    #     res = self._stub.GetBalance(req)
-    #     return res.balance
-
-    # def get_net_id(self) -> str:
-    #     """
-    #     Gets the ID of the node.
-    #
-    #     Note:
-    #         REST API: "/getNetID"
-    #
-    #     Returns:
-    #         The ID of the node as a base58 hash string.
-    #     """
-    #     res = self._stub.GetNetID(Empty())
-    #     return res.ID
-
-    # def get_state(self, key: str, field: str = None) -> str:
-    #     """
-    #     Gets the value of a key in the StateDB.
-    #
-    #     Note:
-    #         REST API: "/getState/{key}"
-    #
-    #     Args:
-    #         key (str): The key.
-    #         field (str): Required if `key` is a map.
-    #
-    #     Returns:
-    #         str: StateDB[`key`] or StateDB[`key`][`field`] if `key` is a map.
-    #     """
-    #     req = pb.GetStateReq(key=key, field=field)
-    #     res = self._stub.GetState(req)
-    #     return res.value
-
     def send_tx(self, tx: Transaction) -> str:
         """
-        Sends a Transaction encoded as a TxRaw.
+        Sends a Transaction encoded as a TransactionRequest.
+        If the tx has no publisher set, signs the tx with the default publisher.
 
         Notes:
             REST API: POST "/sendRawTx" (tx in the body)
@@ -406,6 +174,36 @@ class IOST:
 
         res: pb.SendTransactionResponse = self._stub.SendTransaction(tx.to_request_raw())
         return res.hash
+
+    def send_and_wait_tx(self, tx: Transaction) -> TxReceipt:
+        return self.wait_tx(self.send_tx(tx))
+
+    def wait_tx(self, tx_hash: str, wait_time: int = None, max_retry: int = None, verbose=False) -> TxReceipt:
+        wait_time = wait_time or self.wait_time
+        max_retry = max_retry or self.wait_max_retry
+        receipt = None
+
+        for retry in range(max_retry):
+            time.sleep(wait_time)
+            try:
+                receipt = self.get_tx_receipt_by_tx_hash(tx_hash)
+            except Exception as e:
+                if verbose:
+                    print(e)
+
+            if receipt is not None:
+                if verbose:
+                    print(receipt)
+                if receipt.status_code == TxReceipt.StatusCode.TIMEOUT:
+                    raise TimeoutError(receipt.message)
+                elif receipt.status_code == TxReceipt.StatusCode.RUNTIME_ERROR or receipt.status_code == TxReceipt.StatusCode.UNKNOWN_ERROR:
+                    raise RuntimeError(receipt.message)
+                elif receipt.status_code != TxReceipt.StatusCode.SUCCESS:
+                    if verbose:
+                        print(f'Transaction error: {receipt.status_code.name}')
+                return receipt
+
+        raise TimeoutError(f'Receipt cannot be found before {max_retry} trials.')
 
     # def estimate_gas(self, tx: Transaction) -> int:
     #     """
@@ -458,25 +256,51 @@ class IOST:
     #     res = self._stub.Subscribe(req)
     #     return protobuf_to_dict(res.ev)
 
-    def call(self, contract: str, abi: str, *args):
+    def create_call_tx(self, contract: str, abi: str, *args) -> Transaction:
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
                          expiration=self.expiration, delay=self.delay)
         tx.add_action(contract, abi, *args)
         tx.add_amount_limit('*', self.default_limit)
         return tx
 
-    def transfer(self, token: str, from_: str, to: str, amount: str, memo=''):
-        tx = self.call('token.iost', 'transfer', token, from_, to, amount, memo)
-        tx.add_amount_limit('iost', amount)
+    def create_transfer_tx(self, token: str, from_name: str, to_name: str, amount: int, memo='') -> Transaction:
+        tx = self.create_call_tx('token.iost', 'transfer', token, from_name, to_name, str(amount), memo)
+        tx.add_amount_limit('iost', str(amount))
         return tx
 
-    def new_account(self, name: str, creator: str,
-                    owner_kpid: str, active_kpdid: str,
-                    initial_ram: float, initial_gas_pledge: float):
+    def create_new_account_tx(self, new_name: str, creator_name: str,
+                              owner_kpid: str, active_kpdid: str,
+                              initial_ram: int = 0, initial_gas_pledge: int = 11,
+                              initial_coins: int = 0) -> Transaction:
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
                          expiration=self.expiration, delay=self.delay)
-        tx.add_action('auth.iost', 'SignUp', name, owner_kpid, active_kpdid)
-        tx.add_action('ram.iost', 'buy', creator, name, initial_ram)
-        tx.add_action('gas.iost', 'pledge', creator, name, str(initial_gas_pledge))
+
+        tx.add_action('auth.iost', 'SignUp', new_name, owner_kpid, active_kpdid)
+
+        if initial_ram > 0:
+            tx.add_action('ram.iost', 'buy', creator_name, new_name, initial_ram)
+
+        if initial_gas_pledge <= 10:
+            raise ValueError('minimum gas pledge is 10')
+        tx.add_action('gas.iost', 'pledge', creator_name, new_name, initial_gas_pledge - 10)
+
+        if initial_coins > 0:
+            tx.add_action('token.iost', 'transfer', 'iost', creator_name, new_name, initial_coins)
+
         tx.add_amount_limit('*', self.default_limit)
         return tx
+
+    def call(self, contract: str, abi: str, *args) -> TxReceipt:
+        tx = self.create_call_tx(contract, abi, *args)
+        return self.send_and_wait_tx(tx)
+
+    def transfer(self, token: str, from_name: str, to_name: str, amount: int, memo='') -> TxReceipt:
+        tx = self.create_transfer_tx(token, from_name, to_name, amount, memo)
+        return self.send_and_wait_tx(tx)
+
+    def new_account(self, new_name: str, creator_name: str,
+                    owner_kpid: str, active_kpdid: str,
+                    initial_ram: int = 0, initial_gas_pledge: int = 11, initial_coins: int = 0) -> TxReceipt:
+        tx = self.create_new_account_tx(new_name, creator_name, owner_kpid, active_kpdid,
+                                        initial_ram, initial_gas_pledge, initial_coins)
+        return self.send_and_wait_tx(tx)

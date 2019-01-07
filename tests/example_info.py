@@ -3,8 +3,8 @@ from pyost.iost import IOST
 if __name__ == '__main__':
     iost = IOST('35.180.171.246:30002')
 
-    tx_hash = '58anXbMF6meq2rX1jD2oeN59wn8QeNmMgxHCaRfHF5Nr'
-    print(iost.get_tx_by_hash(tx_hash))
+    tx_hash = 'A62QESiGS8xNk2dD1WYebA3zxGMhpcQmY8oG8wFCYkdp'
+    print(iost.get_tx_receipt_by_tx_hash(tx_hash))
 
     # print('Node Info:')
     # print(iost.get_node_info())
