@@ -185,6 +185,15 @@ class IOST:
 
         for retry in range(max_retry):
             time.sleep(wait_time)
+            tx = self.get_tx_by_hash(tx_hash)
+            if tx.status == Transaction.Status.PENDING:
+                if verbose:
+                    print('PENDING...')
+            elif tx.status == Transaction.Status.PACKED or tx.status == Transaction.Status.IRREVERSIBLE:
+                if verbose:
+                    print(tx.status.name)
+                else:
+                    raise RuntimeError(f'Unknown transaction status: {tx.status.value}.')
             try:
                 receipt = self.get_tx_receipt_by_tx_hash(tx_hash)
             except Exception as e:
@@ -282,10 +291,10 @@ class IOST:
 
         if initial_gas_pledge <= 10:
             raise ValueError('minimum gas pledge is 10')
-        tx.add_action('gas.iost', 'pledge', creator_name, new_name, initial_gas_pledge - 10)
+        tx.add_action('gas.iost', 'pledge', creator_name, new_name, str(initial_gas_pledge - 10))
 
         if initial_coins > 0:
-            tx.add_action('token.iost', 'transfer', 'iost', creator_name, new_name, initial_coins)
+            tx.add_action('token.iost', 'transfer', 'iost', creator_name, new_name, str(initial_coins), '')
 
         tx.add_amount_limit('*', self.default_limit)
         return tx

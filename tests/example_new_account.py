@@ -1,5 +1,5 @@
 import time
-from base58 import b58decode
+from base58 import b58decode, b58encode
 from pyost.iost import IOST
 from pyost.account import Account
 from pyost.algorithm import Ed25519
@@ -15,9 +15,33 @@ if __name__ == '__main__':
     acc1.add_key_pair(acc1_kp, 'owner')
     print(f'Account 1:\n{iost.get_account_info(acc1.name)}')
 
-    acc2_kp = KeyPair(Ed25519)
+    # tx = iost.create_call_tx('ram.iost', 'buy', acc1.name, acc1.name, 1024)
+    # tx.gas_limit = 1000000
+    # acc1.sign_publish(tx)
+    # print(tx)
+    #
+    # print('Waiting for transaction to be processed...')
+    # try:
+    #     receipt = iost.wait_tx(iost.send_tx(tx), verbose=True)
+    #     print(f'Receipt status: {receipt.status_code}')
+    #     print(receipt)
+    #     print('Transaction:')
+    #     print(iost.get_tx_by_hash(receipt.tx_hash))
+    # except TimeoutError as e:
+    #     print(f'ERROR: {e}')
+    # except RuntimeError as e:
+    #     print(f'ERROR: {e}')
+    # exit(0)
 
-    tx = iost.create_new_account_tx('iostsiri2', acc1.name, acc2_kp.id, acc2_kp.id, 0, 11)
+    acc2_kp = KeyPair(Ed25519)
+    print(f'seckey={b58encode(acc2_kp.seckey)}')
+    acc2 = Account('iostsiri3')
+    acc2.add_key_pair(acc2_kp, 'active')
+    acc2.add_key_pair(acc2_kp, 'owner')
+
+    tx = iost.create_new_account_tx(acc2.name, acc1.name,
+                                    acc2_kp.id, acc2_kp.id, 0, 100, 100)
+    tx.gas_limit = 1000000
     acc1.sign_publish(tx)
     print(tx)
 

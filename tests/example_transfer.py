@@ -1,46 +1,44 @@
+import time
 from pyost.iost import IOST
 from pyost.account import Account
-from pyost.algorithm import Algorithm, Ed25519, KeyPair
-from time import sleep
+from pyost.algorithm import Secp256k1, Ed25519
+from pyost.signature import KeyPair
+from base58 import b58decode, b58encode
 
 if __name__ == '__main__':
-    iost = IOST('192.168.99.100:30002')
+    iost = IOST('35.180.171.246:30002')
 
-    admin_seckey = b'1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB'
-    admin_kp = KeyPair(Ed25519, admin_seckey)
-    admin = Account('admin')
-    admin.add_key_pair(admin_kp, 'active')
-    admin.add_key_pair(admin_kp, 'owner')
-    print(f'Admin account: {admin_seckey}')
-    print(f'Node balance: {iost.get_balance(admin.name)}')
+    acc1_seckey = b58decode(b'58NCdrz3iUfqKnEk6AX57rGrv9qrvn8EXtiUvVXMLqkKJKSFuW6TR6iuuYBtjgzhwm9ew6e9Pjg3zx5n6ya9MHJ3')
+    acc1_kp = KeyPair(Ed25519, acc1_seckey)
+    acc1 = Account('iostsiri')
+    acc1.add_key_pair(acc1_kp, 'active')
+    acc1.add_key_pair(acc1_kp, 'owner')
+    acc1_info = iost.get_account_info(acc1.name)
+    print(f'{acc1_info.name}: balance={acc1_info.balance} gas={acc1_info.gas_info.current_total} ram={acc1_info.ram_info.available}')
 
-    # seckey1 = '3gLThtqcsJS4zgtXkfUksY9XM6pUXSM3mC6fZb9PkHURg171gsrpLXBtapme7Kwx24xi6qkE55CZaH7iBa5kWjNC'
-    # account1 = Account(seckey1, algorithm.Ed25519)
-    # print(f'Account 1 pubkey: {account1.pubkey}')
-    # print(f'Account 1 balance: {iost.get_balance(account1.pubkey)}')
-    #
-    # seckey2 = '3vFoZPT1c3FSNVa9qrYMa2SQyxNQ8dfLSySNSzWokZQb4U1HToW1qUL3XzhpDE66MnjeUGwSDrYDJYgDFUary4Mb'
-    # account2 = Account(seckey2, algorithm.Ed25519)
-    # print(f'Account 2 pubkey: {account2.pubkey}')
-    # print(f'Account 2 balance: {iost.get_balance(account2.pubkey)}')
-    #
-    # tx = iost.transfer(account1.pubkey, account1.pubkey, 1)
-    # tx.gas_limit = 1
-    # tx.gas_price = 1
-    # # tx.add_signer(account1.pubkey)
-    # # account1.sign_tx_content(tx)
-    # tx.add_publisher_sign(account1)
-    # tx.verify_self()
-    #
-    # tx_res = iost.send_tx(tx)
-    # print(f'Transaction status: {tx_res.status}')
-    #
-    # sleep(5)
-    # try:
-    #     tx_res2 = iost.get_tx_by_hash(tx_res.tx_receipt.tx_hash)
-    #     print(tx_res2)
-    # except Exception as err:
-    #     print(err)
-    #
-    # print(f'Account 1 balance: {iost.get_balance(account1.pubkey)}')
-    # print(f'Account 2 balance: {iost.get_balance(account2.pubkey)}')
+    acc2_seckey = b58decode(b'3weJNnPE16XDBncfZT68Jm13HQ68AqnvCjpNLZtVUV1FZyVQJBFpeP5TZhRhYTaDKjjpMoc7WE5V9mSayGTyCYN7')
+    acc2_kp = KeyPair(Ed25519, acc2_seckey)
+    acc2 = Account('iostsiri3')
+    acc2.add_key_pair(acc2_kp, 'active')
+    acc2.add_key_pair(acc2_kp, 'owner')
+    acc2_info = iost.get_account_info(acc2.name)
+    print(f'{acc2_info.name}: balance={acc2_info.balance} gas={acc2_info.gas_info.current_total} ram={acc2_info.ram_info.available}')
+
+    tx = iost.create_transfer_tx('iost', acc2.name, acc1.name, 1)
+    acc1.sign_publish(tx)
+
+    print('Waiting for transaction to be processed...')
+    try:
+        receipt = iost.wait_tx(iost.send_tx(tx), verbose=True)
+        print(f'Receipt status: {receipt.status_code}')
+        print(receipt)
+    except TimeoutError as e:
+        print(e)
+    except RuntimeError as e:
+        print(e)
+
+    acc1_info = iost.get_account_info(acc1.name)
+    print(f'{acc1_info.name}: balance={acc1_info.balance} gas={acc1_info.gas_info.current_total} ram={acc1_info.ram_info.available}')
+
+    acc2_info = iost.get_account_info(acc2.name)
+    print(f'{acc2_info.name}: balance={acc2_info.balance} gas={acc2_info.gas_info.current_total} ram={acc2_info.ram_info.available}')
