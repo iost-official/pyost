@@ -20,6 +20,7 @@ if __name__ == '__main__':
     acc = Account('iostsiri3')
     acc.add_key_pair(acc_kp, 'active')
     acc.add_key_pair(acc_kp, 'owner')
+    print(acc)
 
     print('Account Info:')
     print(iost.get_account_info(acc.name))

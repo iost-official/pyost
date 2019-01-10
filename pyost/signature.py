@@ -71,11 +71,14 @@ class KeyPair:
         self.pubkey: bytes = algo_cls.get_pubkey(self.seckey)
         self.id: str = get_id_by_pubkey(self.pubkey)
 
-    def __str__(self):
+    def __repr__(self):
         return f"{{'algo_cls': {self.algo_cls.__int__()},\n" \
             f"'id': '{self.id}',\n" \
             f"'pubkey': '{b58encode(self.pubkey)}',\n" \
             f"'seckey': '{b58encode(self.seckey)}'}}"
+
+    def __str__(self):
+        return self.__repr__()
 
     def sign(self, message: bytes) -> Signature:
         return Signature(self.algo_cls, message, self.seckey)

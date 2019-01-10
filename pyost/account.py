@@ -19,6 +19,9 @@ class Account:
     def add_key_pair(self, kp: KeyPair, permission: str = 'active'):
         self._kps[permission] = kp
 
+    def get_key_pair(self, permission: str = 'active') -> KeyPair:
+        return self._kps[permission]
+
     def sign(self, tx: Transaction, permission: str = 'active') -> Transaction:
         return tx.add_signature(self._kps[permission])
 

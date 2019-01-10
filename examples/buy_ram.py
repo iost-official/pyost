@@ -24,7 +24,7 @@ if __name__ == '__main__':
     print(f'Account RAM: {iost.get_account_info(acc.name).ram_info.available}')
 
     print(f'RAM price: {iost.get_ram_info().buy_price}')
-    tx = iost.create_call_tx('ram.iost', 'buy', acc.name, acc.name, 1024)
+    tx = iost.create_call_tx('ram.iost', 'buy', acc.name, acc.name, 50000)
     tx.gas_limit = 1000000
     acc.sign_publish(tx)
 

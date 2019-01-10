@@ -1,13 +1,16 @@
 import grpc
 import time
-from typing import List
+from typing import List, Type
 
 from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
 from pyost.account import Account, AccountInfo, TokenBalance, Token721Balance
-from pyost.transaction import Transaction, TxReceipt, TransactionError
+from pyost.transaction import Transaction, TxReceipt, TransactionError, Action
 from pyost.contract import Contract
+from pyost.signature import KeyPair
+from pyost.algorithm import Algorithm, Ed25519
 from pyost.event import Event, SubscribeRequest
+
 
 class IOST:
     """
@@ -209,7 +212,7 @@ class IOST:
         Returns:
             str: The hash of the received transaction.
         """
-        if tx.publisher is None:
+        if tx.publisher == '':
             if self.publisher is None:
                 raise ValueError('No publisher has signed the transaction.')
             self.publisher.sign_publish(tx)
@@ -291,12 +294,14 @@ class IOST:
         for res in self._stub.Subscribe(sr.to_raw()):
             yield Event().from_raw(res.event)
 
-    def create_call_tx(self, contract: str, abi: str, *args) -> Transaction:
+    def create_tx(self, actions: List[Action] = None) -> Transaction:
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
-                         expiration=self.expiration, delay=self.delay)
-        tx.add_action(contract, abi, *args)
+                         expiration=self.expiration, delay=self.delay, actions=actions)
         tx.add_amount_limit('*', self.default_limit)
         return tx
+
+    def create_call_tx(self, contract: str, abi: str, *args) -> Transaction:
+        return self.create_tx(actions=[Action(contract, abi, *args)])
 
     def create_transfer_tx(self, token: str, from_name: str, to_name: str, amount: float, memo='') -> Transaction:
         tx = self.create_call_tx('token.iost', 'transfer', token, from_name, to_name, str(amount), memo)
@@ -307,22 +312,15 @@ class IOST:
                               owner_kpid: str, active_kpdid: str,
                               initial_ram: int = 0, initial_gas_pledge: float = 11.0,
                               initial_coins: float = 0.0) -> Transaction:
-        tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
-                         expiration=self.expiration, delay=self.delay)
-
+        tx = self.create_tx()
         tx.add_action('auth.iost', 'SignUp', new_name, owner_kpid, active_kpdid)
-
         if initial_ram > 0:
             tx.add_action('ram.iost', 'buy', creator_name, new_name, initial_ram)
-
         if initial_gas_pledge <= 10.0:
             raise ValueError('minimum gas pledge is 10.0')
         tx.add_action('gas.iost', 'pledge', creator_name, new_name, str(initial_gas_pledge - 10.0))
-
         if initial_coins > 0.0:
             tx.add_action('token.iost', 'transfer', 'iost', creator_name, new_name, str(initial_coins), '')
-
-        tx.add_amount_limit('*', self.default_limit)
         return tx
 
     def call(self, contract: str, abi: str, *args) -> TxReceipt:
@@ -334,9 +332,15 @@ class IOST:
         return self.send_and_wait_tx(tx)
 
     def new_account(self, new_name: str, creator_name: str,
-                    owner_kpid: str, active_kpdid: str,
                     initial_ram: int = 0, initial_gas_pledge: float = 11.0,
-                    initial_coins: float = 0.0) -> TxReceipt:
-        tx = self.create_new_account_tx(new_name, creator_name, owner_kpid, active_kpdid,
+                    initial_coins: float = 0.0, algo_cls: Type[Algorithm] = Ed25519) -> Account:
+        account = Account(new_name)
+        kp = KeyPair(algo_cls)
+        account.add_key_pair(kp, 'owner')
+        account.add_key_pair(kp, 'active')
+
+        tx = self.create_new_account_tx(new_name, creator_name,
+                                        account.get_key_pair('owner').id, account.get_key_pair('active').id,
                                         initial_ram, initial_gas_pledge, initial_coins)
-        return self.send_and_wait_tx(tx)
+        self.send_and_wait_tx(tx)
+        return account
