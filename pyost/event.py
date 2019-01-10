@@ -56,12 +56,12 @@ class SubscribeRequest:
         return pformat(protobuf_to_dict(self.to_raw()))
 
     def from_raw(self, sr: pb.SubscribeRequest) -> SubscribeRequest:
-        self.topics = sr.topics
+        self.topics = Event.Topic(sr.topics)
         self.filter = SubscribeRequest.Filter().from_raw(sr.filter)
         return self
 
     def to_raw(self) -> pb.SubscribeRequest:
         return pb.SubscribeRequest(
-            topics=self.topics,
+            topics=[topic.value for topic in self.topics],
             filter=self.filter.to_raw() if self.filter is not None else None
         )

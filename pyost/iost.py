@@ -288,10 +288,10 @@ class IOST:
         raise TimeoutError(f'Receipt cannot be found before {max_retry} trials.')
 
     # post: "/subscribe"
-    def subscribe(self, topics: List[Event.Topic], contract_id: str = '') -> Event:
+    def subscribe(self, topics: List[Event.Topic], contract_id: str = ''):
         sr = SubscribeRequest(topics, contract_id)
-        res: pb.SubscribeResponse = self._stub.Subscribe(sr.to_raw())
-        return Event().from_raw(res.event)
+        for res in self._stub.Subscribe(sr.to_raw()):
+            yield Event().from_raw(res.event)
 
     def create_call_tx(self, contract: str, abi: str, *args) -> Transaction:
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
