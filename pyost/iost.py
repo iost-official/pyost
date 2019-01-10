@@ -1,11 +1,13 @@
 import grpc
 import time
+from typing import List
 
 from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
-from pyost.account import Account, AccountInfo, TokenBalance
+from pyost.account import Account, AccountInfo, TokenBalance, Token721Balance
 from pyost.transaction import Transaction, TxReceipt
-
+from pyost.contract import Contract
+from pyost.event import Event, SubscribeRequest
 
 class IOST:
     """
@@ -148,10 +150,50 @@ class IOST:
     def get_balance(self, account_name: str, token: str = 'iost', by_longest_chain: bool = False) -> float:
         return self.get_token_balance(account_name, token, by_longest_chain).balance
 
+    # get: "/getToken721Balance/{account}/{token}/{by_longest_chain}"
+    def get_token721_balance(self, account_name: str, token: str, by_longest_chain: bool = False) -> Token721Balance:
+        req = pb.GetTokenBalanceRequest(account=account_name, token=token, by_longest_chain=by_longest_chain)
+        res: pb.GetToken721BalanceResponse = self._stub.GetToken721Balance(req)
+        return Token721Balance().from_raw(res)
+
+    # get: "/getToken721Metadata/{token}/{token_id}/{by_longest_chain}"
+    def get_token721_metadata(self, token: str, token_id: str, by_longest_chain: bool = False) -> str:
+        req = pb.GetToken721InfoRequest(token=token, token_id=token_id, by_longest_chain=by_longest_chain)
+        res: pb.GetToken721MetadataResponse = self._stub.GetToken721Metadata(req)
+        return res.metadata
+
+    # get: "/getToken721Owner/{token}/{token_id}/{by_longest_chain}"
+    def get_token721_owner(self, token: str, token_id: str, by_longest_chain: bool = False) -> str:
+        req = pb.GetToken721InfoRequest(token=token, token_id=token_id, by_longest_chain=by_longest_chain)
+        res: pb.GetToken721OwnerResponse = self._stub.GetToken721Owner(req)
+        return res.owner
+
     # get: "/getGasRatio"
     def get_gas_ratio(self) -> GasRatio:
         res: pb.GasRatioResponse = self._stub.GetGasRatio(pb.EmptyRequest())
         return GasRatio().from_raw(res)
+
+    # get: "/getContract/{id}/{by_longest_chain}"
+    def get_contract(self, id: str, by_longest_chain: bool = False) -> Contract:
+        req = pb.GetContractRequest(id=id, by_longest_chain=by_longest_chain)
+        res: pb.Contract = self._stub.GetContract(req)
+        return Contract().from_raw(res)
+
+    # post: "/getContractStorage"
+    # body: "*"
+    # return StateDB[key]
+    # field needed if StateDB[key] is a map => StateDB[key][field]
+    def get_contract_storage(self, id: str, key: str, field: str = '', by_longest_chain: bool = False) -> str:
+        req = pb.GetContractStorageRequest(id=id, key=key, field=field, by_longest_chain=by_longest_chain)
+        res: pb.GetContractStorageResponse = self._stub.GetContractStorage(req)
+        return res.data
+
+    # post: "/getContractStorageFields"
+    # body: "*"
+    def get_contract_storage_fields(self, id: str, fields: str = '', by_longest_chain: bool = False) -> str:
+        req = pb.GetContractStorageFieldsRequest(id=id, fields=fields, by_longest_chain=by_longest_chain)
+        res: pb.GetContractStorageFieldsResponse = self._stub.GetContractStorageFields(req)
+        return res.data
 
     def send_tx(self, tx: Transaction) -> str:
         """
@@ -159,7 +201,7 @@ class IOST:
         If the tx has no publisher set, signs the tx with the default publisher.
 
         Notes:
-            REST API: POST "/sendRawTx" (tx in the body)
+            REST API: POST "/sendTx" (tx in the body)
 
         Args:
             tx (Transaction): The transaction to serialize.
@@ -174,6 +216,36 @@ class IOST:
 
         res: pb.SendTransactionResponse = self._stub.SendTransaction(tx.to_request_raw())
         return res.hash
+
+    #     // execute transaction
+    #     rpc ExecTransaction (TransactionRequest) returns (TxReceipt) {
+    #         option (google.api.http) = {
+    #             post: "/execTx"
+    #             body: "*"
+    #         };
+    #     }
+    #
+    def exec_tx(self, tx: Transaction) -> TxReceipt:
+        """
+        Executes a Transaction encoded as a TransactionRequest.
+        If the tx has no publisher set, signs the tx with the default publisher.
+
+        Notes:
+            REST API: POST "/execTx" (tx in the body)
+
+        Args:
+            tx (Transaction): The transaction to serialize.
+
+        Returns:
+            TxReceipt: The receipt of the transaction.
+        """
+        if tx.publisher is None:
+            if self.publisher is None:
+                raise ValueError('No publisher has signed the transaction.')
+            self.publisher.sign_publish(tx)
+
+        tr: pb.TxReceipt = self._stub.ExecTransaction(tx.to_request_raw())
+        return TxReceipt().from_raw(tr)
 
     def send_and_wait_tx(self, tx: Transaction) -> TxReceipt:
         return self.wait_tx(self.send_tx(tx))
@@ -214,56 +286,11 @@ class IOST:
 
         raise TimeoutError(f'Receipt cannot be found before {max_retry} trials.')
 
-    # def estimate_gas(self, tx: Transaction) -> int:
-    #     """
-    #     Estimates the gas required to send a Transaction.
-    #
-    #     Notes:
-    #         NOT SUPPORTED YET
-    #         REST API: POST "/estimateGas" (tx in the body)
-    #
-    #     Args:
-    #         tx (Transaction): A Transaction that will be serialized to a TxRaw..
-    #
-    #     Returns:
-    #         str: The amount of gas required to execute a Transaction..
-    #     """
-    #     req = pb.RawTxReq(data=tx.encode())
-    #     res = self._stub.EstimateGas(req)
-    #     return res.gas
-
-    # // subscribe an event
-    # rpc Subscribe (SubscribeReq) returns (stream SubscribeRes) {
-    #    option (google.api.http) = {
-    #        post: "/subscribe"
-    #        body: "*"
-    #    };
-    # }
-    # message SubscribeReq {
-    # 	repeated event.Event.Topic topics=1;
-    # }
-    # message Event {
-    #     enum Topic {
-    #         TransactionResult = 0;
-    #         ContractEvent = 1;
-    #         ContractUserEvent = 2;
-    #         ContractSystemEvent = 3;
-    #     }
-    #     Topic topic = 1;
-    #     string data = 2;
-    #     int64 time = 3;
-    # }
-    # message SubscribeRes {
-    # 	event.Event ev=1;
-    # }
-    # TODO: event_topic is a list of enum (need to pass an iterator?)
-    # TODO: if topics is a scalar, transform it into a 1 element list
-    # TODO: check that each topic is a valid Enum value
-    # def subscribe(self, topics: [int]) -> dict:
-    #     print(ptd.get_field_names_and_options(event_pb2.Event))
-    #     req = pb.SubscribeReq(topics=topics)
-    #     res = self._stub.Subscribe(req)
-    #     return protobuf_to_dict(res.ev)
+    # post: "/subscribe"
+    def subscribe(self, topics: List[Event.Topic], contract_id: str = '') -> Event:
+        sr = SubscribeRequest(topics, contract_id)
+        res: pb.SubscribeResponse = self._stub.Subscribe(sr.to_raw())
+        return Event().from_raw(res.event)
 
     def create_call_tx(self, contract: str, abi: str, *args) -> Transaction:
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,

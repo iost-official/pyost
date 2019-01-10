@@ -70,6 +70,28 @@ class TokenBalance:
         )
 
 
+class Token721Balance:
+    def __init__(self):
+        # token balance
+        self.balance: int = 0
+        # frozen balance information
+        self.token_ids: List[str] = []
+
+    def __str__(self) -> str:
+        return pformat(protobuf_to_dict(self.to_raw()))
+
+    def from_raw(self, tb: pb.GetToken721BalanceResponse) -> Token721Balance:
+        self.balance = tb.balance
+        self.token_ids = tb.tokenIDs
+        return self
+
+    def to_raw(self) -> pb.GetToken721BalanceResponse:
+        return pb.GetTokenBalanceResponse(
+            balance=self.balance,
+            tokenIDs=self.token_ids
+        )
+
+
 class AccountInfo:
     # The message defines account pledged coin information.
     class PledgeInfo:
