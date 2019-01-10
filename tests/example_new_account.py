@@ -18,6 +18,7 @@ if __name__ == '__main__':
 
     print(f'RAM price: {iost.get_ram_info().buy_price}')
 
+    # Buy RAM
     # tx = iost.create_call_tx('ram.iost', 'buy', acc1.name, acc1.name, 1024)
     # tx.gas_limit = 1000000
     # acc1.sign_publish(tx)
@@ -45,8 +46,8 @@ if __name__ == '__main__':
     acc2.add_key_pair(acc2_kp, 'owner')
 
     tx = iost.create_new_account_tx(acc2.name, acc1.name,
-                                    acc2_kp.id, acc2_kp.id, 0, 100, 100)
-    tx.gas_limit = 1000000
+                                    acc2_kp.id, acc2_kp.id, 0, 100.0, 100.0)
+    tx.gas_limit = 1000000.0
     acc1.sign_publish(tx)
 
     print('Waiting for transaction to be processed...')

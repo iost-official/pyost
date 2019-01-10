@@ -15,7 +15,7 @@ class IOST:
     """
 
     def __init__(self, url: str, timeout: int = 10,
-                 gas_ratio: int = 1, gas_limit: int = 10000,
+                 gas_ratio: float = 1.0, gas_limit: float = 10000.0,
                  delay: int = 0, expiration: int = 90, default_limit='unlimited',
                  wait_time: int = 3, wait_max_retry: int = 10,
                  publisher: Account = None):
@@ -27,8 +27,8 @@ class IOST:
             timeout (int): Number of seconds to wait when querying the node until timing out.
         """
         self.timeout: int = timeout
-        self.gas_ratio: int = gas_ratio
-        self.gas_limit: int = gas_limit
+        self.gas_ratio: float = gas_ratio
+        self.gas_limit: float = gas_limit
         self.delay: int = delay
         self.expiration: int = expiration
         self.default_limit: str = default_limit
@@ -300,15 +300,15 @@ class IOST:
         tx.add_amount_limit('*', self.default_limit)
         return tx
 
-    def create_transfer_tx(self, token: str, from_name: str, to_name: str, amount: int, memo='') -> Transaction:
+    def create_transfer_tx(self, token: str, from_name: str, to_name: str, amount: float, memo='') -> Transaction:
         tx = self.create_call_tx('token.iost', 'transfer', token, from_name, to_name, str(amount), memo)
         tx.add_amount_limit('iost', str(amount))
         return tx
 
     def create_new_account_tx(self, new_name: str, creator_name: str,
                               owner_kpid: str, active_kpdid: str,
-                              initial_ram: int = 0, initial_gas_pledge: int = 11,
-                              initial_coins: int = 0) -> Transaction:
+                              initial_ram: int = 0, initial_gas_pledge: float = 11.0,
+                              initial_coins: float = 0.0) -> Transaction:
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
                          expiration=self.expiration, delay=self.delay)
 
@@ -317,11 +317,11 @@ class IOST:
         if initial_ram > 0:
             tx.add_action('ram.iost', 'buy', creator_name, new_name, initial_ram)
 
-        if initial_gas_pledge <= 10:
-            raise ValueError('minimum gas pledge is 10')
-        tx.add_action('gas.iost', 'pledge', creator_name, new_name, str(initial_gas_pledge - 10))
+        if initial_gas_pledge <= 10.0:
+            raise ValueError('minimum gas pledge is 10.0')
+        tx.add_action('gas.iost', 'pledge', creator_name, new_name, str(initial_gas_pledge - 10.0))
 
-        if initial_coins > 0:
+        if initial_coins > 0.0:
             tx.add_action('token.iost', 'transfer', 'iost', creator_name, new_name, str(initial_coins), '')
 
         tx.add_amount_limit('*', self.default_limit)
@@ -337,7 +337,8 @@ class IOST:
 
     def new_account(self, new_name: str, creator_name: str,
                     owner_kpid: str, active_kpdid: str,
-                    initial_ram: int = 0, initial_gas_pledge: int = 11, initial_coins: int = 0) -> TxReceipt:
+                    initial_ram: int = 0, initial_gas_pledge: float = 11.0,
+                    initial_coins: float = 0.0) -> TxReceipt:
         tx = self.create_new_account_tx(new_name, creator_name, owner_kpid, active_kpdid,
                                         initial_ram, initial_gas_pledge, initial_coins)
         return self.send_and_wait_tx(tx)

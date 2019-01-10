@@ -76,15 +76,15 @@ class Transaction:
         UNKNOWN = -1
 
     def __init__(self, expiration: int = 90, delay: int = 0,
-                 gas_ratio: int = 1, gas_limit: int = 10000,
+                 gas_ratio: float = 1.0, gas_limit: float = 10000.0,
                  amount_limits: List[AmountLimit] = None, actions: List[Action] = None,
                  signers: List[str] = None, publisher: str = ''):
         self.hash: bytes = None
         self.time: int = time_ns()
         self.expiration: int = 0
         self.set_expiration(expiration)
-        self.gas_ratio: int = gas_ratio
-        self.gas_limit: int = gas_limit
+        self.gas_ratio: float = gas_ratio
+        self.gas_limit: float = gas_limit
         self.delay: int = delay
         self.actions: List[Action] = actions or []
         self.amount_limits: List[AmountLimit] = amount_limits or []
@@ -198,8 +198,8 @@ class Transaction:
         sn = SimpleNotation()
         sn.write_int64(self.time)
         sn.write_int64(self.expiration)
-        sn.write_int64(self.gas_ratio*100)
-        sn.write_int64(self.gas_limit*100)
+        sn.write_int64(int(self.gas_ratio * 100.0))
+        sn.write_int64(int(self.gas_limit * 100.0))
         sn.write_int64(self.delay)
         sn.write_string_slice(self.signers)
         sn.write_bytes_slice([a.to_bytes() for a in self.actions], False)
