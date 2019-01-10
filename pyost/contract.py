@@ -41,7 +41,7 @@ class Contract:
                     self.amount_limit.append(AmountLimit(token, value))
             return self
 
-        def to_json(self) -> dict:
+        def to_dict(self) -> dict:
             d = {
                 'name': self.name,
                 'args': self.args,
@@ -86,16 +86,16 @@ class Contract:
                 self.abis.append(Contract.ABI().from_json(abi))
         return self
 
-    def to_json(self) -> dict:
-        return {
+    def to_json(self) -> str:
+        return json.dumps({
             'ID': self.id,
             'info': {
                 'lang': self.language,
                 'version': self.version,
-                'abi': [abi.to_json() for abi in self.abis]
+                'abi': [abi.to_dict() for abi in self.abis]
             },
             'code': self.code
-        }
+        })
 
 
 if __name__ == '__main__':

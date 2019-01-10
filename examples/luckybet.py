@@ -38,28 +38,11 @@ def check_float_equal(a, b):
 
 
 def get_balance(account_name):
-    cmd = 'iwallet balance ' + account_name
-    stdout = call(cmd)
-    amount = re.findall('"balance": (\S+),', stdout)[0]
-    return float(amount)
+    return iost.get_balance(account_name)
 
 
 def fetch_contract_state(cid, key):
-    data = {"id": cid, "key": key}
-    cmd = f"curl -s -X POST --data '{json.dumps(data)}' http://{DEFAULT_NODEIP}:30001/getContractStorage"
-    stdout = call(cmd)
-    json_result = eval(json.loads(stdout)['data'])
-    return json_result
-
-def send(tx, verbose=False):
-    try:
-        txr = iost.send_and_wait_tx(tx)
-        if verbose:
-            print(txr)
-        return txr
-    except TransactionError as e:
-        print(e)
-        exit(1)
+    return json.loads(iost.get_contract_storage(cid, key))['data']
 
 
 def publish_contract(js_file, js_abi_file, account):
@@ -67,14 +50,16 @@ def publish_contract(js_file, js_abi_file, account):
         code = f.read()
     with open(js_abi_file, 'r') as f:
         abi_file = json.load(f)
-
     contract = Contract(code=code).from_json(abi_file)
+
     tx = iost.create_call_tx('system.iost', 'SetCode', contract.to_json())
     account.sign_publish(tx)
-    print(tx)
-    txr = send(tx)
-    print(txr)
-    print(iost.get_tx_by_hash(txr.tx_hash))
+    try:
+        txr = iost.send_and_wait_tx(tx)
+        return json.loads(txr.returns[0])[0]
+    except TransactionError as e:
+        print(e)
+        return None
 
 
 def init_account():
@@ -85,50 +70,51 @@ def init_account():
     testid_account.add_key_pair(kp, 'owner')
     iost.publisher = testid_account
 
-    print(iost.get_account_info(iost.publisher.name).ram_info)
-    print(iost.get_account_info(iost.publisher.name).gas_info)
-
     # TODO uncomment
-    #iost.call('ram.iost', 'buy', testid_account.name, testid_account.name, 50000)
-    #iost.call('gas.iost', 'pledge', testid_account.name, testid_account.name, '100')
-    #print(iost.get_account_info(iost.publisher.name).ram_info)
-    #print(iost.get_account_info(iost.publisher.name).gas_info)
-    return testid_account
+    # print(iost.get_account_info(iost.publisher.name).ram_info)
+    # print(iost.get_account_info(iost.publisher.name).gas_info)
+    # iost.call('ram.iost', 'buy', testid_account.name, testid_account.name, 50000)
+    # iost.call('gas.iost', 'pledge', testid_account.name, testid_account.name, '100')
+    # print(iost.get_account_info(iost.publisher.name).ram_info)
+    # print(iost.get_account_info(iost.publisher.name).gas_info)
 
 
 def publish():
+    cid = 'Contract7fYG6eTZxiTj72cmABBbcSwcrQQQ4DbPDWwh63UfbktX'
     # TODO uncomment this
-    #uploader_account = iost.new_account('sirilucky2', iost.publisher.name, 50000, 20, 0)
-    #print(uploader_account)
-
-    private_key = b58decode(b'3rDmfY3aFTUiMzbG7BkYmk7D5UKjSgKV46KnxibVYWCTxqRk5ZEXqYxAi4wv9yUdJUvJi2ZpHY6oHxoAf2CN8Zci')
-    kp = KeyPair(Ed25519, private_key)
-    uploader_account = Account('sirilucky2')
-    uploader_account.add_key_pair(kp, 'active')
-    uploader_account.add_key_pair(kp, 'owner')
-
-    cid = publish_contract('contract/lucky_bet.js',
-                           'contract/lucky_bet.js.abi', uploader_account)
+    # uploader_account = iost.new_account('sirilucky2', iost.publisher.name, 50000, 20, 0)
+    # print(uploader_account)
+    #
+    # # private_key = b58decode(b'3rDmfY3aFTUiMzbG7BkYmk7D5UKjSgKV46KnxibVYWCTxqRk5ZEXqYxAi4wv9yUdJUvJi2ZpHY6oHxoAf2CN8Zci')
+    # # kp = KeyPair(Ed25519, private_key)
+    # # uploader_account = Account('sirilucky2')
+    # # uploader_account.add_key_pair(kp, 'active')
+    # # uploader_account.add_key_pair(kp, 'owner')
+    #
+    # cid = publish_contract('contract/lucky_bet.js',
+    #                        'contract/lucky_bet.js.abi', uploader_account)
     return cid
 
 
 def get_bet_users():
     bet_user_num = 20  # must be same as `maxUserNumber` in lucky_bet.js
     bet_users = [
-        f'user_{random.randint(0, 1000000)}' for idx in range(bet_user_num)]
+        f'user_{random.randint(0, 1000000)}' for _ in range(bet_user_num)]
 
     def create_bet_user(user):
-        create_account(TESTID, user, 600, 100, initial_coin_of_bet_user, False)
+        print(f'Creating account {user}...')
+        account = iost.new_account(user, iost.publisher.name, 600, 100, initial_coin_of_bet_user)
+        print(f'Account {user} created.')
+        return account
 
     pool = ThreadPool(bet_user_num)
-    pool.map(create_bet_user, bet_users)
-    return bet_users
+    return pool.map(create_bet_user, bet_users)
 
 
 def main():
-    account = init_account()
+    init_account()
     cid = publish()
-    exit(0)
+    print(f'Contract ID: {cid}')
 
     # create fake users with initial IOSTs
     bet_users = get_bet_users()
@@ -144,7 +130,13 @@ def main():
         bet_coin = bet_coins[idx]
         nouce = ''
         args = [bet_users[idx], lucky_number, bet_coin, nouce]
-        call_contract(bet_users[idx], cid, 'bet', args, False)
+        tx = iost.create_call_tx(cid, 'bet', args)
+        bet_users[idx].sign_publish(tx)
+        try:
+            txr = iost.send_and_wait_tx(tx)
+            print(f'#{idx} status: {txr.status_code.name}')
+        except TransactionError as e:
+            print(e)
 
     pool.map(bet, range(bet_user_num))
 
