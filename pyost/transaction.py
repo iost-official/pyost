@@ -11,6 +11,7 @@ from pyost.api.rpc.pb import rpc_pb2 as pb
 from pyost.signature import Signature, KeyPair
 from pyost.simplenotation import SimpleNotation
 
+
 class Action:
     def __init__(self, contract: str = None, abi: str = None, *args):
         self.contract: str = contract
@@ -147,7 +148,7 @@ class Transaction:
         self.actions = [Action().from_raw(ar) for ar in tr.actions
                         ] if tr.actions is not None else []
         self.amount_limits: [AmountLimit().from_raw(al) for al in tr.amount_limit
-                            ] if tr.amount_limit is not None else []
+                             ] if tr.amount_limit is not None else []
         self.signers = tr.signers
         self.signatures = []
         self.publisher = tr.publisher
@@ -276,6 +277,9 @@ class TxReceipt:
     def __str__(self) -> str:
         return pformat(protobuf_to_dict(self.to_raw()))
 
+    def is_success(self) -> bool:
+        return self.status_code == TxReceipt.StatusCode.SUCCESS
+
     def from_raw(self, tr: pb.TxReceipt) -> TxReceipt:
         self.tx_hash = tr.tx_hash
         self.gas_usage = tr.gas_usage
@@ -299,14 +303,22 @@ class TxReceipt:
         )
 
 
+class TransactionError(Exception):
+    def __init__(self, message: str = 'Unknown transaction error.',
+                 receipt: TxReceipt = None):
+        super().__init__(message)
+        self.receipt: TxReceipt = receipt
+        self.status_code: TxReceipt.StatusCode = receipt.status_code if receipt is not None else TxReceipt.StatusCode.UNKNOWN_ERROR
+
+
 if __name__ == '__main__':
     ba = bytearray()
     byteorder = 'little'
     ba = bytearray() + (12).to_bytes(4, byteorder) + (1).to_bytes(4, byteorder)
     print(ba)
 
-    #receipt = TxReceipt()
-    #print(TxReceipt.StatusCode.BALANCE_NOT_ENOUGH.value)
+    # receipt = TxReceipt()
+    # print(TxReceipt.StatusCode.BALANCE_NOT_ENOUGH.value)
 
     # tr = pb.Transaction(time=time_ns(), actions=[pb.Action(), pb.Action()],
     #            publisher=pb.Signature(algorithm=1, sig=b'ddfadsgadg'))

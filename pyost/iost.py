@@ -5,7 +5,7 @@ from typing import List
 from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
 from pyost.account import Account, AccountInfo, TokenBalance, Token721Balance
-from pyost.transaction import Transaction, TxReceipt
+from pyost.transaction import Transaction, TxReceipt, TransactionError
 from pyost.contract import Contract
 from pyost.event import Event, SubscribeRequest
 
@@ -265,7 +265,7 @@ class IOST:
                 if verbose:
                     print(tx.status.name)
             else:
-                raise RuntimeError(f'Unknown transaction status: {tx.status.value}.')
+                raise TransactionError(f'Unknown transaction status: {tx.status.value}.')
 
             try:
                 receipt = self.get_tx_receipt_by_tx_hash(tx_hash)
@@ -278,12 +278,10 @@ class IOST:
                     print(receipt)
                 if receipt.status_code == TxReceipt.StatusCode.TIMEOUT:
                     raise TimeoutError(receipt.message)
-                elif receipt.status_code == TxReceipt.StatusCode.RUNTIME_ERROR or receipt.status_code == TxReceipt.StatusCode.UNKNOWN_ERROR:
-                    raise RuntimeError(receipt.message)
                 elif receipt.status_code != TxReceipt.StatusCode.SUCCESS:
-                    if verbose:
-                        print(f'Transaction error: {receipt.status_code.name}')
-                return receipt
+                    raise TransactionError(receipt.message, receipt)
+                else:
+                    return receipt
 
         raise TimeoutError(f'Receipt cannot be found before {max_retry} trials.')
 

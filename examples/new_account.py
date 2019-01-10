@@ -4,6 +4,7 @@ from pyost.iost import IOST
 from pyost.account import Account
 from pyost.algorithm import Ed25519
 from pyost.signature import KeyPair
+from pyost.transaction import TransactionError
 
 if __name__ == '__main__':
     iost = IOST('35.180.171.246:30002')
@@ -15,27 +16,6 @@ if __name__ == '__main__':
     acc1.add_key_pair(acc1_kp, 'active')
     acc1.add_key_pair(acc1_kp, 'owner')
     print(f'Account 1:\n{iost.get_account_info(acc1.name)}')
-
-    print(f'RAM price: {iost.get_ram_info().buy_price}')
-
-    # Buy RAM
-    # tx = iost.create_call_tx('ram.iost', 'buy', acc1.name, acc1.name, 1024)
-    # tx.gas_limit = 1000000
-    # acc1.sign_publish(tx)
-    # print(tx)
-    #
-    # print('Waiting for transaction to be processed...')
-    # try:
-    #     receipt = iost.wait_tx(iost.send_tx(tx), verbose=True)
-    #     print(f'Receipt status: {receipt.status_code}')
-    #     print(receipt)
-    #     print('Transaction:')
-    #     print(iost.get_tx_by_hash(receipt.tx_hash))
-    # except TimeoutError as e:
-    #     print(f'ERROR: {e}')
-    # except RuntimeError as e:
-    #     print(f'ERROR: {e}')
-    # exit(0)
 
     # Create key pair for the new account
     acc2_kp = KeyPair(Ed25519)
@@ -53,11 +33,9 @@ if __name__ == '__main__':
     print('Waiting for transaction to be processed...')
     try:
         receipt = iost.send_and_wait_tx(tx)
-        print(f'Receipt status: {receipt.status_code}')
         print(receipt)
-        print('Transaction:')
         print(iost.get_tx_by_hash(receipt.tx_hash))
+    except TransactionError as e:
+        print(f'Transaction error {e.status_code}: {e}')
     except TimeoutError as e:
-        print(f'ERROR: {e}')
-    except RuntimeError as e:
-        print(f'ERROR: {e}')
+        print(f'Timeout error: {e}')

@@ -3,6 +3,7 @@ from pyost.iost import IOST
 from pyost.account import Account
 from pyost.algorithm import Secp256k1, Ed25519
 from pyost.signature import KeyPair
+from pyost.transaction import TransactionError
 from base58 import b58decode, b58encode
 
 
@@ -35,12 +36,11 @@ if __name__ == '__main__':
     print('Waiting for transaction to be processed...')
     try:
         receipt = iost.send_and_wait_tx(tx)
-        print(f'Receipt status: {receipt.status_code}')
         print(receipt)
+    except TransactionError as e:
+        print(f'Transaction error {e.status_code}: {e}')
     except TimeoutError as e:
-        print(e)
-    except RuntimeError as e:
-        print(e)
+        print(f'Timeout error: {e}')
 
     print_balance(acc1.name)
     print_balance(acc2.name)
