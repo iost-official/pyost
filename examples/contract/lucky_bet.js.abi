@@ -1,0 +1,23 @@
+{
+    "lang": "javascript",
+    "version": "1.0.0",
+    "abi": [
+        {
+            "name": "bet",
+            "args": [
+                "string",
+                "number",
+                "number",
+                "string"
+            ],
+            "amountLimit": [{
+                "token": "iost",
+                "val": "10"
+            },
+            {
+                "token": "ram",
+                "val": "1000"
+            }]
+        }
+    ]
+}
