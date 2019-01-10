@@ -86,7 +86,7 @@ class Token721Balance:
         return self
 
     def to_raw(self) -> pb.GetToken721BalanceResponse:
-        return pb.GetTokenBalanceResponse(
+        return pb.GetToken721BalanceResponse(
             balance=self.balance,
             tokenIDs=self.token_ids
         )

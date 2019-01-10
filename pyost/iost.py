@@ -264,8 +264,9 @@ class IOST:
             elif tx.status == Transaction.Status.PACKED or tx.status == Transaction.Status.IRREVERSIBLE:
                 if verbose:
                     print(tx.status.name)
-                else:
-                    raise RuntimeError(f'Unknown transaction status: {tx.status.value}.')
+            else:
+                raise RuntimeError(f'Unknown transaction status: {tx.status.value}.')
+
             try:
                 receipt = self.get_tx_receipt_by_tx_hash(tx_hash)
             except Exception as e:

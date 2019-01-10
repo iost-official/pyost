@@ -5,6 +5,13 @@ from pyost.algorithm import Secp256k1, Ed25519
 from pyost.signature import KeyPair
 from base58 import b58decode, b58encode
 
+
+def print_balance(account_name: str):
+    account = iost.get_account_info(account_name)
+    print(
+        f'{account.name}: balance={account.balance} gas={account.gas_info.current_total} ram={account.ram_info.available}')
+
+
 if __name__ == '__main__':
     iost = IOST('35.180.171.246:30002')
 
@@ -13,23 +20,21 @@ if __name__ == '__main__':
     acc1 = Account('iostsiri')
     acc1.add_key_pair(acc1_kp, 'active')
     acc1.add_key_pair(acc1_kp, 'owner')
-    acc1_info = iost.get_account_info(acc1.name)
-    print(f'{acc1_info.name}: balance={acc1_info.balance} gas={acc1_info.gas_info.current_total} ram={acc1_info.ram_info.available}')
+    print_balance(acc1.name)
 
     acc2_seckey = b58decode(b'3weJNnPE16XDBncfZT68Jm13HQ68AqnvCjpNLZtVUV1FZyVQJBFpeP5TZhRhYTaDKjjpMoc7WE5V9mSayGTyCYN7')
     acc2_kp = KeyPair(Ed25519, acc2_seckey)
     acc2 = Account('iostsiri3')
     acc2.add_key_pair(acc2_kp, 'active')
     acc2.add_key_pair(acc2_kp, 'owner')
-    acc2_info = iost.get_account_info(acc2.name)
-    print(f'{acc2_info.name}: balance={acc2_info.balance} gas={acc2_info.gas_info.current_total} ram={acc2_info.ram_info.available}')
+    print_balance(acc2.name)
 
-    tx = iost.create_transfer_tx('iost', acc2.name, acc1.name, 1)
+    tx = iost.create_transfer_tx('iost', acc1.name, acc2.name, 1)
     acc1.sign_publish(tx)
 
     print('Waiting for transaction to be processed...')
     try:
-        receipt = iost.wait_tx(iost.send_tx(tx), verbose=True)
+        receipt = iost.send_and_wait_tx(tx)
         print(f'Receipt status: {receipt.status_code}')
         print(receipt)
     except TimeoutError as e:
@@ -37,8 +42,5 @@ if __name__ == '__main__':
     except RuntimeError as e:
         print(e)
 
-    acc1_info = iost.get_account_info(acc1.name)
-    print(f'{acc1_info.name}: balance={acc1_info.balance} gas={acc1_info.gas_info.current_total} ram={acc1_info.ram_info.available}')
-
-    acc2_info = iost.get_account_info(acc2.name)
-    print(f'{acc2_info.name}: balance={acc2_info.balance} gas={acc2_info.gas_info.current_total} ram={acc2_info.ram_info.available}')
+    print_balance(acc1.name)
+    print_balance(acc2.name)

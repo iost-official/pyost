@@ -13,11 +13,12 @@ if __name__ == '__main__':
     acc1 = Account('iostsiri')
     acc1.add_key_pair(acc1_kp, 'active')
     acc1.add_key_pair(acc1_kp, 'owner')
-    print(f'Account 1:\n{iost.get_account_info(acc1.name)}')
 
-    acc2_seckey = b58decode(b'3weJNnPE16XDBncfZT68Jm13HQ68AqnvCjpNLZtVUV1FZyVQJBFpeP5TZhRhYTaDKjjpMoc7WE5V9mSayGTyCYN7')
-    acc2_kp = KeyPair(Ed25519, acc1_seckey)
-    acc2 = Account('iostsiri3')
-    acc2.add_key_pair(acc2_kp, 'active')
-    acc2.add_key_pair(acc2_kp, 'owner')
-    print(f'Account 2:\n{iost.get_account_info(acc2.name)}')
+    print('Account Info:')
+    print(iost.get_account_info(acc1.name))
+
+    print('\nToken Balance:')
+    print(iost.get_token_balance(acc1.name))
+
+    print('\nToken 721 Balance:')
+    print(iost.get_token721_balance(acc1.name, 'iost'))

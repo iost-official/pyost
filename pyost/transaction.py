@@ -182,9 +182,7 @@ class Transaction:
             actions=[a.to_raw() for a in self.actions],
             amount_limit=[al.to_raw() for al in self.amount_limits],
             signers=self.signers,
-            signatures=[s.to_raw() for s in self.signatures],
             publisher=self.publisher,
-            publisher_sigs=[s.to_raw() for s in self.publisher_signatures],
             referred_tx=self.referred_tx
         )
 
