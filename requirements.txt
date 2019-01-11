@@ -1,8 +1,6 @@
+base58
 ecdsa
-grpc
 ed25519
 grpcio
-grpcio-tools
 googleapis-common-protos
 protobuf-to-dict==git+ssh://git@github.com/wearefair/protobuf-to-dict
-base58
