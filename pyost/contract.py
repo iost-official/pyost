@@ -1,9 +1,8 @@
 from __future__ import annotations
-import json
 from typing import List
 from pprint import pformat
 from protobuf_to_dict import protobuf_to_dict
-from pyost.api.rpc.pb import rpc_pb2 as pb
+from pyost.rpc.pb import rpc_pb2 as pb
 from pyost.transaction import AmountLimit
 
 

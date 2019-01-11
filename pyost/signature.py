@@ -2,7 +2,7 @@ from typing import Type
 from hashlib import sha3_256 as sha3
 from base58 import b58encode, b58decode
 
-from pyost.api.rpc.pb import rpc_pb2 as pb
+from pyost.rpc.pb import rpc_pb2 as pb
 from pyost.algorithm import Algorithm, get_algorithm_by_id
 from pyost.simplenotation import SimpleNotation
 from pyost.crc32 import parity
@@ -82,7 +82,3 @@ class KeyPair:
 
     def sign(self, message: bytes) -> Signature:
         return Signature(self.algo_cls, message, self.seckey)
-
-
-if __name__ == '__main__':
-    pass

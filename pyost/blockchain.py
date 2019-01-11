@@ -4,7 +4,7 @@ from enum import Enum
 from protobuf_to_dict import protobuf_to_dict
 from pprint import pformat
 
-from pyost.api.rpc.pb import rpc_pb2 as pb
+from pyost.rpc.pb import rpc_pb2 as pb
 from pyost.transaction import Transaction
 
 

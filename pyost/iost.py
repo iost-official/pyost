@@ -2,7 +2,7 @@ import grpc
 import time
 from typing import List, Type
 
-from pyost.api.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
+from pyost.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
 from pyost.account import Account, AccountInfo, TokenBalance, Token721Balance
 from pyost.transaction import Transaction, TxReceipt, TransactionError, Action

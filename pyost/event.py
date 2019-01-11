@@ -3,7 +3,7 @@ from typing import List
 from enum import Enum
 from pprint import pformat
 from protobuf_to_dict import protobuf_to_dict
-from pyost.api.rpc.pb import rpc_pb2 as pb
+from pyost.rpc.pb import rpc_pb2 as pb
 
 
 class Event:

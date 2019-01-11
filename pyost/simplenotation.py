@@ -13,7 +13,8 @@ class SimpleNotation:
         self.buffer = bytearray()
         self.byteorder = byteorder
 
-    def escape(self, bs: bytes) -> bytes:
+    @staticmethod
+    def escape(bs: bytes) -> bytes:
         return bs.replace(SLASH, SLASH + SLASH)\
             .replace(SLICE_SEP, SLASH + SLICE_SEP)\
             .replace(FIELD_SEP, SLASH + FIELD_SEP)\

@@ -3,11 +3,10 @@ from abc import ABC, abstractmethod
 from typing import Type
 import ed25519
 import ecdsa
-from base58 import b58encode, b58decode
+from base58 import b58encode
 
-from pyost.api.rpc.pb import rpc_pb2 as pb
-from pyost.crc32 import parity
-
+from pyost.rpc.pb import rpc_pb2 as pb
+from pyost import signature
 
 def get_algorithm_by_id(id: int) -> Type[Algorithm]:
     if id == Ed25519.ID:
@@ -33,7 +32,7 @@ class Algorithm(ABC):
 
     @classmethod
     @abstractmethod
-    def create_key_pair(cls) -> KeyPair:
+    def create_key_pair(cls) -> signature.KeyPair:
         pass
 
     @classmethod
@@ -72,8 +71,8 @@ class Secp256k1(Algorithm):
     NAME = 'secp256k1'
 
     @classmethod
-    def create_key_pair(cls) -> KeyPair:
-        return KeyPair(Secp256k1)
+    def create_key_pair(cls) -> signature.KeyPair:
+        return signature.KeyPair(Secp256k1)
 
     @classmethod
     def __int__(cls) -> int:
@@ -121,8 +120,8 @@ class Ed25519(Algorithm):
     NAME = 'ed25519'
 
     @classmethod
-    def create_key_pair(cls) -> KeyPair:
-        return KeyPair(Ed25519)
+    def create_key_pair(cls) -> signature.KeyPair:
+        return signature.KeyPair(Ed25519)
 
     @classmethod
     def __int__(cls) -> int:
@@ -172,9 +171,7 @@ def selftest():
         sig = kp.sign(message)
         print('sig', b58encode(sig))
 
-        print(kp.verify(message, sig))
-        print(kp2.verify(message, sig))
-        print('')
+        print(sig.verify(message))
 
 
 if __name__ == '__main__':

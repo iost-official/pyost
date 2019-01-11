@@ -7,7 +7,7 @@ from hashlib import sha3_256 as sha3
 from protobuf_to_dict import protobuf_to_dict
 from pprint import pformat
 
-from pyost.api.rpc.pb import rpc_pb2 as pb
+from pyost.rpc.pb import rpc_pb2 as pb
 from pyost.signature import Signature, KeyPair
 from pyost.simplenotation import SimpleNotation
 
@@ -309,21 +309,3 @@ class TransactionError(Exception):
         super().__init__(message)
         self.receipt: TxReceipt = receipt
         self.status_code: TxReceipt.StatusCode = receipt.status_code if receipt is not None else TxReceipt.StatusCode.UNKNOWN_ERROR
-
-
-if __name__ == '__main__':
-    ba = bytearray()
-    byteorder = 'little'
-    ba = bytearray() + (12).to_bytes(4, byteorder) + (1).to_bytes(4, byteorder)
-    print(ba)
-
-    # receipt = TxReceipt()
-    # print(TxReceipt.StatusCode.BALANCE_NOT_ENOUGH.value)
-
-    # tr = pb.Transaction(time=time_ns(), actions=[pb.Action(), pb.Action()],
-    #            publisher=pb.Signature(algorithm=1, sig=b'ddfadsgadg'))
-    # s = tr.SerializeToString()
-    # print(tr)
-    # newtr = pb.Transaction()
-    # newtr.ParseFromString(s)
-    # print(newtr)
