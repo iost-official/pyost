@@ -2,3 +2,4 @@ vendor
 venv
 __pycache__/
 MANIFEST
+.idea
