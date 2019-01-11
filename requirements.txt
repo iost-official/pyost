@@ -3,6 +3,5 @@ ecdsa
 ed25519
 grpc
 grpcio
-#grpcio-tools
 googleapis-common-protos
-protobuf-to-dict==git+ssh://git@github.com/wearefair/protobuf-to-dict
+protobuf3-to-dict
