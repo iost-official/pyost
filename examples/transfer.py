@@ -1,10 +1,9 @@
-import time
 from pyost.iost import IOST
 from pyost.account import Account
-from pyost.algorithm import Secp256k1, Ed25519
+from pyost.algorithm import Ed25519
 from pyost.signature import KeyPair
 from pyost.transaction import TransactionError
-from base58 import b58decode, b58encode
+from base58 import b58decode
 
 
 def print_balance(account_name: str):
@@ -14,33 +13,50 @@ def print_balance(account_name: str):
 
 
 if __name__ == '__main__':
-    iost = IOST('35.180.171.246:30002')
+    iost = IOST('localhost:30002')
 
-    acc1_seckey = b58decode(b'58NCdrz3iUfqKnEk6AX57rGrv9qrvn8EXtiUvVXMLqkKJKSFuW6TR6iuuYBtjgzhwm9ew6e9Pjg3zx5n6ya9MHJ3')
-    acc1_kp = KeyPair(Ed25519, acc1_seckey)
-    acc1 = Account('iostsiri')
-    acc1.add_key_pair(acc1_kp, 'active')
-    acc1.add_key_pair(acc1_kp, 'owner')
+    admin_seckey = b58decode(b'1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB')
+    admin_kp = KeyPair(Ed25519, admin_seckey)
+    admin = Account('producer00001')
+    admin.add_key_pair(admin_kp, 'active')
+    admin.add_key_pair(admin_kp, 'owner')
+    acc1 = admin
     print_balance(acc1.name)
 
-    acc2_seckey = b58decode(b'3weJNnPE16XDBncfZT68Jm13HQ68AqnvCjpNLZtVUV1FZyVQJBFpeP5TZhRhYTaDKjjpMoc7WE5V9mSayGTyCYN7')
+    acc2_seckey = b58decode(b'4vZ8qw2MaGLVXsbW7TcyTDcEqrefAS34vuM1eJf7YrBL9Fpnq3LgRyDjnUfv7kjvPfsA5tQGnou3Bv2bYNXyorK1')
     acc2_kp = KeyPair(Ed25519, acc2_seckey)
-    acc2 = Account('iostsiri3')
+    acc2 = Account('testacc1')
     acc2.add_key_pair(acc2_kp, 'active')
     acc2.add_key_pair(acc2_kp, 'owner')
     print_balance(acc2.name)
 
-    tx = iost.create_transfer_tx('iost', acc1.name, acc2.name, 1)
+    tx = iost.create_transfer_tx('iost', acc1.name, acc2.name, 10000)
+
+    # Those 2 lines are not necessary for transfer, this is just for illustrating multi-sig
+    tx.add_signer(acc2.name, 'active')
+    acc2.sign(tx, 'active')
+
     acc1.sign_publish(tx)
 
     print('Waiting for transaction to be processed...')
     try:
         receipt = iost.send_and_wait_tx(tx)
+        # receipt = iost.wait_tx(iost.send_tx(tx), verbose=True)
         print(receipt)
     except TransactionError as e:
         print(f'Transaction error {e.status_code}: {e}')
     except TimeoutError as e:
         print(f'Timeout error: {e}')
+
+    # All of this can also be written with the short version
+    # iost.publisher = acc1
+    # try:
+    #     receipt = iost.transfer('iost', acc1.name, acc2.name, 1)
+    #     print(receipt)
+    # except TransactionError as e:
+    #     print(f'Transaction error {e.status_code}: {e}')
+    # except TimeoutError as e:
+    #     print(f'Timeout error: {e}')
 
     print_balance(acc1.name)
     print_balance(acc2.name)

@@ -1,28 +1,23 @@
 import sys
-import subprocess
-import os
 import collections
-import time
-import re
 import json
-import argparse
 import random
 from base58 import b58decode
 from multiprocessing.pool import ThreadPool
 from pyost.iost import IOST
 from pyost.account import Account, KeyPair
 from pyost.algorithm import Ed25519
-from pyost.transaction import TransactionError, Transaction, Action
+from pyost.transaction import TransactionError
 from pyost.contract import Contract
 
 assert sys.version_info.major == 3
 assert sys.version_info.minor >= 6
 
 DEFAULT_EXPIRATION = 10
-DEFAULT_GASLIMIT = 2000000
+DEFAULT_GASLIMIT = 1000000
 DEFAULT_GASRATIO = 1
-DEFAULT_NODEIP = '35.180.171.246'
-TESTID = 'iostsiri'
+DEFAULT_NODEIP = 'localhost'
+TESTID = 'producer00001'
 initial_coin_of_bet_user = 5
 
 iost = IOST(f'{DEFAULT_NODEIP}:30002', gas_limit=DEFAULT_GASLIMIT, gas_ratio=DEFAULT_GASRATIO,
@@ -37,12 +32,12 @@ def check_float_equal(a, b):
     assert abs(a - b) < 1e-6, f"not equal {a} {b}"
 
 
-def get_balance(account_name):
-    return iost.get_balance(account_name)
+def get_balance(account):
+    return iost.get_balance(account.name)
 
 
 def fetch_contract_state(cid, key):
-    return json.loads(iost.get_contract_storage(cid, key))['data']
+    return json.loads(iost.get_contract_storage(cid, key))
 
 
 def publish_contract(js_file, js_abi_file, account):
@@ -59,40 +54,29 @@ def publish_contract(js_file, js_abi_file, account):
         return json.loads(txr.returns[0])[0]
     except TransactionError as e:
         print(e)
-        return None
+        exit(1)
 
 
 def init_account():
-    private_key = b58decode(b'58NCdrz3iUfqKnEk6AX57rGrv9qrvn8EXtiUvVXMLqkKJKSFuW6TR6iuuYBtjgzhwm9ew6e9Pjg3zx5n6ya9MHJ3')
+    private_key = b58decode(b'1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB')
     kp = KeyPair(Ed25519, private_key)
     testid_account = Account(TESTID)
     testid_account.add_key_pair(kp, 'active')
     testid_account.add_key_pair(kp, 'owner')
     iost.publisher = testid_account
 
-    # TODO uncomment
     # print(iost.get_account_info(iost.publisher.name).ram_info)
     # print(iost.get_account_info(iost.publisher.name).gas_info)
     # iost.call('ram.iost', 'buy', testid_account.name, testid_account.name, 50000)
-    # iost.call('gas.iost', 'pledge', testid_account.name, testid_account.name, '100')
+    # iost.call('gas.iost', 'pledge', testid_account.name, testid_account.name, '30000')
     # print(iost.get_account_info(iost.publisher.name).ram_info)
     # print(iost.get_account_info(iost.publisher.name).gas_info)
 
 
 def publish():
-    cid = 'Contract7fYG6eTZxiTj72cmABBbcSwcrQQQ4DbPDWwh63UfbktX'
-    # TODO uncomment this
-    # uploader_account = iost.new_account('sirilucky2', iost.publisher.name, 50000, 20, 0)
-    # print(uploader_account)
-    #
-    # # private_key = b58decode(b'3rDmfY3aFTUiMzbG7BkYmk7D5UKjSgKV46KnxibVYWCTxqRk5ZEXqYxAi4wv9yUdJUvJi2ZpHY6oHxoAf2CN8Zci')
-    # # kp = KeyPair(Ed25519, private_key)
-    # # uploader_account = Account('sirilucky2')
-    # # uploader_account.add_key_pair(kp, 'active')
-    # # uploader_account.add_key_pair(kp, 'owner')
-    #
-    # cid = publish_contract('contract/lucky_bet.js',
-    #                        'contract/lucky_bet.js.abi', uploader_account)
+    uploader_account = iost.new_account(f'upacc{random.randint(0, 1000000)}', iost.publisher.name, 50000, 20, 0)
+    cid = publish_contract('contract/lucky_bet.js',
+                           'contract/lucky_bet.js.abi', uploader_account)
     return cid
 
 
@@ -129,8 +113,7 @@ def main():
         lucky_number = lucky_numbers[idx]
         bet_coin = bet_coins[idx]
         nouce = ''
-        args = [bet_users[idx], lucky_number, bet_coin, nouce]
-        tx = iost.create_call_tx(cid, 'bet', args)
+        tx = iost.create_call_tx(cid, 'bet', bet_users[idx].name, lucky_number, bet_coin, nouce)
         bet_users[idx].sign_publish(tx)
         try:
             txr = iost.send_and_wait_tx(tx)
@@ -162,7 +145,7 @@ def main():
     all_lucky_bets = int(
         sum([bet_coins[idx] for idx in range(bet_user_num) if lucky_numbers[idx] == final_lucky_number]))
     for idx in range(bet_user_num):
-        real_reward = rewards[bet_users[idx]]
+        real_reward = rewards[bet_users[idx].name]
         calculated_reward = 0 if lucky_numbers[idx] != final_lucky_number else total_coins_bet * 95 // 100 * bet_coins[
             idx] // all_lucky_bets
         check_float_equal(real_reward, calculated_reward)
@@ -170,7 +153,7 @@ def main():
     # check balance of each user
     for i in range(bet_user_num):
         calculated_balance = initial_coin_of_bet_user - \
-                             bet_coins[i] + rewards[bet_users[i]]
+                             bet_coins[i] + rewards[bet_users[i].name]
         # log(f'calculated_balance {calculated_balance} actual_balance {final_balances[i]}')
         check_float_equal(calculated_balance, final_balances[i])
     log('Congratulations! You have just run a smart contract on IOST!')

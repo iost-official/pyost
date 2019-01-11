@@ -2,8 +2,8 @@ from unittest import main, TestCase
 from hashlib import sha3_256 as sha3
 from base58 import b58decode, b58encode
 from base64 import b64decode, b64encode
-from pyost.signature import Signature
-from pyost.algorithm import Algorithm, Secp256k1, KeyPair
+from pyost.signature import Signature, KeyPair
+from pyost.algorithm import Algorithm, Secp256k1
 
 
 class TestSignature(TestCase):

@@ -2,7 +2,7 @@ from hashlib import sha3_256 as sha3
 from base64 import b64encode
 
 from pyost.algorithm import Ed25519, Secp256k1
-from pyost.signature import Signature, KeyPair
+from pyost.signature import KeyPair
 
 if __name__ == '__main__':
     text = b'hello'

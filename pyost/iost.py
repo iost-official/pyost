@@ -257,18 +257,25 @@ class IOST:
         wait_time = wait_time or self.wait_time
         max_retry = max_retry or self.wait_max_retry
         receipt = None
+        tx = None
 
         for retry in range(max_retry):
             time.sleep(wait_time)
-            tx = self.get_tx_by_hash(tx_hash)
-            if tx.status == Transaction.Status.PENDING:
+            try:
+                tx = self.get_tx_by_hash(tx_hash)
+            except Exception as e:
                 if verbose:
-                    print('PENDING...')
-            elif tx.status == Transaction.Status.PACKED or tx.status == Transaction.Status.IRREVERSIBLE:
-                if verbose:
-                    print(tx.status.name)
-            else:
-                raise TransactionError(f'Unknown transaction status: {tx.status.value}.')
+                    print(e)
+
+            if tx is not None:
+                if tx.status == Transaction.Status.PENDING:
+                    if verbose:
+                        print('PENDING...')
+                elif tx.status == Transaction.Status.PACKED or tx.status == Transaction.Status.IRREVERSIBLE:
+                    if verbose:
+                        print(tx.status.name)
+                else:
+                    raise TransactionError(f'Unknown transaction status: {tx.status.value}.')
 
             try:
                 receipt = self.get_tx_receipt_by_tx_hash(tx_hash)
