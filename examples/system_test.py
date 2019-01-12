@@ -21,7 +21,7 @@ if __name__ == '__main__':
     hw_contract = '{"ID":"hw","info":{"lang":"javascript","version":"1.0.0","abi":[{"name":"hello"}, {"name":"can_update", "args": ["string"]}]},"code":"class Contract {init(){} hello(){return \\"world\\";} can_update(data){return true;}} module.exports = Contract;"}';
 
     print('setting code...')
-    txr = iost.call('system.iost', 'SetCode', hw_contract)
+    txr = iost.call('system.iost', 'setCode', hw_contract)
     contract_id = json.loads(txr.returns[0])[0]
     print(f'Contract ID: {contract_id}')
 

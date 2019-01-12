@@ -2,6 +2,7 @@ import grpc
 import time
 from typing import List, Type
 from collections import Iterable
+from base58 import b58encode
 
 from pyost.rpc.pb import rpc_pb2 as pb, rpc_pb2_grpc
 from pyost.blockchain import Block, NodeInfo, ChainInfo, RAMInfo, GasRatio
@@ -33,7 +34,8 @@ class IOST:
                  gas_ratio: float = 1.0, gas_limit: float = 10000.0,
                  delay: int = 0, expiration: int = 90, default_limit='unlimited',
                  wait_time: int = 3, wait_max_retry: int = 10,
-                 publisher: Account = None):
+                 publisher: Account = None,
+                 chain_id: int = 1024):
         self.timeout: int = timeout
         self.gas_ratio: float = gas_ratio
         self.gas_limit: float = gas_limit
@@ -43,6 +45,7 @@ class IOST:
         self.wait_time: int = wait_time
         self.wait_max_retry: int = wait_max_retry
         self.publisher: Account = publisher
+        self.chain_id: int = chain_id
         self._channel = grpc.insecure_channel(url)
         self._stub = None
 
@@ -479,7 +482,8 @@ class IOST:
             A `Transaction` object.
         """
         tx = Transaction(gas_limit=self.gas_limit, gas_ratio=self.gas_ratio,
-                         expiration=self.expiration, delay=self.delay, actions=actions)
+                         expiration=self.expiration, delay=self.delay, actions=actions,
+                         chain_id=self.chain_id)
         tx.add_amount_limit('*', self.default_limit)
         return tx
 
@@ -514,7 +518,7 @@ class IOST:
         return tx
 
     def create_new_account_tx(self, new_name: str, creator_name: str,
-                              owner_kpid: str, active_kpdid: str,
+                              owner_key: str, active_key: str,
                               initial_ram: int = 0, initial_gas_pledge: float = 11.0,
                               initial_coins: float = 0.0) -> Transaction:
         """Creates a `Transaction` that contains a list of `Actions` to create an account,
@@ -523,8 +527,8 @@ class IOST:
         Args:
             new_name: The name of the account to create.
             creator_name: The name of the account that will pledge tokens to the new account.
-            owner_kpid: The id of the ``owner`` `KeyPair` of the new account.
-            active_kpdid: The id of the ``active`` `KeyPair` of the new account.
+            owner_key: The id of the ``owner`` `KeyPair` of the new account.
+            active_key: The id of the ``active`` `KeyPair` of the new account.
             initial_ram: The amount of RAM to buy for the new account.
             initial_gas_pledge: The amount of tokens to pledge for the new account.
             initial_coins: The amount of coins to transfer to the new account.
@@ -533,7 +537,7 @@ class IOST:
             A `Transaction` object.
         """
         tx = self.create_tx()
-        tx.add_action('auth.iost', 'SignUp', new_name, owner_kpid, active_kpdid)
+        tx.add_action('auth.iost', 'signUp', new_name, owner_key, active_key)
         if initial_ram > 0:
             tx.add_action('ram.iost', 'buy', creator_name, new_name, initial_ram)
         if initial_gas_pledge <= 10.0:
@@ -563,9 +567,28 @@ class IOST:
         tx = self.create_call_tx(contract, abi, *args)
         return self.send_and_wait_tx(tx)
 
+    def publish(self, contract: Contract) -> TxReceipt:
+        """
+        Creates a `Transaction` that contains an `Action` to publish a contract, then sends it. 
+
+        Args:
+            contract: The contract to be published.
+
+        Returns:
+            The receipt of the `Transaction` as a `TxReceipt` object.
+
+        Raises:
+            TransactionError: If Transaction.Status is unknown or if TxReceipt.StatusCode is not SUCCESS.
+            TimeoutError: If TxReceipt.StatusCode is TIMEOUT
+                or no transaction can be found after `wait_time` x `wait_max_retry` have passed.
+        """
+        tx = self.create_call_tx('system.iost', 'setCode', contract.to_json())
+        return self.send_and_wait_tx(tx)
+
+
     def transfer(self, token: str, from_name: str, to_name: str, amount: int, memo='') -> TxReceipt:
         """Helper function that combines `create_transfer_tx` and `send_and_wait_tx`.
-        Creates a `Transaction` that contains an `Action` to transfer tokens between accounts, then send it.
+        Creates a `Transaction` that contains an `Action` to transfer tokens between accounts, then sends it.
 
         Args:
             token: The name of the token.
@@ -615,7 +638,7 @@ class IOST:
         account.add_key_pair(kp, 'active')
 
         tx = self.create_new_account_tx(new_name, creator_name,
-                                        account.get_key_pair('owner').id, account.get_key_pair('active').id,
+                                        b58encode(account.get_key_pair('owner').pubkey), b58encode(account.get_key_pair('active').pubkey),
                                         initial_ram, initial_gas_pledge, initial_coins)
         self.send_and_wait_tx(tx)
         return account
