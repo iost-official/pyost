@@ -51,19 +51,14 @@ def get_algorithm_by_name(name: str) -> Type[Algorithm]:
 
 
 class Algorithm(ABC):
-    """Super class of Algorithm.
-
-    Attributes:
-        ID: The id of the Algorithm as used internally by the blockchain's nodes.
-        NAME: The name of the Algorithm, for display purpose.
-    """
-    ID = pb.Signature.UNKNOWN
-    NAME = 'UNKNOWN'
+    """Super class of Algorithm."""
+    ID = pb.Signature.UNKNOWN #: The id of the Algorithm as used internally by the blockchain's nodes.
+    NAME = 'UNKNOWN' #: The name of the Algorithm, for display purpose.
 
     @classmethod
     @abstractmethod
     def create_key_pair(cls) -> signature.KeyPair:
-        """Creates a `KeyPair` object with this `Algorithm`
+        """Creates a `KeyPair` object with this `Algorithm`.
 
         Returns:
             A `KeyPair` object.
@@ -105,7 +100,7 @@ class Algorithm(ABC):
             sig: The signature that was generated with the message and the private key.
 
         Returns:
-            True if the sig was generated from the message and the public key's corresponding private key.
+            ``True`` if the sig was generated from the message and the public key's corresponding private key.
         """
         pass
 
@@ -134,18 +129,13 @@ class Algorithm(ABC):
 
 
 class Secp256k1(Algorithm):
-    """Contains methods for the Secp256k1 algorithm.
-
-    Attributes:
-        ID: The id of the Algorithm as used internally by the blockchain's nodes.
-        NAME: The name of the Algorithm, for display purpose.
-    """
-    ID = pb.Signature.SECP256K1
-    NAME = 'secp256k1'
+    """Contains methods for the Secp256k1 algorithm."""
+    ID = pb.Signature.SECP256K1 #: The id of the Algorithm as used internally by the blockchain's nodes.
+    NAME = 'secp256k1' #: The name of the Algorithm, for display purpose.
 
     @classmethod
     def create_key_pair(cls) -> signature.KeyPair:
-        """Creates a `KeyPair` object with this `Algorithm`
+        """Creates a `KeyPair` object with this `Algorithm`.
 
         Returns:
             A `KeyPair` object.
@@ -184,7 +174,7 @@ class Secp256k1(Algorithm):
             sig: The signature that was generated with the message and the private key.
 
         Returns:
-            True if the sig was generated from the message and the public key's corresponding private key.
+            ``True`` if the sig was generated from the message and the public key's corresponding private key.
         """
         vk = ecdsa.VerifyingKey.from_string(pubkey, ecdsa.SECP256k1)
         try:
@@ -234,18 +224,13 @@ class Secp256k1(Algorithm):
 
 
 class Ed25519(Algorithm):
-    """Contains methods for the Ed25519 algorithm.
-
-    Attributes:
-        ID: The id of the Algorithm as used internally by the blockchain's nodes.
-        NAME: The name of the Algorithm, for display purpose.
-    """
-    ID = pb.Signature.ED25519
-    NAME = 'ed25519'
+    """Contains methods for the Ed25519 algorithm."""
+    ID = pb.Signature.ED25519 #: The id of the Algorithm as used internally by the blockchain's nodes.
+    NAME = 'ed25519' #: The name of the Algorithm, for display purpose.
 
     @classmethod
     def create_key_pair(cls) -> signature.KeyPair:
-        """Creates a `KeyPair` object with this `Algorithm`
+        """Creates a `KeyPair` object with this `Algorithm`.
 
         Returns:
             A `KeyPair` object.
@@ -284,7 +269,7 @@ class Ed25519(Algorithm):
             sig: The signature that was generated with the message and the private key.
 
         Returns:
-            True if the sig was generated from the message and the public key's corresponding private key.
+            ``True`` if the sig was generated from the message and the public key's corresponding private key.
         """
         vk = ed25519.VerifyingKey(pubkey)
         try:

@@ -4,6 +4,14 @@ KOOPMAN = 0xeb31d82e
 
 
 def make_table(poly: int = KOOPMAN):
+    """Create a table for a polynomial.
+
+    Args:
+        poly: The polynomial function.
+
+    Returns:
+        A 256 bytes long table.
+    """
     table = [0] * 256
     for i in range(256):
         crc = i & 0xffffffff
@@ -16,20 +24,35 @@ def make_table(poly: int = KOOPMAN):
     return table
 
 
-def update(crc: int, table: List[int], data: bytes) -> int:
+def checksum(data: bytes, table: List[int], crc: int = 0) -> int:
+    """Calculates a checksum with a CRC code and a polynomial table.
+
+    Args:
+        data: The data to calculate the checksum for.
+        table: The polynomial table created by `make_table`.
+        crc: The CRC code.
+
+    Returns:
+        The checksum.
+    """
     crc = ~ crc & 0xffffffff
     for v in data:
         crc = table[(crc ^ v) & 0xff] ^ (crc >> 8)
     return ~ crc & 0xffffffff
 
 
-def checksum(data: bytes, table: List[int]) -> int:
-    return update(0, table, data)
+def parity(data: bytes, little_endian=True) -> bytes:
+    """Creates a polynomial table and calculates the checksum of a message.
 
+    Args:
+        data: The data to calculate the checksum for.
+        little_endian: Tells whether the data should be packed as little or big endian.
 
-def parity(bit: bytes, little_endian=True) -> bytes:
+    Returns:
+        The checksum.
+    """
     crc32q = make_table(KOOPMAN)
-    crc = checksum(bit, crc32q)
+    crc = checksum(data, crc32q)
     return crc.to_bytes(4, 'little' if little_endian else 'big')
 
 
