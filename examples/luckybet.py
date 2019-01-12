@@ -17,7 +17,8 @@ DEFAULT_EXPIRATION = 10
 DEFAULT_GASLIMIT = 1000000
 DEFAULT_GASRATIO = 1
 DEFAULT_NODEIP = 'localhost'
-TESTID = 'producer00001'
+TESTID = 'admin'
+KEY = '2yquS3ySrGWPEKywCPzX4RTJugqRh7kJSo5aehsLYPEWkUxBWA39oMrZ7ZxuM4fgyXYs2cPwh5n8aNNpH5x2VyK1'
 initial_coin_of_bet_user = 5
 
 iost = IOST(f'{DEFAULT_NODEIP}:30002', gas_limit=DEFAULT_GASLIMIT, gas_ratio=DEFAULT_GASRATIO,
@@ -47,10 +48,8 @@ def publish_contract(js_file, js_abi_file, account):
         abi_file = json.load(f)
     contract = Contract(code=code).from_json(abi_file)
 
-    tx = iost.create_call_tx('system.iost', 'SetCode', contract.to_json())
-    account.sign_publish(tx)
     try:
-        txr = iost.send_and_wait_tx(tx)
+        txr = iost.publish(contract)
         return json.loads(txr.returns[0])[0]
     except TransactionError as e:
         print(e)
@@ -58,7 +57,7 @@ def publish_contract(js_file, js_abi_file, account):
 
 
 def init_account():
-    private_key = b58decode(b'1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB')
+    private_key = b58decode(bytes(KEY, 'utf8'))
     kp = KeyPair(Ed25519, private_key)
     testid_account = Account(TESTID)
     testid_account.add_key_pair(kp, 'active')

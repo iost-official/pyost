@@ -435,13 +435,13 @@ class AccountInfo:
 
         Attributes:
             name: The permission's name.
-            groups: A list of permission group names.
+            group_names: A list of permission group names.
             items: A list of `Item` objects.
             threshold: The permission's threshold.
         """
         def __init__(self):
             self.name: str = ''
-            self.groups: List[str] = []
+            self.group_names: List[str] = []
             self.items: List[AccountInfo.Item] = []
             self.threshold: int = 0
 
@@ -458,7 +458,7 @@ class AccountInfo:
                 Itself.
             """
             self.name = p.name
-            self.groups = p.groups
+            self.group_names = p.group_names
             self.items = [AccountInfo.Item().from_raw(item)
                           for item in p.items] if p.items is not None else []
             self.threshold = p.threshold
@@ -472,7 +472,7 @@ class AccountInfo:
             """
             return pb.Account.Permission(
                 name=self.name,
-                groups=self.groups,
+                group_names=self.group_names,
                 items=[item.to_raw() for item in self.items],
                 threshold=self.threshold
             )

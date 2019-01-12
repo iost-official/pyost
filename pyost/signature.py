@@ -4,17 +4,7 @@ from base58 import b58encode, b58decode
 
 from pyost.rpc.pb import rpc_pb2 as pb
 from pyost.algorithm import Algorithm, get_algorithm_by_id
-from pyost.simplenotation import SimpleNotation
-from pyost.crc32 import parity
-
-
-def get_id_by_pubkey(pubkey: bytes) -> str:
-    return 'IOST' + b58encode(pubkey + parity(pubkey)).decode('utf-8')
-
-
-def get_pubkey_by_id(pubid: str) -> bytes:
-    b = b58decode(pubid[4:])
-    return b[:-4]
+from pyost.simpleencoder import SimpleEncoder
 
 
 class Signature:
@@ -46,11 +36,11 @@ class Signature:
         )
 
     def to_bytes(self) -> bytes:
-        sn = SimpleNotation()
-        sn.write_bytes(self.algo_cls.__int__().to_bytes(1, sn.byteorder, signed=False))
-        sn.write_bytes(self.sig)
-        sn.write_bytes(self.pubkey)
-        return sn.to_bytes()
+        se = SimpleEncoder()
+        se.write_bytes(self.algo_cls.__int__().to_bytes(1, se.byteorder, signed=False))
+        se.write_bytes(self.sig)
+        se.write_bytes(self.pubkey)
+        return se.to_bytes()
 
     def decode(self, data: bytes) -> None:
         sr = pb.Signature()
@@ -69,11 +59,9 @@ class KeyPair:
         self.algo_cls: Type[Algorithm] = algo_cls
         self.seckey: bytes = seckey if seckey is not None else algo_cls.gen_seckey()
         self.pubkey: bytes = algo_cls.get_pubkey(self.seckey)
-        self.id: str = get_id_by_pubkey(self.pubkey)
 
     def __repr__(self):
         return f"{{'algo_cls': {self.algo_cls.__int__()},\n" \
-            f"'id': '{self.id}',\n" \
             f"'pubkey': '{b58encode(self.pubkey)}',\n" \
             f"'seckey': '{b58encode(self.seckey)}'}}"
 

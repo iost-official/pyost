@@ -2,9 +2,9 @@ from unittest import main, TestCase
 import base58
 from pyost.transaction import Transaction, Action
 from pyost.account import Account
-from pyost.signature import Signature
-from pyost.algorithm import Algorithm, Secp256k1, Ed25519, KeyPair
-from pyost.api.rpc.pb import rpc_pb2 as pb
+from pyost.signature import Signature, KeyPair
+from pyost.algorithm import Algorithm, Secp256k1, Ed25519
+from pyost.rpc.pb import rpc_pb2 as pb
 
 
 class TestAction(TestCase):
