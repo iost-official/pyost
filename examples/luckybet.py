@@ -49,6 +49,7 @@ def publish_contract(js_file, js_abi_file, account):
     contract = Contract(code=code).from_json(abi_file)
 
     try:
+        # WARNING this will be signed by the testid not by the uploader's account
         txr = iost.publish(contract)
         return json.loads(txr.returns[0])[0]
     except TransactionError as e:

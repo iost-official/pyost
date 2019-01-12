@@ -14,10 +14,11 @@ class Event:
         data: The data of the event.
         time: The timestamp of the event.
     """
+
     class Topic(Enum):
-        CONTRACT_RECEIPT = pb.Event.CONTRACT_RECEIPT #: Contract receipt.
-        CONTRACT_EVENT = pb.Event.CONTRACT_EVENT #: Contract event.
-        UNKNOWN = -1 #: Unknown topic.
+        CONTRACT_RECEIPT = pb.Event.CONTRACT_RECEIPT  #: Contract receipt.
+        CONTRACT_EVENT = pb.Event.CONTRACT_EVENT  #: Contract event.
+        UNKNOWN = -1  #: Unknown topic.
 
     def __init__(self):
         self.topic: Event.Topic = Event.Topic.UNKNOWN
@@ -58,13 +59,14 @@ class SubscribeRequest:
     """Used to send event subscription request to the API.
 
     Args:
-        topcis: The list of `Topic` to monitor.
+        topics: The list of `Topic` to monitor.
         contract_id: Filter the events to this contract id.
 
     Attributes:
         topics: The list of `Topic` to monitor.
         filter: A `Filter` object that contains the contract id to filter.
     """
+
     class Filter:
         """Contains a contract id to filter events.
 
@@ -74,6 +76,7 @@ class SubscribeRequest:
         Attributes:
             contract_id: Filter events for this contract id.
         """
+
         def __init__(self, contract_id: str = ''):
             self.contract_id: str = contract_id
 

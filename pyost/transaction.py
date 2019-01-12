@@ -132,7 +132,7 @@ class AmountLimit:
 class Transaction:
     """Describes a transaction.
     Normal usage is to add `Action`s (ABI calls) and `Signature`s (from the signers and publisher)
-        then send it via the blockchain's API by calling `IOST.send_tx` method.
+    then send it via the blockchain's API by calling `IOST.send_tx` method.
 
     Args:
         expiration: When the transaction expires, in seconds from now.
@@ -197,7 +197,7 @@ class Transaction:
         return pformat(protobuf_to_dict(self.to_request_raw()))
 
     def add_action(self, contract: str, abi: str, *args) -> Transaction:
-        """Adds an `Action` (i.e. an ABI call) to the list of `Action`s.
+        """Adds an `Action` (i.e. an ABI call) to the list of `Action`.
 
         Args:
             contract: The contract id to call.
@@ -224,11 +224,11 @@ class Transaction:
         return self
 
     def add_amount_limit(self, token: str = '*', amount: str = 'unlimited') -> Transaction:
-        """Adds an `AmountLimit` to the list of `AmountLimit`s.
+        """Adds an `AmountLimit` to the list of `AmountLimit`.
 
         Args:
             token: The token name.
-            value: The amount limit as a string, ``unlimited`` is a valid value.
+            amount: The amount limit as a string, ``unlimited`` is a valid value.
 
         Returns:
             Itself.
@@ -240,7 +240,7 @@ class Transaction:
         """Sets the expiration time in seconds from the `time` field.
 
         Args:
-            expiration: Number of seconds since the `time` of this `Transaction.
+            expiration: Number of seconds since the `time` of this `Transaction`.
 
         Returns:
             Itself.
@@ -413,7 +413,7 @@ class TxReceipt:
         ram_usage: The amount of RAM consumed by the `Transaction`.
         status_code: The `StatusCode` of the `Transaction`'s receipt.
         message: The error message corresponding to the `status_code`.
-        returns: A list of values returned by the executed ABI calls listed as `Action`s.
+        returns: A list of values returned by the executed ABI calls listed as `Action`.
         receipts: A list of `Receipt` objects.
     """
 

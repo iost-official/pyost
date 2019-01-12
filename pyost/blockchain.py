@@ -26,6 +26,7 @@ class NodeInfo:
             peer_count: The number of peers.
             peer_info: A list of `PeerInfo` objects.
         """
+
         class PeerInfo:
             """Contains information about a node's peer.
 
@@ -33,6 +34,7 @@ class NodeInfo:
                 id: The base58 string id of the peer.
                 addr: The IP address of the peer.
             """
+
             def __init__(self):
                 self.id: str = ''
                 self.addr: str = ''
@@ -149,6 +151,7 @@ class ChainInfo:
         lib_block_hash: The base58 hash string of the last irreversible block number.
         witness_list: The list of current witnesses IOST ids.
     """
+
     def __init__(self):
         self.net_name: str = ''
         self.protocol_version: str = ''
@@ -206,6 +209,7 @@ class RAMInfo:
         sell_price: User can sell ``NUM`` bytes RAM to system to get ``NUM * sell_price`` IOSTs.
         buy_price: User can spend approximately ``NUM * buy_price`` IOSTs for ``NUM`` bytes RAM.
     """
+
     def __init__(self):
         self.used_ram: int = 0
         self.available_ram: int = 0
@@ -254,6 +258,7 @@ class GasRatio:
         lowest_gas_ratio: Lowest gas ratio in head block.
         median_gas_ratio: Median gas ratio in head block.
     """
+
     def __init__(self):
         self.lowest_gas_ratio: float = 0.0
         self.median_gas_ratio: float = 0.0
@@ -307,9 +312,9 @@ class Block:
 
     class Status(Enum):
         """Indicates the status of a block."""
-        PENDING = pb.BlockResponse.PENDING #: Indicates that the block is pending to be processed.
-        IRREVERSIBLE = pb.BlockResponse.IRREVERSIBLE #: Indicates that the block has been processed.
-        UNKNOWN = -1 #: Indicates an unknown error.
+        PENDING = pb.BlockResponse.PENDING  #: Indicates that the block is pending to be processed.
+        IRREVERSIBLE = pb.BlockResponse.IRREVERSIBLE  #: Indicates that the block has been processed.
+        UNKNOWN = -1  #: Indicates an unknown error.
 
     class Info:
         """Contains information about a block.
@@ -319,6 +324,7 @@ class Block:
             thread: Thread.
             batch_index: List of indices.
         """
+
         def __init__(self):
             self.mode: int = 0
             self.thread: int = 0

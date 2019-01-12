@@ -42,6 +42,7 @@ extensions = [
     'sphinx.ext.autodoc',
     #'sphinx.ext.viewcode',
     #'sphinx.ext.todo',
+    'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
     'sphinx_autodoc_typehints'
 ]

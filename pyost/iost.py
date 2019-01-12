@@ -30,6 +30,7 @@ class IOST:
     Raises:
         ConnectionError: If the connection cannot be established before `timeout` seconds.
     """
+
     def __init__(self, url: str, timeout: int = 10,
                  gas_ratio: float = 1.0, gas_limit: float = 10000.0,
                  delay: int = 0, expiration: int = 90, default_limit='unlimited',
@@ -569,7 +570,7 @@ class IOST:
 
     def publish(self, contract: Contract) -> TxReceipt:
         """
-        Creates a `Transaction` that contains an `Action` to publish a contract, then sends it. 
+        Creates a `Transaction` that contains an `Action` to publish a contract, then sends it.
 
         Args:
             contract: The contract to be published.
@@ -584,7 +585,6 @@ class IOST:
         """
         tx = self.create_call_tx('system.iost', 'setCode', contract.to_json())
         return self.send_and_wait_tx(tx)
-
 
     def transfer(self, token: str, from_name: str, to_name: str, amount: int, memo='') -> TxReceipt:
         """Helper function that combines `create_transfer_tx` and `send_and_wait_tx`.
@@ -612,6 +612,7 @@ class IOST:
                     initial_ram: int = 0, initial_gas_pledge: float = 11.0,
                     initial_coins: float = 0.0, algo_cls: Type[Algorithm] = Ed25519) -> Account:
         """Helper function that combines `KeyPair` and `Account` creation then calls to `create_new_account_tx` and `send_and_wait_tx`.
+
         Creates an `Account` with new ``owner`` and ``active`` `KeyPair`, then
             creates a `Transaction` that contains a list of `Actions` to create an account,
             pledge tokens, buy RAM and transfer coins to the new account, and finally sends it.
@@ -638,7 +639,8 @@ class IOST:
         account.add_key_pair(kp, 'active')
 
         tx = self.create_new_account_tx(new_name, creator_name,
-                                        b58encode(account.get_key_pair('owner').pubkey), b58encode(account.get_key_pair('active').pubkey),
+                                        b58encode(account.get_key_pair('owner').pubkey),
+                                        b58encode(account.get_key_pair('active').pubkey),
                                         initial_ram, initial_gas_pledge, initial_coins)
         self.send_and_wait_tx(tx)
         return account

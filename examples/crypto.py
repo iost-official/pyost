@@ -14,7 +14,6 @@ if __name__ == '__main__':
         print(kp.algo_cls.__int__())
         print(kp.seckey.hex())
         print(kp.pubkey.hex())
-        print(kp.id)
 
         sig = kp.sign(info)
         print(sig.pubkey.hex())

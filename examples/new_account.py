@@ -24,7 +24,8 @@ if __name__ == '__main__':
     acc2.add_key_pair(acc2_kp, 'owner')
 
     tx = iost.create_new_account_tx(acc2.name, admin.name,
-                                    acc2_kp.id, acc2_kp.id, 0, 100.0, 100.0)
+                                    b58encode(acc2_kp.pubkey),
+                                    b58encode(acc2_kp.pubkey), 0, 100.0, 100.0)
     tx.gas_limit = 1000000.0
     admin.sign_publish(tx)
 

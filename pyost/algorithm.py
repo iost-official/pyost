@@ -52,8 +52,8 @@ def get_algorithm_by_name(name: str) -> Type[Algorithm]:
 
 class Algorithm(ABC):
     """Super class of Algorithm."""
-    ID = pb.Signature.UNKNOWN #: The id of the Algorithm as used internally by the blockchain's nodes.
-    NAME = 'UNKNOWN' #: The name of the Algorithm, for display purpose.
+    ID = pb.Signature.UNKNOWN  #: The id of the Algorithm as used internally by the blockchain's nodes.
+    NAME = 'UNKNOWN'  #: The name of the Algorithm, for display purpose.
 
     @classmethod
     @abstractmethod
@@ -130,8 +130,8 @@ class Algorithm(ABC):
 
 class Secp256k1(Algorithm):
     """Contains methods for the Secp256k1 algorithm."""
-    ID = pb.Signature.SECP256K1 #: The id of the Algorithm as used internally by the blockchain's nodes.
-    NAME = 'secp256k1' #: The name of the Algorithm, for display purpose.
+    ID = pb.Signature.SECP256K1  #: The id of the Algorithm as used internally by the blockchain's nodes.
+    NAME = 'secp256k1'  #: The name of the Algorithm, for display purpose.
 
     @classmethod
     def create_key_pair(cls) -> signature.KeyPair:
@@ -225,8 +225,8 @@ class Secp256k1(Algorithm):
 
 class Ed25519(Algorithm):
     """Contains methods for the Ed25519 algorithm."""
-    ID = pb.Signature.ED25519 #: The id of the Algorithm as used internally by the blockchain's nodes.
-    NAME = 'ed25519' #: The name of the Algorithm, for display purpose.
+    ID = pb.Signature.ED25519  #: The id of the Algorithm as used internally by the blockchain's nodes.
+    NAME = 'ed25519'  #: The name of the Algorithm, for display purpose.
 
     @classmethod
     def create_key_pair(cls) -> signature.KeyPair:

@@ -18,7 +18,7 @@ if __name__ == '__main__':
     iost.publisher = admin
     iost.gas_limit = 1000000
 
-    hw_contract = '{"ID":"hw","info":{"lang":"javascript","version":"1.0.0","abi":[{"name":"hello"}, {"name":"can_update", "args": ["string"]}]},"code":"class Contract {init(){} hello(){return \\"world\\";} can_update(data){return true;}} module.exports = Contract;"}';
+    hw_contract = '{"ID":"hw","info":{"lang":"javascript","version":"1.0.0","abi":[{"name":"hello"}, {"name":"can_update", "args": ["string"]}]},"code":"class Contract {init(){} hello(){return \\"world\\";} can_update(data){return true;}} module.exports = Contract;"}'
 
     print('setting code...')
     txr = iost.call('system.iost', 'setCode', hw_contract)
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     res = json.loads(txr.returns[0])[0]
     print(f'Response: {res}')
 
-    hw_contract2 = '{"ID":"' + contract_id + '","info":{"lang":"javascript","version":"1.0.0","abi":[{"name":"hello", "args":["string"]}, {"name":"can_update", "args":["string"]}]},"code":"class Contract {init(){} hello(data){return data;} can_update(data){return false;}} module.exports = Contract;"}';
+    hw_contract2 = '{"ID":"' + contract_id + '","info":{"lang":"javascript","version":"1.0.0","abi":[{"name":"hello", "args":["string"]}, {"name":"can_update", "args":["string"]}]},"code":"class Contract {init(){} hello(data){return data;} can_update(data){return false;}} module.exports = Contract;"}'
     print('updating code...')
     txr = iost.call('system.iost', 'UpdateCode', hw_contract2, '')
     print(txr.status_code.name)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     res = json.loads(txr.returns[0])[0]
     print(f'Response: {res}')
 
-    hw_contract3 = '{"ID":"' + contract_id + '","info":{"lang":"javascript","version":"1.0.0","abi":[{"name":"hello", "args":["string"]}]},"code":"class Contract {init(){} hello(data){return data;}} module.exports = Contract;"}';
+    hw_contract3 = '{"ID":"' + contract_id + '","info":{"lang":"javascript","version":"1.0.0","abi":[{"name":"hello", "args":["string"]}]},"code":"class Contract {init(){} hello(data){return data;}} module.exports = Contract;"}'
     print('updating bad code...')
     txr = iost.call('system.iost', 'UpdateCode', hw_contract3, '')
     print(txr.status_code.name)

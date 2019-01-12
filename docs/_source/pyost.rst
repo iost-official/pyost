@@ -68,10 +68,10 @@ pyost.signature module
     :undoc-members:
     :show-inheritance:
 
-pyost.simplenotation module
+pyost.simpleencoder module
 ---------------------------
 
-.. automodule:: pyost.simplenotation
+.. automodule:: pyost.simpleencoder
     :members:
     :undoc-members:
     :show-inheritance:
