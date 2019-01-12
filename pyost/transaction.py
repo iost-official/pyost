@@ -13,6 +13,19 @@ from pyost.simpleencoder import SimpleEncoder
 
 
 class Action:
+    """Describes a call to an ABI function.
+
+    Args:
+        contract: The contract id to call.
+        abi: The name of the function to call.
+        *args: The list of arguments to pass to the function.
+
+    Attributes:
+        contract: The contract id to call.
+        abi: The name of the function to call.
+        data: A JSONified string of the arguments list.
+    """
+
     def __init__(self, contract: str = None, abi: str = None, *args):
         self.contract: str = contract
         self.action_name: str = abi
@@ -24,18 +37,36 @@ class Action:
         return pformat(protobuf_to_dict(self.to_raw()))
 
     def from_raw(self, ar: pb.Action) -> Action:
+        """Deserializes a protobuf object to update this object's members.
+
+        Args:
+            ar: The protobuf object.
+
+        Returns:
+            Itself.
+        """
         self.contract = ar.contract
         self.action_name = ar.action_name
         self.data = ar.data
         return self
 
     def to_raw(self) -> pb.Action:
+        """Serializes this object's members to a protobuf object.
+
+        Returns:
+            A protobuf object.
+        """
         return pb.Action(
             contract=self.contract,
             action_name=self.action_name,
             data=self.data)
 
     def to_bytes(self) -> bytes:
+        """Serializes this object to bytes, used to calculate the hash of a `Transaction`.
+
+        Returns:
+            A binary representation of this object.
+        """
         se = SimpleEncoder()
         se.write_string(self.contract)
         se.write_string(self.action_name)
@@ -44,6 +75,17 @@ class Action:
 
 
 class AmountLimit:
+    """Describes the amount limit for a given token.
+
+    Args:
+        token: The token name.
+        value: The amount limit as a string, ``unlimited`` is a valid value.
+
+    Attributes:
+        token: The token name.
+        value: The amount limit as a string, ``unlimited`` is a valid value.
+    """
+
     def __init__(self, token: str = '', value: str = ''):
         self.token: str = token
         self.value: str = value
@@ -52,17 +94,35 @@ class AmountLimit:
         return pformat(protobuf_to_dict(self.to_raw()))
 
     def from_raw(self, al: pb.AmountLimit) -> AmountLimit:
+        """Deserializes a protobuf object to update this object's members.
+
+        Args:
+            al: The protobuf object.
+
+        Returns:
+            Itself.
+        """
         self.token = al.token
         self.value = al.value
         return self
 
     def to_raw(self) -> pb.AmountLimit:
+        """Serializes this object's members to a protobuf object.
+
+        Returns:
+            A protobuf object.
+        """
         return pb.AmountLimit(
             token=self.token,
             value=self.value,
         )
 
     def to_bytes(self) -> bytes:
+        """Serializes this object to bytes, used to calculate the hash of a `Transaction`.
+
+        Returns:
+            A binary representation of this object.
+        """
         se = SimpleEncoder()
         se.write_string(self.token)
         se.write_string(self.value)
@@ -70,11 +130,46 @@ class AmountLimit:
 
 
 class Transaction:
+    """Describes a transaction.
+    Normal usage is to add `Action`s (ABI calls) and `Signature`s (from the signers and publisher)
+        then send it via the blockchain's API by calling `IOST.send_tx` method.
+
+    Args:
+        expiration: When the transaction expires, in seconds from now.
+        delay: When to execute the transaction, default 0 means now.
+        gas_ratio: The gas ratio, default is 1.0.
+        gas_limit: The maximum amount of gas that can be used to execute a transaction.
+        amount_limits: A list of `AmountLimit` to set the maximum amount by token.
+        actions: A list of `Action`, i.e. ABI calls.
+        signers: A list of signers' name and permission written in the format ``name@permission``.
+        publisher: The name of the publisher's account.
+        chain_id: The chain id.
+
+    Attributes:
+        hash: The binary hash of the full transaction including publisher's signature.
+        time: The time in nanoseconds when the `Transaction` object was created.
+        expiration: When the transaction expires, in seconds from now.
+        delay: When to execute the transaction, default 0 means now.
+        gas_ratio: The gas ratio, default is 1.0.
+        gas_limit: The maximum amount of gas that can be used to execute a transaction.
+        amount_limits: A list of `AmountLimit` to set the maximum amount by token.
+        actions: A list of `Action`, i.e. ABI calls.
+        signers: A list of signers' name and permission written in the format ``name@permission``.
+        signatures: A list of `Signature` corresponding to the list of `signers`.
+        publisher: The name of the publisher's account.
+        publisher_signatures: A list of `Signature` added by the `publisher`.
+        chain_id: The chain id.
+        referred_tx: The binary hash of the referred transaction.
+        tx_receipt: The receipt of the `Transaction` as a `TxReceipt` object.
+        status: The status of the `Transaction` such as ``PENDING`` or ``PACKED``.
+    """
+
     class Status(Enum):
-        PENDING = pb.TransactionResponse.PENDING
-        PACKED = pb.TransactionResponse.PACKED
-        IRREVERSIBLE = pb.TransactionResponse.IRREVERSIBLE
-        UNKNOWN = -1
+        """Status of the `Transaction`."""
+        PENDING = pb.TransactionResponse.PENDING  #: Transaction pending.
+        PACKED = pb.TransactionResponse.PACKED  #: Transaction packed in a block.
+        IRREVERSIBLE = pb.TransactionResponse.IRREVERSIBLE  #: Transaction has been processed.
+        UNKNOWN = -1  #: Unknown status.
 
     def __init__(self, expiration: int = 90, delay: int = 0,
                  gas_ratio: float = 1.0, gas_limit: float = 10000.0,
@@ -102,27 +197,81 @@ class Transaction:
         return pformat(protobuf_to_dict(self.to_request_raw()))
 
     def add_action(self, contract: str, abi: str, *args) -> Transaction:
+        """Adds an `Action` (i.e. an ABI call) to the list of `Action`s.
+
+        Args:
+            contract: The contract id to call.
+            abi: The name of the function to call.
+            *args: The list of arguments to pass to the function.
+
+        Returns:
+            Itself.
+        """
         self.actions.append(Action(contract, abi, *args))
         return self
 
     def add_signer(self, name: str, permission: str) -> Transaction:
+        """Adds a signer's name and permission to the list of `signers` in the format ``name@permission``.
+
+        Args:
+            name: The name of the signer.
+            permission: The permission such as ``active`` or ``owner``.
+
+        Returns:
+            Itself.
+        """
         self.signers.append(f'{name}@{permission}')
         return self
 
     def add_amount_limit(self, token: str = '*', amount: str = 'unlimited') -> Transaction:
+        """Adds an `AmountLimit` to the list of `AmountLimit`s.
+
+        Args:
+            token: The token name.
+            value: The amount limit as a string, ``unlimited`` is a valid value.
+
+        Returns:
+            Itself.
+        """
         self.amount_limits.append(AmountLimit(token, amount))
         return self
 
     def set_expiration(self, expiration: int) -> Transaction:
+        """Sets the expiration time in seconds from the `time` field.
+
+        Args:
+            expiration: Number of seconds since the `time` of this `Transaction.
+
+        Returns:
+            Itself.
+        """
         self.expiration = self.time + expiration * int(1e9)
         return self
 
     def add_signature(self, kp: KeyPair) -> Transaction:
+        """Signs the base hash of the `Transaction` and adds the `Signature` to the list of `signatures`.
+
+        Args:
+            kp: The `KeyPair` used to sign the base hash of this `Transaction`.
+
+        Returns:
+            Itself.
+        """
         signature = kp.sign(self._base_hash())
         self.signatures.append(signature)
         return self
 
     def add_publisher_signature(self, name: str, kp: KeyPair) -> Transaction:
+        """Signs the publish hash of the `Transaction` and adds the `Signature` to the list of `publisher_signatures`.
+        The publish hash includes the list of `signers` and their `signatures`.
+
+        Args:
+            name: The name of the publisher, will set the `publisher` field with its value.
+            kp: The `KeyPair` used to sign the publish hash of this `Transaction`.
+
+        Returns:
+            Itself.
+        """
         signature = kp.sign(self._publish_hash())
         self.publisher_signatures.append(signature)
         self.publisher = name
@@ -130,16 +279,39 @@ class Transaction:
         return self
 
     def _base_hash(self) -> bytes:
+        """Calculates the base hash of this `Transaction`.
+
+        Returns:
+            A binary hash value.
+        """
         return sha3(self.to_bytes('base')).digest()
 
     def _publish_hash(self) -> bytes:
+        """Calculates the publish hash of this `Transaction` (includes `signers` and `signatures`).
+
+        Returns:
+            A binary hash value.
+        """
         return sha3(self.to_bytes('publish')).digest()
 
     def _hash(self) -> bytes:
+        """Calculates the full hash of this `Transaction` (includes `publisher` and `publisher_signatures`).
+
+        Returns:
+            A binary hash value.
+        """
         self.hash = sha3(self.to_bytes('full')).digest()
         return self.hash
 
     def from_raw(self, tr: pb.Transaction) -> Transaction:
+        """Deserializes a protobuf object to update this object's members.
+
+        Args:
+            tr: The protobuf object.
+
+        Returns:
+            Itself.
+        """
         self.hash = tr.hash
         self.time = tr.time
         self.expiration = tr.expiration
@@ -160,6 +332,12 @@ class Transaction:
         return self
 
     def to_request_raw(self) -> pb.TransactionRequest:
+        """Serializes this object's members to a protobuf object.
+        This is used by IOST.send_tx to send the `TransactionRequest` via the API.
+
+        Returns:
+            A protobuf object.
+        """
         return pb.TransactionRequest(
             time=self.time,
             expiration=self.expiration,
@@ -176,6 +354,11 @@ class Transaction:
         )
 
     def to_raw(self) -> pb.Transaction:
+        """Serializes this object's members to a protobuf object.
+
+        Returns:
+            A protobuf object.
+        """
         return pb.Transaction(
             hash=self.hash,
             time=self.time,
@@ -191,15 +374,17 @@ class Transaction:
             chain_id=self.chain_id,
         )
 
-    def decode(self, data: bytes) -> None:
-        tr = pb.Transaction()
-        tr.ParseFromString(data)
-        self.from_raw(tr)
-
-    def encode(self) -> bytes:
-        return self.to_raw().SerializeToString()
-
     def to_bytes(self, level='base') -> bytes:
+        """Serializes this object to bytes, used to calculate the hash of a `Transaction`.
+
+        Args:
+            level: If ``base``, only calculates the base hash of the `Transaction`.
+                If ``publish``, also includes the list of `signatures`.
+                If ``full``, also includes the `publisher` and its `publisher_signatures`.
+
+        Returns:
+            A binary representation of this object.
+        """
         se = SimpleEncoder()
         se.write_int64(self.time)
         se.write_int64(self.expiration)
@@ -218,40 +403,40 @@ class Transaction:
             se.write_bytes_slice([s.to_bytes() for s in self.publisher_signatures])
         return se.to_bytes()
 
-    # def verify_self(self) -> bool:
-    #     base_hash = self._base_hash()
-    #     has_signed: List[str] = []
-    #
-    #     for sign in self.signs:
-    #         if not sign.verify(base_hash):
-    #             raise PermissionError('A signature did not sign the base hash.')
-    #         has_signed.append(sign.pubkey)
-    #
-    #     for signer in self.signers:
-    #         if signer not in has_signed:
-    #             raise PermissionError('A required signer has not signed yet.')
-    #
-    #     if self.publisher is None:
-    #         raise PermissionError('A publisher is required.')
-    #     # if not self.publisher.verify(self._publish_hash()):
-    #     #    raise PermissionError('The publisher has not signed yet.')
-    #
-    #     return True
-
 
 class TxReceipt:
+    """Describes the receipt of a `Transaction`.
+
+    Attributes:
+        tx_hash: The base58 hash string of the `Transaction`.
+        gas_usage: The amount of gas consumed by the `Transaction`.
+        ram_usage: The amount of RAM consumed by the `Transaction`.
+        status_code: The `StatusCode` of the `Transaction`'s receipt.
+        message: The error message corresponding to the `status_code`.
+        returns: A list of values returned by the executed ABI calls listed as `Action`s.
+        receipts: A list of `Receipt` objects.
+    """
+
     class StatusCode(Enum):
-        SUCCESS = pb.TxReceipt.SUCCESS
-        GAS_RUN_OUT = pb.TxReceipt.GAS_RUN_OUT
-        BALANCE_NOT_ENOUGH = pb.TxReceipt.BALANCE_NOT_ENOUGH
-        WRONG_PARAMETER = pb.TxReceipt.WRONG_PARAMETER
-        RUNTIME_ERROR = pb.TxReceipt.RUNTIME_ERROR
-        TIMEOUT = pb.TxReceipt.TIMEOUT
-        WRONG_TX_FORMAT = pb.TxReceipt.WRONG_TX_FORMAT
-        DUPLICATE_SET_CODE = pb.TxReceipt.DUPLICATE_SET_CODE
-        UNKNOWN_ERROR = pb.TxReceipt.UNKNOWN_ERROR
+        """Indicates the status of the `Transaction`."""
+        SUCCESS = pb.TxReceipt.SUCCESS  #: If no error.
+        GAS_RUN_OUT = pb.TxReceipt.GAS_RUN_OUT  #: If gas amount was not enough to execute the `Transaction`.
+        BALANCE_NOT_ENOUGH = pb.TxReceipt.BALANCE_NOT_ENOUGH  #: If token balance was not enough to execute the `Transaction`.
+        WRONG_PARAMETER = pb.TxReceipt.WRONG_PARAMETER  #: If there is an error in the args of one of the `Action`.
+        RUNTIME_ERROR = pb.TxReceipt.RUNTIME_ERROR  #: If there was an error when processing the `Transaction`.
+        TIMEOUT = pb.TxReceipt.TIMEOUT  #: If the process timeout before the `Transaction` could be processed.
+        WRONG_TX_FORMAT = pb.TxReceipt.WRONG_TX_FORMAT  #: If the `Transaction` format is incorrect.
+        DUPLICATE_SET_CODE = pb.TxReceipt.DUPLICATE_SET_CODE  #: If the smart contract's id already exist.
+        UNKNOWN_ERROR = pb.TxReceipt.UNKNOWN_ERROR  #: None of the above.
 
     class Receipt:
+        """Describes a function call's receipt.
+
+        Attributes:
+            func_name: The name of the function.
+            content: The content.
+        """
+
         def __init__(self):
             self.func_name: str = ''
             self.content: str = ''
@@ -260,11 +445,24 @@ class TxReceipt:
             return pformat(protobuf_to_dict(self.to_raw()))
 
         def from_raw(self, tr: pb.TxReceipt.Receipt) -> TxReceipt.Receipt:
+            """Deserializes a protobuf object to update this object's members.
+
+            Args:
+                tr: The protobuf object.
+
+            Returns:
+                Itself.
+            """
             self.func_name = tr.func_name
             self.content = tr.content
             return self
 
         def to_raw(self) -> pb.TxReceipt.Receipt:
+            """Serializes this object's members to a protobuf object.
+
+            Returns:
+                A protobuf object.
+            """
             return pb.TxReceipt.Receipt(
                 func_name=self.func_name,
                 content=self.content
@@ -283,9 +481,22 @@ class TxReceipt:
         return pformat(protobuf_to_dict(self.to_raw()))
 
     def is_success(self) -> bool:
+        """Returns if the `status_code` is ``SUCCESS``.
+
+        Returns:
+            ``True`` if `status_code` is ``SUCCESS``.
+        """
         return self.status_code == TxReceipt.StatusCode.SUCCESS
 
     def from_raw(self, tr: pb.TxReceipt) -> TxReceipt:
+        """Deserializes a protobuf object to update this object's members.
+
+        Args:
+            tr: The protobuf object.
+
+        Returns:
+            Itself.
+        """
         self.tx_hash = tr.tx_hash
         self.gas_usage = tr.gas_usage
         self.ram_usage = tr.ram_usage
@@ -297,6 +508,11 @@ class TxReceipt:
         return self
 
     def to_raw(self) -> pb.TxReceipt:
+        """Serializes this object's members to a protobuf object.
+
+        Returns:
+            A protobuf object.
+        """
         return pb.TxReceipt(
             tx_hash=self.tx_hash,
             gas_usage=self.gas_usage,
@@ -309,6 +525,17 @@ class TxReceipt:
 
 
 class TransactionError(Exception):
+    """Raised by IOST.wait_tx to indicates an error when processing a `Transaction`.
+
+    Args:
+        message: The error message.
+        receipt: The `TxReceipt` of the `Transaction`.
+
+    Attributes:
+        receipt: The `TxReceipt` of the `Transaction`.
+        status_code: If the `TxReceipt` was passed, contains its `status_code` value.
+    """
+
     def __init__(self, message: str = 'Unknown transaction error.',
                  receipt: TxReceipt = None):
         super().__init__(message)
