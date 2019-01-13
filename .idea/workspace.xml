@@ -8,10 +8,6 @@
     <list default="true" id="9da18066-ed0a-4be2-9f61-7ae4af05926a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/account.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/info.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/info.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/new_account.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/new_account.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/transfer.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/transfer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <ignored path="iost-official/" />
@@ -85,12 +81,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="235">
-                <caret line="91" column="61" lean-forward="true" selection-start-line="91" selection-start-column="61" selection-end-line="91" selection-end-column="61" />
+              <first_editor relative-caret-position="176">
+                <caret line="147" column="9" selection-start-line="147" selection-start-column="9" selection-end-line="147" selection-end-column="9" />
               </first_editor>
               <second_editor />
             </state>
@@ -100,8 +96,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="71" selection-start-line="10" selection-start-column="71" selection-end-line="10" selection-end-column="71" />
+            <state relative-caret-position="106">
+              <caret line="16" column="14" lean-forward="true" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -172,11 +168,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/transfer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="40" column="55" lean-forward="true" selection-start-line="40" selection-start-column="55" selection-end-line="40" selection-end-column="55" />
+            <state relative-caret-position="132">
+              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -207,7 +203,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>get_acc</find>
       <find>SendTransactionResponse</find>
       <find>GetToken721OwnerResponse</find>
       <find>GasRatio</find>
@@ -237,6 +232,7 @@
       <find>get_block_by_num</find>
       <find>`s</find>
       <find>There is</find>
+      <find>self</find>
     </findStrings>
     <replaceStrings>
       <replace>post</replace>
@@ -297,12 +293,12 @@
         <option value="$PROJECT_DIR$/sphinx/_source/conf.py" />
         <option value="$PROJECT_DIR$/sphinx/Makefile" />
         <option value="$PROJECT_DIR$/sphinx/source/conf.py" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/examples/info.py" />
         <option value="$PROJECT_DIR$/examples/account.py" />
         <option value="$PROJECT_DIR$/examples/new_account.py" />
         <option value="$PROJECT_DIR$/examples/transfer.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -612,7 +608,7 @@
       <workItem from="1547200087036" duration="5215000" />
       <workItem from="1547209014228" duration="5815000" />
       <workItem from="1547226527448" duration="22904000" />
-      <workItem from="1547380722814" duration="5124000" />
+      <workItem from="1547380722814" duration="5814000" />
     </task>
     <task id="LOCAL-00001" summary="generate grpc python files from proto files">
       <created>1544107413908</created>
@@ -936,7 +932,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547384747900</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="updates examples or v2.2">
+      <created>1547385981619</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1547385981619</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -972,19 +975,19 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="251544000" />
+    <option name="totallyTimeSpent" value="252234000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="240" y="23" width="1200" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.2687898" visible="true" weight="0.24093264" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.2687898" visible="true" weight="0.24093264" />
       <window_info id="Structure" order="1" sideWeight="0.7312102" side_tool="true" weight="0.22524272" />
       <window_info id="DB Browser" order="2" weight="0.32965687" />
       <window_info id="Favorites" order="3" sideWeight="0.50063694" side_tool="true" weight="0.2007722" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299363" />
-      <window_info active="true" anchor="bottom" id="Run" internal_type="SLIDING" order="2" visible="true" weight="0.33248407" />
+      <window_info anchor="bottom" id="Run" internal_type="SLIDING" order="2" visible="true" weight="0.33248407" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1046,7 +1049,6 @@
       <path value="$PROJECT_DIR$/iost-official/go-iost" />
       <path value="$PROJECT_DIR$/iost-official/iost.js" />
     </ignored-roots>
-    <MESSAGE value="update with new proto file" />
     <MESSAGE value="more fixes of new proto API" />
     <MESSAGE value="fix signature and algo unittest" />
     <MESSAGE value="fix hashing and transaction sending" />
@@ -1071,7 +1073,8 @@
     <MESSAGE value="add index.html doc" />
     <MESSAGE value="isntall html doc in /docs" />
     <MESSAGE value="push README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="push README.md" />
+    <MESSAGE value="updates examples or v2.2" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates examples or v2.2" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/exchange_test.js">
@@ -1375,23 +1378,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="235">
-            <caret line="91" column="61" lean-forward="true" selection-start-line="91" selection-start-column="61" selection-end-line="91" selection-end-column="61" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="71" selection-start-line="10" selection-start-column="71" selection-end-line="10" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/setup.cfg">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -1448,11 +1434,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/transfer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="40" column="55" lean-forward="true" selection-start-line="40" selection-start-column="55" selection-end-line="40" selection-end-column="55" />
+        <state relative-caret-position="132">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="16" column="14" lean-forward="true" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="176">
+            <caret line="147" column="9" selection-start-line="147" selection-start-column="9" selection-end-line="147" selection-end-column="9" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

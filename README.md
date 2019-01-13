@@ -131,7 +131,7 @@ Manually:
 ```python
 from pyost.transaction import Transaction
 tx = Transaction(gas_limit=100000.0, gas_ratio=1.0, expiration=90, delay=0)
-tx.add_amount_limit('*', self.default_limit)
+tx.add_amount_limit('*', 'unlimited')
 tx.add_amount_limit('iost', str(amount))
 tx.add_action('token.iost', 'transfer', token, from_name, to_name, str(amount), '')
 ```
@@ -145,7 +145,7 @@ tx.add_amount_limit('iost', str(amount))
 
 By using the call creation helper function:
 ```python
-tx = self.create_call_tx('token.iost', 'transfer', token, from_name, to_name, str(amount), '')
+tx = iost.create_call_tx('token.iost', 'transfer', token, from_name, to_name, str(amount), '')
 tx.add_amount_limit('iost', str(amount))
 ```
 
