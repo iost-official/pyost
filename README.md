@@ -89,7 +89,7 @@ except (TransactionError, TimeoutError):
     pass
 ```
 
-There is shorter version for the previous 2 blocks of code:
+There is a shorter version for the previous 2 blocks of code:
 ```python
 # Need to set the first account as the default publisher to automatically sign Transactions:
 iost.publisher = acc
@@ -245,7 +245,7 @@ txr = iost.send_and_wait_tx(tx)
 print(iost.get_balance(acc.name, token_sym))
 ```
 
-# Transfer tokens:
+Transfer tokens:
 ```python
 transfer_amount = 55.000000001
 print(iost.get_balance(acc.name, token_sym))

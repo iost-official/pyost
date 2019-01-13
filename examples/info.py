@@ -1,7 +1,7 @@
 from pyost.iost import IOST
 
 if __name__ == '__main__':
-    iost = IOST('35.180.171.246:30002')
+    iost = IOST('localhost:30002')
 
     print('Node Info:')
     print(iost.get_node_info())

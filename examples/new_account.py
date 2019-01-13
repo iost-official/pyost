@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
     admin_seckey = b58decode(b'1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB')
     admin_kp = KeyPair(Ed25519, admin_seckey)
-    admin = Account('producer00001')
+    admin = Account('producer01')
     admin.add_key_pair(admin_kp, 'active')
     admin.add_key_pair(admin_kp, 'owner')
     print(f'Admin:\n{iost.get_account_info(admin.name)}')

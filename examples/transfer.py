@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     admin_seckey = b58decode(b'1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB')
     admin_kp = KeyPair(Ed25519, admin_seckey)
-    admin = Account('producer00001')
+    admin = Account('admin')
     admin.add_key_pair(admin_kp, 'active')
     admin.add_key_pair(admin_kp, 'owner')
     acc1 = admin
@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     acc2_seckey = b58decode(b'4vZ8qw2MaGLVXsbW7TcyTDcEqrefAS34vuM1eJf7YrBL9Fpnq3LgRyDjnUfv7kjvPfsA5tQGnou3Bv2bYNXyorK1')
     acc2_kp = KeyPair(Ed25519, acc2_seckey)
-    acc2 = Account('testacc1')
+    acc2 = Account('producer01')
     acc2.add_key_pair(acc2_kp, 'active')
     acc2.add_key_pair(acc2_kp, 'owner')
     print_balance(acc2.name)

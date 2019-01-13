@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
     acc_seckey = b58decode(b'1rANSfcRzr4HkhbUFZ7L1Zp69JZZHiDDq5v7dNSbbEqeU4jxy3fszV4HGiaLQEyqVpS1dKT9g7zCVRxBVzuiUzB')
     acc_kp = KeyPair(Ed25519, acc_seckey)
-    acc = Account('producer00001')
+    acc = Account('admin')
     acc.add_key_pair(acc_kp, 'active')
     acc.add_key_pair(acc_kp, 'owner')
 
