@@ -7,6 +7,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9da18066-ed0a-4be2-9f61-7ae4af05926a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_source/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx/source/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_source/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx/source/index.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_source/pyost.rst" beforeDir="false" afterPath="$PROJECT_DIR$/sphinx/source/pyost.rst" afterDir="false" />
     </list>
     <ignored path="iost-official/" />
     <ignored path="venv/" />
@@ -80,39 +84,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/contract.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/crypto.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pyost/event.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-314">
-              <caret line="61" column="13" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/account.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
@@ -124,8 +95,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="119" column="32" lean-forward="true" selection-start-line="119" selection-start-column="32" selection-end-line="119" selection-end-column="32" />
+            <state relative-caret-position="1836">
+              <caret line="119" column="32" selection-start-line="119" selection-start-column="32" selection-end-line="119" selection-end-column="32" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -133,25 +104,51 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/_source/conf.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sphinx/source/conf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+            <state relative-caret-position="142">
+              <caret line="16" column="22" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+              <folding>
+                <element signature="e#564#573#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sphinx/source/index.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sphinx/source/pyost.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/index.html">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="2" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sphinx/Makefile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/luckybet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="59" column="19" lean-forward="true" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
+            <state relative-caret-position="833">
+              <caret line="59" column="19" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -162,7 +159,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyost/iost.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
+            <state relative-caret-position="7735">
               <caret line="468" selection-start-line="468" selection-end-line="468" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -174,7 +171,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/new_account.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
+            <state relative-caret-position="374">
               <caret line="27" column="61" selection-start-line="27" selection-start-column="61" selection-end-line="27" selection-end-column="61" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
@@ -239,9 +236,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pyost/api/rpc/apis.proto" />
-        <option value="$PROJECT_DIR$/tests/example.py" />
-        <option value="$PROJECT_DIR$/scripts/gen_rpc.sh" />
         <option value="$PROJECT_DIR$/pyost/wallet.py" />
         <option value="$PROJECT_DIR$/tests/test_iost.py" />
         <option value="$PROJECT_DIR$/vendor/iost.js/examples/example.js" />
@@ -290,6 +284,9 @@
         <option value="$PROJECT_DIR$/examples/luckybet.py" />
         <option value="$PROJECT_DIR$/pyost/transaction.py" />
         <option value="$PROJECT_DIR$/docs/_source/conf.py" />
+        <option value="$PROJECT_DIR$/sphinx/_source/conf.py" />
+        <option value="$PROJECT_DIR$/sphinx/Makefile" />
+        <option value="$PROJECT_DIR$/sphinx/source/conf.py" />
       </list>
     </option>
   </component>
@@ -306,6 +303,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -321,47 +319,26 @@
             <path>
               <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
               <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="_build" type="462c0819:PsiDirectoryNode" />
+              <item name="sphinx" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
               <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="_build" type="462c0819:PsiDirectoryNode" />
+              <item name="sphinx" type="462c0819:PsiDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
+              <item name="sphinx" type="462c0819:PsiDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
               <item name="html" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
               <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="_source" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="pyost" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="pyost" type="462c0819:PsiDirectoryNode" />
-              <item name="rpc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="pyost" type="462c0819:PsiDirectoryNode" />
-              <item name="rpc" type="462c0819:PsiDirectoryNode" />
-              <item name="pb" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyOST" type="462c0819:PsiDirectoryNode" />
-              <item name="pyost" type="462c0819:PsiDirectoryNode" />
-              <item name="rpc" type="462c0819:PsiDirectoryNode" />
-              <item name="pb" type="462c0819:PsiDirectoryNode" />
-              <item name="rpc.proto" type="620a8d5e:NestingTreeNode" />
+              <item name="sphinx" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PyOST" type="b2602c69:ProjectViewProjectNode" />
@@ -372,7 +349,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -386,18 +362,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/examples" />
       <recent name="$PROJECT_DIR$/tests" />
       <recent name="$PROJECT_DIR$/vendor/iost.js/examples" />
-      <recent name="$PROJECT_DIR$/pyost/grpc/rpc" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/sphinx" />
       <recent name="$PROJECT_DIR$/pyost" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/source" />
       <recent name="$PROJECT_DIR$/docs" />
-      <recent name="$PROJECT_DIR$/tests" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -638,7 +614,8 @@
       <workItem from="1547124878781" duration="20421000" />
       <workItem from="1547200087036" duration="5215000" />
       <workItem from="1547209014228" duration="5815000" />
-      <workItem from="1547226527448" duration="22373000" />
+      <workItem from="1547226527448" duration="22904000" />
+      <workItem from="1547380722814" duration="314000" />
     </task>
     <task id="LOCAL-00001" summary="generate grpc python files from proto files">
       <created>1544107413908</created>
@@ -941,7 +918,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547300027010</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="add index.html doc">
+      <created>1547300554952</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1547300554952</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -977,12 +961,13 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="245889000" />
+    <option name="totallyTimeSpent" value="246734000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="240" y="23" width="1200" height="877" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.2687898" visible="true" weight="0.2374784" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.2687898" visible="true" weight="0.24093264" />
       <window_info id="Structure" order="1" sideWeight="0.7312102" side_tool="true" weight="0.22524272" />
       <window_info id="DB Browser" order="2" weight="0.32965687" />
       <window_info id="Favorites" order="3" sideWeight="0.50063694" side_tool="true" weight="0.2007722" />
@@ -1050,7 +1035,6 @@
       <path value="$PROJECT_DIR$/iost-official/go-iost" />
       <path value="$PROJECT_DIR$/iost-official/iost.js" />
     </ignored-roots>
-    <MESSAGE value="add to_raw and __str__ to all classes&#10;add example_info.py" />
     <MESSAGE value="rename sign methods and members" />
     <MESSAGE value="replace old signature system with KeyPair and permissions" />
     <MESSAGE value="update with new proto file" />
@@ -1075,28 +1059,10 @@
     <MESSAGE value="add more docstrings" />
     <MESSAGE value="add all docstrings" />
     <MESSAGE value="fix docstrings" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix docstrings" />
+    <MESSAGE value="add index.html doc" />
+    <option name="LAST_COMMIT_MESSAGE" value="add index.html doc" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/iost/iost.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="20" column="36" lean-forward="true" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/token_test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="270" column="70" selection-start-line="270" selection-start-column="70" selection-end-line="270" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/update_test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1100" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/iost.js/examples/exchange_test.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1223">
@@ -1223,16 +1189,7 @@
     <entry file="file://$PROJECT_DIR$/MANIFEST">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/simplenotation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/simplenotation.py" />
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1261,17 +1218,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/build/doctrees/index.doctree">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/build/html/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="60" lean-forward="true" selection-start-line="2" selection-start-column="60" selection-end-line="2" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/_build/html/index.html">
+    <entry file="file://$PROJECT_DIR$/docs/build/doctrees/index.doctree" />
+    <entry file="file://$PROJECT_DIR$/docs/build/html/index.html" />
+    <entry file="file://$PROJECT_DIR$/sphinx/_build/html/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
@@ -1389,13 +1338,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/account.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="28" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pyost/contract.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -1405,7 +1347,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/crypto.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="204">
           <caret line="16" selection-start-line="16" selection-end-line="16" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
@@ -1415,7 +1357,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pyost/event.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-314">
+        <state relative-caret-position="952">
           <caret line="61" column="13" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
@@ -1423,9 +1365,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/examples/account.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="28" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1836">
+          <caret line="119" column="32" selection-start-line="119" selection-start-column="32" selection-end-line="119" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/luckybet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="59" column="19" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pyost/iost.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
+        <state relative-caret-position="7735">
           <caret line="468" selection-start-line="468" selection-end-line="468" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
@@ -1435,7 +1404,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/new_account.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
+        <state relative-caret-position="374">
           <caret line="27" column="61" selection-start-line="27" selection-start-column="61" selection-end-line="27" selection-end-column="61" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
@@ -1443,35 +1412,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/luckybet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="59" column="19" lean-forward="true" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyost/transaction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="119" column="32" lean-forward="true" selection-start-line="119" selection-start-column="32" selection-end-line="119" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/_source/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/index.html">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="2" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sphinx/source/index.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sphinx/source/pyost.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sphinx/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sphinx/source/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="16" column="22" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+          <folding>
+            <element signature="e#564#573#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
 </project>

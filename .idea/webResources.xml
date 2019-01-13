@@ -8,6 +8,7 @@
             <path value="file://$PROJECT_DIR$/docs" />
             <path value="file://$PROJECT_DIR$/scripts" />
             <path value="file://$PROJECT_DIR$/pyost" />
+            <path value="file://$PROJECT_DIR$/sphinx" />
           </resourceRoots>
         </entryData>
       </entry>
