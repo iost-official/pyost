@@ -202,9 +202,8 @@ contract = Contract(code=code).from_json(abi_file)
 
 Publish it as follow and save the returned contract id:
 ```python
-tx = iost.create_call_tx('system.iost', 'setCode', contract.to_json())
 try:
-    receipt = iost.send_and_wait_tx(tx)
+    receipt = iost.publish(contract)
 except (TransactionError, TimeoutError):
     pass
 contract_id = json.loads(receipt.returns[0])[0]
@@ -219,7 +218,7 @@ print(f'Response: {res}')
 
 Upate the contract's code:
 ```python
-txr = iost.call('system.iost', 'UpdateCode', new_contract.to_json(), '')
+txr = iost.call('system.iost', 'updateCode', new_contract.to_json(), '')
 print(txr.status_code.name)
 ```
 

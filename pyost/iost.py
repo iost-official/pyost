@@ -501,6 +501,17 @@ class IOST:
         """
         return self.create_tx(actions=[Action(contract, abi, *args)])
 
+    def create_publish_tx(self, contract: Contract) -> Transaction:
+        """Creates a `Transaction` that contains an `Action` to publish a contract.
+
+        Args:
+            contract: The contract to be published.
+
+        Returns:
+            A `Transaction` object.
+        """
+        return self.create_call_tx('system.iost', 'setCode', contract.to_json())
+
     def create_transfer_tx(self, token: str, from_name: str, to_name: str, amount: float, memo='') -> Transaction:
         """Creates a `Transaction` that contains an `Action` to transfer tokens between accounts.
 
@@ -569,8 +580,7 @@ class IOST:
         return self.send_and_wait_tx(tx)
 
     def publish(self, contract: Contract) -> TxReceipt:
-        """
-        Creates a `Transaction` that contains an `Action` to publish a contract, then sends it.
+        """Creates a `Transaction` that contains an `Action` to publish a contract, then sends it.
 
         Args:
             contract: The contract to be published.
@@ -583,7 +593,7 @@ class IOST:
             TimeoutError: If TxReceipt.StatusCode is TIMEOUT
                 or no transaction can be found after `wait_time` x `wait_max_retry` have passed.
         """
-        tx = self.create_call_tx('system.iost', 'setCode', contract.to_json())
+        tx = self.create_publish_tx(contract)
         return self.send_and_wait_tx(tx)
 
     def transfer(self, token: str, from_name: str, to_name: str, amount: int, memo='') -> TxReceipt:
