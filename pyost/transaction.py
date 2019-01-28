@@ -392,6 +392,7 @@ class Transaction:
         se.write_int64(int(self.gas_limit * 100.0))
         se.write_int64(self.delay)
         se.write_int32(self.chain_id)
+        se.write_int32(0)
         se.write_string_slice(self.signers)
         se.write_bytes_slice([a.to_bytes() for a in self.actions])
         se.write_bytes_slice([a.to_bytes() for a in self.amount_limits])
