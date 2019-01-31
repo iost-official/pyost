@@ -26,17 +26,19 @@ class SimpleEncoder:
         """
         return bytes(self.buffer)
 
-    def write_bytes(self, bs: bytes) -> SimpleEncoder:
+    def write_bytes(self, bs: bytes, with_len=True) -> SimpleEncoder:
         """Adds bytes to the buffer.
-        Before adding the bytes, add the number of bytes, encoded as an int32.
+        If `with_len`, before adding the bytes, add the number of bytes, encoded as an int32.
 
         Args:
             bs: The bytes to add to the buffer.
+            with_len: Whether to add length before the bytes
 
         Returns:
             Itself.
         """
-        self.write_int32(len(bs))
+        if with_len:
+            self.write_int32(len(bs))
         self.buffer += bs
         return self
 

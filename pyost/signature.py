@@ -77,7 +77,7 @@ class Signature:
             A binary representation of this object.
         """
         se = SimpleEncoder()
-        se.write_bytes(self.algo_cls.__int__().to_bytes(1, se.byteorder, signed=False))
+        se.write_bytes(self.algo_cls.__int__().to_bytes(1, se.byteorder, signed=False), False)
         se.write_bytes(self.sig)
         se.write_bytes(self.pubkey)
         return se.to_bytes()
