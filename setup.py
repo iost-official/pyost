@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'pyost',         # How you named your package folder (MyLib)
   packages = ['pyost','pyost.rpc.pb'],   # Chose the same as "name"
-  version = 'v2.2-beta.3',      # Start with a small number and increase it with every change you make
+  version = 'v3.0',      # Start with a small number and increase it with every change you make
   license='LGPG',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'Python SDK for the IOST Blockchain',   # Give a short description about your library
   long_description= 'Python SDK for the IOST Blockchain',
@@ -24,8 +24,6 @@ setup(
     'Topic :: Software Development :: Libraries :: Application Frameworks',
     'Topic :: Software Development :: Libraries :: Python Modules',
     'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
-    'Programming Language :: Python :: 3.5',
-    'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
   ],
 )

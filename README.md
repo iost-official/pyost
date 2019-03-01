@@ -5,7 +5,7 @@ manage accounts, publish and execute smart contracts, etc.
 
 ## Installation
 
-Install the library and its dependencies. Needs at least Python 3.5.
+Install the library and its dependencies. Needs at least Python 3.7.
 
 ```sh
 $ pip install pyost

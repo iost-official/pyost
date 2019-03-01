@@ -1,7 +1,6 @@
 base58
 ecdsa
 ed25519
-grpc
 grpcio
 googleapis-common-protos
 protobuf3-to-dict
