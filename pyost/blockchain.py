@@ -24,52 +24,11 @@ class NodeInfo:
         Attributes:
             id: The base58 string id of the node.
             peer_count: The number of peers.
-            peer_info: A list of `PeerInfo` objects.
         """
-
-        class PeerInfo:
-            """Contains information about a node's peer.
-
-            Attributes:
-                id: The base58 string id of the peer.
-                addr: The IP address of the peer.
-            """
-
-            def __init__(self):
-                self.id: str = ''
-                self.addr: str = ''
-
-            def __str__(self) -> str:
-                return str(protobuf_to_dict(self.to_raw()))
-
-            def from_raw(self, pi: pb.PeerInfo) -> NodeInfo.NetworkInfo.PeerInfo:
-                """Deserializes a protobuf object to update this object's members.
-
-                Args:
-                    pi: The protobuf object.
-
-                Returns:
-                    Itself.
-                """
-                self.id = pi.id
-                self.addr = pi.addr
-                return self
-
-            def to_raw(self) -> pb.PeerInfo:
-                """Serializes this object's members to a protobuf object.
-
-                Returns:
-                    A protobuf object.
-                """
-                return pb.PeerInfo(
-                    id=self.id,
-                    addr=self.addr
-                )
 
         def __init__(self):
             self.id: str = ''
             self.peer_count: int = 0
-            self.peer_info: List[NodeInfo.NetworkInfo.PeerInfo] = []
 
         def __str__(self) -> str:
             return pformat(protobuf_to_dict(self.to_raw()))
@@ -85,8 +44,6 @@ class NodeInfo:
             """
             self.id = ni.id
             self.peer_count = ni.peer_count
-            self.peer_info = [NodeInfo.NetworkInfo.PeerInfo().from_raw(info)
-                              for info in ni.peer_info]
             return self
 
         def to_raw(self) -> pb.NetworkInfo:
@@ -97,8 +54,7 @@ class NodeInfo:
             """
             return pb.NetworkInfo(
                 id=self.id,
-                peer_count=self.peer_count,
-                peer_info=[pi.to_raw() for pi in self.peer_info]
+                peer_count=self.peer_count
             )
 
     def __init__(self):
