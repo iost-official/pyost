@@ -377,7 +377,7 @@ class Block:
     def __str__(self) -> str:
         return pformat(protobuf_to_dict(self.to_raw()))
 
-    def from_raw(self, rb: pb.Block, status: Status = Status.UNKNOWN) -> Block:
+    def from_raw(self, rb: pb.Block, status: pb.BlockResponse.Status) -> Block:
         """Deserializes a protobuf object to update this object's members.
 
         Args:
@@ -387,7 +387,7 @@ class Block:
         Returns:
             Itself.
         """
-        self.status = status
+        self.status = Block.Status(status)
         self.hash = rb.hash
         self.version = rb.version
         self.parent_hash = rb.parent_hash
@@ -401,6 +401,11 @@ class Block:
         self.info = Block.Info().from_raw(rb.info)
         self.transactions = [Transaction().from_raw(tx) for tx in rb.transactions
                              ] if rb.transactions is not None else []
+        for transaction in self.transactions:
+            if self.status == Block.Status.IRREVERSIBLE:
+                transaction.status = Transaction.Status.IRREVERSIBLE
+            else:
+                transaction.status = Transaction.Status.PACKED
         return self
 
     def to_raw(self) -> pb.Block:

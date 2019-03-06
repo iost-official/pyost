@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='rpcpb',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x10rpc/pb/rpc.proto\x12\x05rpcpb\x1a\x1cgoogle/api/annotations.proto\"\x0e\n\x0c\x45mptyRequest\"$\n\x08PeerInfo\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04\x61\x64\x64r\x18\x02 \x01(\t\"Q\n\x0bNetworkInfo\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\npeer_count\x18\x02 \x01(\x05\x12\"\n\tpeer_info\x18\x03 \x03(\x0b\x32\x0f.rpcpb.PeerInfo\"t\n\x0fRAMInfoResponse\x12\x10\n\x08used_ram\x18\x01 \x01(\x03\x12\x15\n\ravailable_ram\x18\x02 \x01(\x03\x12\x11\n\ttotal_ram\x18\x03 \x01(\x03\x12\x12\n\nsell_price\x18\x04 \x01(\x01\x12\x11\n\tbuy_price\x18\x05 \x01(\x01\"k\n\x10NodeInfoResponse\x12\x12\n\nbuild_time\x18\x01 \x01(\t\x12\x10\n\x08git_hash\x18\x02 \x01(\t\x12\x0c\n\x04mode\x18\x03 \x01(\t\x12#\n\x07network\x18\x04 \x01(\x0b\x32\x12.rpcpb.NetworkInfo\"+\n\x0b\x41mountLimit\x12\r\n\x05token\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"=\n\x06\x41\x63tion\x12\x10\n\x08\x63ontract\x18\x01 \x01(\t\x12\x13\n\x0b\x61\x63tion_name\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\t\"\xfc\x03\n\tTxReceipt\x12\x0f\n\x07tx_hash\x18\x01 \x01(\t\x12\x11\n\tgas_usage\x18\x02 \x01(\x01\x12\x31\n\tram_usage\x18\x03 \x03(\x0b\x32\x1e.rpcpb.TxReceipt.RamUsageEntry\x12\x30\n\x0bstatus_code\x18\x04 \x01(\x0e\x32\x1b.rpcpb.TxReceipt.StatusCode\x12\x0f\n\x07message\x18\x05 \x01(\t\x12\x0f\n\x07returns\x18\x06 \x03(\t\x12*\n\x08receipts\x18\x07 \x03(\x0b\x32\x18.rpcpb.TxReceipt.Receipt\x1a/\n\rRamUsageEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x03:\x02\x38\x01\x1a-\n\x07Receipt\x12\x11\n\tfunc_name\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\"\xb7\x01\n\nStatusCode\x12\x0b\n\x07SUCCESS\x10\x00\x12\x0f\n\x0bGAS_RUN_OUT\x10\x01\x12\x16\n\x12\x42\x41LANCE_NOT_ENOUGH\x10\x02\x12\x13\n\x0fWRONG_PARAMETER\x10\x03\x12\x11\n\rRUNTIME_ERROR\x10\x04\x12\x0b\n\x07TIMEOUT\x10\x05\x12\x13\n\x0fWRONG_TX_FORMAT\x10\x06\x12\x16\n\x12\x44UPLICATE_SET_CODE\x10\x07\x12\x11\n\rUNKNOWN_ERROR\x10\x08\"\xad\x02\n\x0bTransaction\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\x03\x12\x12\n\nexpiration\x18\x03 \x01(\x03\x12\x11\n\tgas_ratio\x18\x04 \x01(\x01\x12\x11\n\tgas_limit\x18\x05 \x01(\x01\x12\r\n\x05\x64\x65lay\x18\x06 \x01(\x03\x12\x10\n\x08\x63hain_id\x18\x07 \x01(\r\x12\x1e\n\x07\x61\x63tions\x18\x08 \x03(\x0b\x32\r.rpcpb.Action\x12\x0f\n\x07signers\x18\t \x03(\t\x12\x11\n\tpublisher\x18\n \x01(\t\x12\x13\n\x0breferred_tx\x18\x0b \x01(\t\x12(\n\x0c\x61mount_limit\x18\x0c \x03(\x0b\x32\x12.rpcpb.AmountLimit\x12$\n\ntx_receipt\x18\r \x01(\x0b\x32\x10.rpcpb.TxReceipt\"\xa6\x01\n\x13TransactionResponse\x12\x31\n\x06status\x18\x01 \x01(\x0e\x32!.rpcpb.TransactionResponse.Status\x12\'\n\x0btransaction\x18\x02 \x01(\x0b\x32\x12.rpcpb.Transaction\"3\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PACKED\x10\x01\x12\x10\n\x0cIRREVERSIBLE\x10\x02\"\x97\x01\n\tSignature\x12-\n\talgorithm\x18\x01 \x01(\x0e\x32\x1a.rpcpb.Signature.Algorithm\x12\x11\n\tsignature\x18\x02 \x01(\x0c\x12\x12\n\npublic_key\x18\x03 \x01(\x0c\"4\n\tAlgorithm\x12\x0b\n\x07UNKNOWN\x10\x00\x12\r\n\tSECP256K1\x10\x01\x12\x0b\n\x07\x45\x44\x32\x35\x35\x31\x39\x10\x02\"\xbb\x02\n\x12TransactionRequest\x12\x0c\n\x04time\x18\x01 \x01(\x03\x12\x12\n\nexpiration\x18\x02 \x01(\x03\x12\x11\n\tgas_ratio\x18\x03 \x01(\x01\x12\x11\n\tgas_limit\x18\x04 \x01(\x01\x12\r\n\x05\x64\x65lay\x18\x05 \x01(\x03\x12\x10\n\x08\x63hain_id\x18\x06 \x01(\r\x12\x1e\n\x07\x61\x63tions\x18\x07 \x03(\x0b\x32\r.rpcpb.Action\x12(\n\x0c\x61mount_limit\x18\x08 \x03(\x0b\x32\x12.rpcpb.AmountLimit\x12\x0f\n\x07signers\x18\t \x03(\t\x12$\n\nsignatures\x18\n \x03(\x0b\x32\x10.rpcpb.Signature\x12\x11\n\tpublisher\x18\x0b \x01(\t\x12(\n\x0epublisher_sigs\x18\x0c \x03(\x0b\x32\x10.rpcpb.Signature\"\xcd\x02\n\x05\x42lock\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x0f\n\x07version\x18\x02 \x01(\x03\x12\x13\n\x0bparent_hash\x18\x03 \x01(\t\x12\x16\n\x0etx_merkle_hash\x18\x04 \x01(\t\x12\x1e\n\x16tx_receipt_merkle_hash\x18\x05 \x01(\t\x12\x0e\n\x06number\x18\x06 \x01(\x03\x12\x0f\n\x07witness\x18\x07 \x01(\t\x12\x0c\n\x04time\x18\x08 \x01(\x03\x12\x11\n\tgas_usage\x18\t \x01(\x01\x12\x10\n\x08tx_count\x18\n \x01(\x03\x12\x1f\n\x04info\x18\x0b \x01(\x0b\x32\x11.rpcpb.Block.Info\x12(\n\x0ctransactions\x18\x0c \x03(\x0b\x32\x12.rpcpb.Transaction\x1a\x39\n\x04Info\x12\x0c\n\x04mode\x18\x01 \x01(\x05\x12\x0e\n\x06thread\x18\x02 \x01(\x05\x12\x13\n\x0b\x62\x61tch_index\x18\x03 \x03(\x05\"\x82\x01\n\rBlockResponse\x12+\n\x06status\x18\x01 \x01(\x0e\x32\x1b.rpcpb.BlockResponse.Status\x12\x1b\n\x05\x62lock\x18\x02 \x01(\x0b\x32\x0c.rpcpb.Block\"\'\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\x10\n\x0cIRREVERSIBLE\x10\x01\"\xbf\x01\n\x11\x43hainInfoResponse\x12\x10\n\x08net_name\x18\x01 \x01(\t\x12\x18\n\x10protocol_version\x18\x02 \x01(\t\x12\x10\n\x08\x63hain_id\x18\x03 \x01(\r\x12\x12\n\nhead_block\x18\x04 \x01(\x03\x12\x17\n\x0fhead_block_hash\x18\x05 \x01(\t\x12\x11\n\tlib_block\x18\x06 \x01(\x03\x12\x16\n\x0elib_block_hash\x18\x07 \x01(\t\x12\x14\n\x0cwitness_list\x18\x08 \x03(\t\"\x1d\n\rTxHashRequest\x12\x0c\n\x04hash\x18\x01 \x01(\t\"7\n\x15GetBlockByHashRequest\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x10\n\x08\x63omplete\x18\x02 \x01(\x08\";\n\x17GetBlockByNumberRequest\x12\x0e\n\x06number\x18\x01 \x01(\x03\x12\x10\n\x08\x63omplete\x18\x02 \x01(\x08\"-\n\rFrozenBalance\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x01\x12\x0c\n\x04time\x18\x02 \x01(\x03\"F\n\x10GasRatioResponse\x12\x18\n\x10lowest_gas_ratio\x18\x01 \x01(\x01\x12\x18\n\x10median_gas_ratio\x18\x02 \x01(\x01\"\xa4\x07\n\x07\x41\x63\x63ount\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x62\x61lance\x18\x02 \x01(\x01\x12(\n\x08gas_info\x18\x03 \x01(\x0b\x32\x16.rpcpb.Account.GasInfo\x12(\n\x08ram_info\x18\x04 \x01(\x0b\x32\x16.rpcpb.Account.RAMInfo\x12\x34\n\x0bpermissions\x18\x05 \x03(\x0b\x32\x1f.rpcpb.Account.PermissionsEntry\x12*\n\x06groups\x18\x06 \x03(\x0b\x32\x1a.rpcpb.Account.GroupsEntry\x12-\n\x0f\x66rozen_balances\x18\x07 \x03(\x0b\x32\x14.rpcpb.FrozenBalance\x1a-\n\nPledgeInfo\x12\x0f\n\x07pledger\x18\x01 \x01(\t\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x01\x1a\xa6\x01\n\x07GasInfo\x12\x15\n\rcurrent_total\x18\x01 \x01(\x01\x12\x18\n\x10transferable_gas\x18\x02 \x01(\x01\x12\x12\n\npledge_gas\x18\x03 \x01(\x01\x12\x16\n\x0eincrease_speed\x18\x04 \x01(\x01\x12\r\n\x05limit\x18\x05 \x01(\x01\x12/\n\x0cpledged_info\x18\x06 \x03(\x0b\x32\x19.rpcpb.Account.PledgeInfo\x1a\x39\n\x07RAMInfo\x12\x11\n\tavailable\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\r\n\x05total\x18\x03 \x01(\x03\x1aK\n\x04Item\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0bis_key_pair\x18\x02 \x01(\x08\x12\x0e\n\x06weight\x18\x03 \x01(\x03\x12\x12\n\npermission\x18\x04 \x01(\t\x1a\x39\n\x05Group\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\"\n\x05items\x18\x02 \x03(\x0b\x32\x13.rpcpb.Account.Item\x1a\x66\n\nPermission\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bgroup_names\x18\x02 \x03(\t\x12\"\n\x05items\x18\x03 \x03(\x0b\x32\x13.rpcpb.Account.Item\x12\x11\n\tthreshold\x18\x04 \x01(\x03\x1aM\n\x10PermissionsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12(\n\x05value\x18\x02 \x01(\x0b\x32\x19.rpcpb.Account.Permission:\x02\x38\x01\x1a\x43\n\x0bGroupsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12#\n\x05value\x18\x02 \x01(\x0b\x32\x14.rpcpb.Account.Group:\x02\x38\x01\";\n\x11GetAccountRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x02 \x01(\x08\"\xb7\x01\n\x08\x43ontract\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\x12\x10\n\x08language\x18\x03 \x01(\t\x12\x0f\n\x07version\x18\x04 \x01(\t\x12!\n\x04\x61\x62is\x18\x05 \x03(\x0b\x32\x13.rpcpb.Contract.ABI\x1aK\n\x03\x41\x42I\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04\x61rgs\x18\x02 \x03(\t\x12(\n\x0c\x61mount_limit\x18\x03 \x03(\x0b\x32\x12.rpcpb.AmountLimit\":\n\x12GetContractRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x02 \x01(\x08\"]\n\x19GetContractStorageRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0b\n\x03key\x18\x02 \x01(\t\x12\r\n\x05\x66ield\x18\x03 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x04 \x01(\x08\"*\n\x1aGetContractStorageResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"W\n\x1fGetContractStorageFieldsRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x66ields\x18\x02 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x03 \x01(\x08\"0\n GetContractStorageFieldsResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\'\n\x17SendTransactionResponse\x12\x0c\n\x04hash\x18\x01 \x01(\t\"Y\n\x17GetTokenBalanceResponse\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x01\x12-\n\x0f\x66rozen_balances\x18\x02 \x03(\x0b\x32\x14.rpcpb.FrozenBalance\"R\n\x16GetTokenBalanceRequest\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x03 \x01(\x08\"?\n\x1aGetToken721BalanceResponse\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x03\x12\x10\n\x08tokenIDs\x18\x02 \x03(\t\"S\n\x16GetToken721InfoRequest\x12\r\n\x05token\x18\x01 \x01(\t\x12\x10\n\x08token_id\x18\x02 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x03 \x01(\x08\"/\n\x1bGetToken721MetadataResponse\x12\x10\n\x08metadata\x18\x01 \x01(\t\")\n\x18GetToken721OwnerResponse\x12\r\n\x05owner\x18\x01 \x01(\t\"y\n\x05\x45vent\x12!\n\x05topic\x18\x01 \x01(\x0e\x32\x12.rpcpb.Event.Topic\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x0c\n\x04time\x18\x03 \x01(\x03\"1\n\x05Topic\x12\x14\n\x10\x43ONTRACT_RECEIPT\x10\x00\x12\x12\n\x0e\x43ONTRACT_EVENT\x10\x01\"\x85\x01\n\x10SubscribeRequest\x12\"\n\x06topics\x18\x01 \x03(\x0e\x32\x12.rpcpb.Event.Topic\x12.\n\x06\x66ilter\x18\x02 \x01(\x0b\x32\x1e.rpcpb.SubscribeRequest.Filter\x1a\x1d\n\x06\x46ilter\x12\x13\n\x0b\x63ontract_id\x18\x01 \x01(\t\"0\n\x11SubscribeResponse\x12\x1b\n\x05\x65vent\x18\x01 \x01(\x0b\x32\x0c.rpcpb.Event2\xd6\x10\n\nApiService\x12Q\n\x0bGetNodeInfo\x12\x13.rpcpb.EmptyRequest\x1a\x17.rpcpb.NodeInfoResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\x0c/getNodeInfo\x12T\n\x0cGetChainInfo\x12\x13.rpcpb.EmptyRequest\x1a\x18.rpcpb.ChainInfoResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/getChainInfo\x12N\n\nGetRAMInfo\x12\x13.rpcpb.EmptyRequest\x1a\x16.rpcpb.RAMInfoResponse\"\x13\x82\xd3\xe4\x93\x02\r\x12\x0b/getRAMInfo\x12\\\n\x0bGetTxByHash\x12\x14.rpcpb.TxHashRequest\x1a\x1a.rpcpb.TransactionResponse\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/getTxByHash/{hash}\x12\x64\n\x14GetTxReceiptByTxHash\x12\x14.rpcpb.TxHashRequest\x1a\x10.rpcpb.TxReceipt\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/getTxReceiptByTxHash/{hash}\x12o\n\x0eGetBlockByHash\x12\x1c.rpcpb.GetBlockByHashRequest\x1a\x14.rpcpb.BlockResponse\")\x82\xd3\xe4\x93\x02#\x12!/getBlockByHash/{hash}/{complete}\x12w\n\x10GetBlockByNumber\x12\x1e.rpcpb.GetBlockByNumberRequest\x1a\x14.rpcpb.BlockResponse\"-\x82\xd3\xe4\x93\x02\'\x12%/getBlockByNumber/{number}/{complete}\x12\x65\n\nGetAccount\x12\x18.rpcpb.GetAccountRequest\x1a\x0e.rpcpb.Account\"-\x82\xd3\xe4\x93\x02\'\x12%/getAccount/{name}/{by_longest_chain}\x12\x8f\x01\n\x0fGetTokenBalance\x12\x1d.rpcpb.GetTokenBalanceRequest\x1a\x1e.rpcpb.GetTokenBalanceResponse\"=\x82\xd3\xe4\x93\x02\x37\x12\x35/getTokenBalance/{account}/{token}/{by_longest_chain}\x12\x98\x01\n\x12GetToken721Balance\x12\x1d.rpcpb.GetTokenBalanceRequest\x1a!.rpcpb.GetToken721BalanceResponse\"@\x82\xd3\xe4\x93\x02:\x12\x38/getToken721Balance/{account}/{token}/{by_longest_chain}\x12\x9c\x01\n\x13GetToken721Metadata\x12\x1d.rpcpb.GetToken721InfoRequest\x1a\".rpcpb.GetToken721MetadataResponse\"B\x82\xd3\xe4\x93\x02<\x12:/getToken721Metadata/{token}/{token_id}/{by_longest_chain}\x12\x93\x01\n\x10GetToken721Owner\x12\x1d.rpcpb.GetToken721InfoRequest\x1a\x1f.rpcpb.GetToken721OwnerResponse\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/getToken721Owner/{token}/{token_id}/{by_longest_chain}\x12Q\n\x0bGetGasRatio\x12\x13.rpcpb.EmptyRequest\x1a\x17.rpcpb.GasRatioResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\x0c/getGasRatio\x12g\n\x0bGetContract\x12\x19.rpcpb.GetContractRequest\x1a\x0f.rpcpb.Contract\",\x82\xd3\xe4\x93\x02&\x12$/getContract/{id}/{by_longest_chain}\x12y\n\x12GetContractStorage\x12 .rpcpb.GetContractStorageRequest\x1a!.rpcpb.GetContractStorageResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/getContractStorage:\x01*\x12\x91\x01\n\x18GetContractStorageFields\x12&.rpcpb.GetContractStorageFieldsRequest\x1a\'.rpcpb.GetContractStorageFieldsResponse\"$\x82\xd3\xe4\x93\x02\x1e\"\x19/getContractStorageFields:\x01*\x12`\n\x0fSendTransaction\x12\x19.rpcpb.TransactionRequest\x1a\x1e.rpcpb.SendTransactionResponse\"\x12\x82\xd3\xe4\x93\x02\x0c\"\x07/sendTx:\x01*\x12R\n\x0f\x45xecTransaction\x12\x19.rpcpb.TransactionRequest\x1a\x10.rpcpb.TxReceipt\"\x12\x82\xd3\xe4\x93\x02\x0c\"\x07/execTx:\x01*\x12W\n\tSubscribe\x12\x17.rpcpb.SubscribeRequest\x1a\x18.rpcpb.SubscribeResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\"\n/subscribe:\x01*0\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x10rpc/pb/rpc.proto\x12\x05rpcpb\x1a\x1cgoogle/api/annotations.proto\"\x0e\n\x0c\x45mptyRequest\"-\n\x0bNetworkInfo\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\npeer_count\x18\x02 \x01(\x05\"t\n\x0fRAMInfoResponse\x12\x10\n\x08used_ram\x18\x01 \x01(\x03\x12\x15\n\ravailable_ram\x18\x02 \x01(\x03\x12\x11\n\ttotal_ram\x18\x03 \x01(\x03\x12\x12\n\nsell_price\x18\x04 \x01(\x01\x12\x11\n\tbuy_price\x18\x05 \x01(\x01\"k\n\x10NodeInfoResponse\x12\x12\n\nbuild_time\x18\x01 \x01(\t\x12\x10\n\x08git_hash\x18\x02 \x01(\t\x12\x0c\n\x04mode\x18\x03 \x01(\t\x12#\n\x07network\x18\x04 \x01(\x0b\x32\x12.rpcpb.NetworkInfo\"+\n\x0b\x41mountLimit\x12\r\n\x05token\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"=\n\x06\x41\x63tion\x12\x10\n\x08\x63ontract\x18\x01 \x01(\t\x12\x13\n\x0b\x61\x63tion_name\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\t\"\xfc\x03\n\tTxReceipt\x12\x0f\n\x07tx_hash\x18\x01 \x01(\t\x12\x11\n\tgas_usage\x18\x02 \x01(\x01\x12\x31\n\tram_usage\x18\x03 \x03(\x0b\x32\x1e.rpcpb.TxReceipt.RamUsageEntry\x12\x30\n\x0bstatus_code\x18\x04 \x01(\x0e\x32\x1b.rpcpb.TxReceipt.StatusCode\x12\x0f\n\x07message\x18\x05 \x01(\t\x12\x0f\n\x07returns\x18\x06 \x03(\t\x12*\n\x08receipts\x18\x07 \x03(\x0b\x32\x18.rpcpb.TxReceipt.Receipt\x1a/\n\rRamUsageEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x03:\x02\x38\x01\x1a-\n\x07Receipt\x12\x11\n\tfunc_name\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\"\xb7\x01\n\nStatusCode\x12\x0b\n\x07SUCCESS\x10\x00\x12\x0f\n\x0bGAS_RUN_OUT\x10\x01\x12\x16\n\x12\x42\x41LANCE_NOT_ENOUGH\x10\x02\x12\x13\n\x0fWRONG_PARAMETER\x10\x03\x12\x11\n\rRUNTIME_ERROR\x10\x04\x12\x0b\n\x07TIMEOUT\x10\x05\x12\x13\n\x0fWRONG_TX_FORMAT\x10\x06\x12\x16\n\x12\x44UPLICATE_SET_CODE\x10\x07\x12\x11\n\rUNKNOWN_ERROR\x10\x08\"\xad\x02\n\x0bTransaction\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\x03\x12\x12\n\nexpiration\x18\x03 \x01(\x03\x12\x11\n\tgas_ratio\x18\x04 \x01(\x01\x12\x11\n\tgas_limit\x18\x05 \x01(\x01\x12\r\n\x05\x64\x65lay\x18\x06 \x01(\x03\x12\x10\n\x08\x63hain_id\x18\x07 \x01(\r\x12\x1e\n\x07\x61\x63tions\x18\x08 \x03(\x0b\x32\r.rpcpb.Action\x12\x0f\n\x07signers\x18\t \x03(\t\x12\x11\n\tpublisher\x18\n \x01(\t\x12\x13\n\x0breferred_tx\x18\x0b \x01(\t\x12(\n\x0c\x61mount_limit\x18\x0c \x03(\x0b\x32\x12.rpcpb.AmountLimit\x12$\n\ntx_receipt\x18\r \x01(\x0b\x32\x10.rpcpb.TxReceipt\"\xa6\x01\n\x13TransactionResponse\x12\x31\n\x06status\x18\x01 \x01(\x0e\x32!.rpcpb.TransactionResponse.Status\x12\'\n\x0btransaction\x18\x02 \x01(\x0b\x32\x12.rpcpb.Transaction\"3\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PACKED\x10\x01\x12\x10\n\x0cIRREVERSIBLE\x10\x02\"\x97\x01\n\tSignature\x12-\n\talgorithm\x18\x01 \x01(\x0e\x32\x1a.rpcpb.Signature.Algorithm\x12\x11\n\tsignature\x18\x02 \x01(\x0c\x12\x12\n\npublic_key\x18\x03 \x01(\x0c\"4\n\tAlgorithm\x12\x0b\n\x07UNKNOWN\x10\x00\x12\r\n\tSECP256K1\x10\x01\x12\x0b\n\x07\x45\x44\x32\x35\x35\x31\x39\x10\x02\"\xbb\x02\n\x12TransactionRequest\x12\x0c\n\x04time\x18\x01 \x01(\x03\x12\x12\n\nexpiration\x18\x02 \x01(\x03\x12\x11\n\tgas_ratio\x18\x03 \x01(\x01\x12\x11\n\tgas_limit\x18\x04 \x01(\x01\x12\r\n\x05\x64\x65lay\x18\x05 \x01(\x03\x12\x10\n\x08\x63hain_id\x18\x06 \x01(\r\x12\x1e\n\x07\x61\x63tions\x18\x07 \x03(\x0b\x32\r.rpcpb.Action\x12(\n\x0c\x61mount_limit\x18\x08 \x03(\x0b\x32\x12.rpcpb.AmountLimit\x12\x0f\n\x07signers\x18\t \x03(\t\x12$\n\nsignatures\x18\n \x03(\x0b\x32\x10.rpcpb.Signature\x12\x11\n\tpublisher\x18\x0b \x01(\t\x12(\n\x0epublisher_sigs\x18\x0c \x03(\x0b\x32\x10.rpcpb.Signature\"\xcd\x02\n\x05\x42lock\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x0f\n\x07version\x18\x02 \x01(\x03\x12\x13\n\x0bparent_hash\x18\x03 \x01(\t\x12\x16\n\x0etx_merkle_hash\x18\x04 \x01(\t\x12\x1e\n\x16tx_receipt_merkle_hash\x18\x05 \x01(\t\x12\x0e\n\x06number\x18\x06 \x01(\x03\x12\x0f\n\x07witness\x18\x07 \x01(\t\x12\x0c\n\x04time\x18\x08 \x01(\x03\x12\x11\n\tgas_usage\x18\t \x01(\x01\x12\x10\n\x08tx_count\x18\n \x01(\x03\x12\x1f\n\x04info\x18\x0b \x01(\x0b\x32\x11.rpcpb.Block.Info\x12(\n\x0ctransactions\x18\x0c \x03(\x0b\x32\x12.rpcpb.Transaction\x1a\x39\n\x04Info\x12\x0c\n\x04mode\x18\x01 \x01(\x05\x12\x0e\n\x06thread\x18\x02 \x01(\x05\x12\x13\n\x0b\x62\x61tch_index\x18\x03 \x03(\x05\"\x82\x01\n\rBlockResponse\x12+\n\x06status\x18\x01 \x01(\x0e\x32\x1b.rpcpb.BlockResponse.Status\x12\x1b\n\x05\x62lock\x18\x02 \x01(\x0b\x32\x0c.rpcpb.Block\"\'\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\x10\n\x0cIRREVERSIBLE\x10\x01\"\xd9\x01\n\x11\x43hainInfoResponse\x12\x10\n\x08net_name\x18\x01 \x01(\t\x12\x18\n\x10protocol_version\x18\x02 \x01(\t\x12\x10\n\x08\x63hain_id\x18\x03 \x01(\r\x12\x12\n\nhead_block\x18\x04 \x01(\x03\x12\x17\n\x0fhead_block_hash\x18\x05 \x01(\t\x12\x11\n\tlib_block\x18\x06 \x01(\x03\x12\x16\n\x0elib_block_hash\x18\x07 \x01(\t\x12\x14\n\x0cwitness_list\x18\x08 \x03(\t\x12\x18\n\x10lib_witness_list\x18\t \x03(\t\"\x1d\n\rTxHashRequest\x12\x0c\n\x04hash\x18\x01 \x01(\t\"7\n\x15GetBlockByHashRequest\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x10\n\x08\x63omplete\x18\x02 \x01(\x08\";\n\x17GetBlockByNumberRequest\x12\x0e\n\x06number\x18\x01 \x01(\x03\x12\x10\n\x08\x63omplete\x18\x02 \x01(\x08\"-\n\rFrozenBalance\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x01\x12\x0c\n\x04time\x18\x02 \x01(\x03\"@\n\x08VoteInfo\x12\x0e\n\x06option\x18\x01 \x01(\t\x12\r\n\x05votes\x18\x02 \x01(\x01\x12\x15\n\rcleared_votes\x18\x03 \x01(\x01\"G\n\x1aGetProducerVoteInfoRequest\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x02 \x01(\x08\"\x9b\x01\n\x1bGetProducerVoteInfoResponse\x12\x0e\n\x06pubkey\x18\x01 \x01(\t\x12\x0b\n\x03loc\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\t\x12\x0e\n\x06net_id\x18\x04 \x01(\t\x12\x13\n\x0bis_producer\x18\x05 \x01(\x08\x12\x0e\n\x06status\x18\x06 \x01(\t\x12\x0e\n\x06online\x18\x07 \x01(\x08\x12\r\n\x05votes\x18\x08 \x01(\x01\"F\n\x10GasRatioResponse\x12\x18\n\x10lowest_gas_ratio\x18\x01 \x01(\x01\x12\x18\n\x10median_gas_ratio\x18\x02 \x01(\x01\"\xc9\x07\n\x07\x41\x63\x63ount\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x62\x61lance\x18\x02 \x01(\x01\x12(\n\x08gas_info\x18\x03 \x01(\x0b\x32\x16.rpcpb.Account.GasInfo\x12(\n\x08ram_info\x18\x04 \x01(\x0b\x32\x16.rpcpb.Account.RAMInfo\x12\x34\n\x0bpermissions\x18\x05 \x03(\x0b\x32\x1f.rpcpb.Account.PermissionsEntry\x12*\n\x06groups\x18\x06 \x03(\x0b\x32\x1a.rpcpb.Account.GroupsEntry\x12-\n\x0f\x66rozen_balances\x18\x07 \x03(\x0b\x32\x14.rpcpb.FrozenBalance\x12#\n\nvote_infos\x18\x08 \x03(\x0b\x32\x0f.rpcpb.VoteInfo\x1a-\n\nPledgeInfo\x12\x0f\n\x07pledger\x18\x01 \x01(\t\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x01\x1a\xa6\x01\n\x07GasInfo\x12\x15\n\rcurrent_total\x18\x01 \x01(\x01\x12\x18\n\x10transferable_gas\x18\x02 \x01(\x01\x12\x12\n\npledge_gas\x18\x03 \x01(\x01\x12\x16\n\x0eincrease_speed\x18\x04 \x01(\x01\x12\r\n\x05limit\x18\x05 \x01(\x01\x12/\n\x0cpledged_info\x18\x06 \x03(\x0b\x32\x19.rpcpb.Account.PledgeInfo\x1a\x39\n\x07RAMInfo\x12\x11\n\tavailable\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\r\n\x05total\x18\x03 \x01(\x03\x1aK\n\x04Item\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0bis_key_pair\x18\x02 \x01(\x08\x12\x0e\n\x06weight\x18\x03 \x01(\x03\x12\x12\n\npermission\x18\x04 \x01(\t\x1a\x39\n\x05Group\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\"\n\x05items\x18\x02 \x03(\x0b\x32\x13.rpcpb.Account.Item\x1a\x66\n\nPermission\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bgroup_names\x18\x02 \x03(\t\x12\"\n\x05items\x18\x03 \x03(\x0b\x32\x13.rpcpb.Account.Item\x12\x11\n\tthreshold\x18\x04 \x01(\x03\x1aM\n\x10PermissionsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12(\n\x05value\x18\x02 \x01(\x0b\x32\x19.rpcpb.Account.Permission:\x02\x38\x01\x1a\x43\n\x0bGroupsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12#\n\x05value\x18\x02 \x01(\x0b\x32\x14.rpcpb.Account.Group:\x02\x38\x01\";\n\x11GetAccountRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x02 \x01(\x08\"\xb7\x01\n\x08\x43ontract\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\x12\x10\n\x08language\x18\x03 \x01(\t\x12\x0f\n\x07version\x18\x04 \x01(\t\x12!\n\x04\x61\x62is\x18\x05 \x03(\x0b\x32\x13.rpcpb.Contract.ABI\x1aK\n\x03\x41\x42I\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04\x61rgs\x18\x02 \x03(\t\x12(\n\x0c\x61mount_limit\x18\x03 \x03(\x0b\x32\x12.rpcpb.AmountLimit\":\n\x12GetContractRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x02 \x01(\x08\"]\n\x19GetContractStorageRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0b\n\x03key\x18\x02 \x01(\t\x12\r\n\x05\x66ield\x18\x03 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x04 \x01(\x08\"T\n\x1aGetContractStorageResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\x12\x12\n\nblock_hash\x18\x02 \x01(\t\x12\x14\n\x0c\x62lock_number\x18\x03 \x01(\x03\"T\n\x1fGetContractStorageFieldsRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0b\n\x03key\x18\x02 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x03 \x01(\x08\"\\\n GetContractStorageFieldsResponse\x12\x0e\n\x06\x66ields\x18\x01 \x03(\t\x12\x12\n\nblock_hash\x18\x02 \x01(\t\x12\x14\n\x0c\x62lock_number\x18\x03 \x01(\x03\"Q\n\x17SendTransactionResponse\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12(\n\x0epre_tx_receipt\x18\x02 \x01(\x0b\x32\x10.rpcpb.TxReceipt\"Y\n\x17GetTokenBalanceResponse\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x01\x12-\n\x0f\x66rozen_balances\x18\x02 \x03(\x0b\x32\x14.rpcpb.FrozenBalance\"R\n\x16GetTokenBalanceRequest\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x03 \x01(\x08\"?\n\x1aGetToken721BalanceResponse\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x03\x12\x10\n\x08tokenIDs\x18\x02 \x03(\t\"S\n\x16GetToken721InfoRequest\x12\r\n\x05token\x18\x01 \x01(\t\x12\x10\n\x08token_id\x18\x02 \x01(\t\x12\x18\n\x10\x62y_longest_chain\x18\x03 \x01(\x08\"/\n\x1bGetToken721MetadataResponse\x12\x10\n\x08metadata\x18\x01 \x01(\t\")\n\x18GetToken721OwnerResponse\x12\r\n\x05owner\x18\x01 \x01(\t\"y\n\x05\x45vent\x12!\n\x05topic\x18\x01 \x01(\x0e\x32\x12.rpcpb.Event.Topic\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x0c\n\x04time\x18\x03 \x01(\x03\"1\n\x05Topic\x12\x14\n\x10\x43ONTRACT_RECEIPT\x10\x00\x12\x12\n\x0e\x43ONTRACT_EVENT\x10\x01\"\x85\x01\n\x10SubscribeRequest\x12\"\n\x06topics\x18\x01 \x03(\x0e\x32\x12.rpcpb.Event.Topic\x12.\n\x06\x66ilter\x18\x02 \x01(\x0b\x32\x1e.rpcpb.SubscribeRequest.Filter\x1a\x1d\n\x06\x46ilter\x12\x13\n\x0b\x63ontract_id\x18\x01 \x01(\t\"0\n\x11SubscribeResponse\x12\x1b\n\x05\x65vent\x18\x01 \x01(\x0b\x32\x0c.rpcpb.Event2\xf0\x11\n\nApiService\x12Q\n\x0bGetNodeInfo\x12\x13.rpcpb.EmptyRequest\x1a\x17.rpcpb.NodeInfoResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\x0c/getNodeInfo\x12T\n\x0cGetChainInfo\x12\x13.rpcpb.EmptyRequest\x1a\x18.rpcpb.ChainInfoResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/getChainInfo\x12N\n\nGetRAMInfo\x12\x13.rpcpb.EmptyRequest\x1a\x16.rpcpb.RAMInfoResponse\"\x13\x82\xd3\xe4\x93\x02\r\x12\x0b/getRAMInfo\x12\\\n\x0bGetTxByHash\x12\x14.rpcpb.TxHashRequest\x1a\x1a.rpcpb.TransactionResponse\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/getTxByHash/{hash}\x12\x64\n\x14GetTxReceiptByTxHash\x12\x14.rpcpb.TxHashRequest\x1a\x10.rpcpb.TxReceipt\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/getTxReceiptByTxHash/{hash}\x12o\n\x0eGetBlockByHash\x12\x1c.rpcpb.GetBlockByHashRequest\x1a\x14.rpcpb.BlockResponse\")\x82\xd3\xe4\x93\x02#\x12!/getBlockByHash/{hash}/{complete}\x12w\n\x10GetBlockByNumber\x12\x1e.rpcpb.GetBlockByNumberRequest\x1a\x14.rpcpb.BlockResponse\"-\x82\xd3\xe4\x93\x02\'\x12%/getBlockByNumber/{number}/{complete}\x12\x65\n\nGetAccount\x12\x18.rpcpb.GetAccountRequest\x1a\x0e.rpcpb.Account\"-\x82\xd3\xe4\x93\x02\'\x12%/getAccount/{name}/{by_longest_chain}\x12\x8f\x01\n\x0fGetTokenBalance\x12\x1d.rpcpb.GetTokenBalanceRequest\x1a\x1e.rpcpb.GetTokenBalanceResponse\"=\x82\xd3\xe4\x93\x02\x37\x12\x35/getTokenBalance/{account}/{token}/{by_longest_chain}\x12\x98\x01\n\x12GetToken721Balance\x12\x1d.rpcpb.GetTokenBalanceRequest\x1a!.rpcpb.GetToken721BalanceResponse\"@\x82\xd3\xe4\x93\x02:\x12\x38/getToken721Balance/{account}/{token}/{by_longest_chain}\x12\x9c\x01\n\x13GetToken721Metadata\x12\x1d.rpcpb.GetToken721InfoRequest\x1a\".rpcpb.GetToken721MetadataResponse\"B\x82\xd3\xe4\x93\x02<\x12:/getToken721Metadata/{token}/{token_id}/{by_longest_chain}\x12\x93\x01\n\x10GetToken721Owner\x12\x1d.rpcpb.GetToken721InfoRequest\x1a\x1f.rpcpb.GetToken721OwnerResponse\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/getToken721Owner/{token}/{token_id}/{by_longest_chain}\x12Q\n\x0bGetGasRatio\x12\x13.rpcpb.EmptyRequest\x1a\x17.rpcpb.GasRatioResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\x0c/getGasRatio\x12\x97\x01\n\x13GetProducerVoteInfo\x12!.rpcpb.GetProducerVoteInfoRequest\x1a\".rpcpb.GetProducerVoteInfoResponse\"9\x82\xd3\xe4\x93\x02\x33\x12\x31/getProducerVoteInfo/{account}/{by_longest_chain}\x12g\n\x0bGetContract\x12\x19.rpcpb.GetContractRequest\x1a\x0f.rpcpb.Contract\",\x82\xd3\xe4\x93\x02&\x12$/getContract/{id}/{by_longest_chain}\x12y\n\x12GetContractStorage\x12 .rpcpb.GetContractStorageRequest\x1a!.rpcpb.GetContractStorageResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/getContractStorage:\x01*\x12\x91\x01\n\x18GetContractStorageFields\x12&.rpcpb.GetContractStorageFieldsRequest\x1a\'.rpcpb.GetContractStorageFieldsResponse\"$\x82\xd3\xe4\x93\x02\x1e\"\x19/getContractStorageFields:\x01*\x12`\n\x0fSendTransaction\x12\x19.rpcpb.TransactionRequest\x1a\x1e.rpcpb.SendTransactionResponse\"\x12\x82\xd3\xe4\x93\x02\x0c\"\x07/sendTx:\x01*\x12R\n\x0f\x45xecTransaction\x12\x19.rpcpb.TransactionRequest\x1a\x10.rpcpb.TxReceipt\"\x12\x82\xd3\xe4\x93\x02\x0c\"\x07/execTx:\x01*\x12W\n\tSubscribe\x12\x17.rpcpb.SubscribeRequest\x1a\x18.rpcpb.SubscribeResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\"\n/subscribe:\x01*0\x01\x62\x06proto3')
   ,
   dependencies=[google_dot_api_dot_annotations__pb2.DESCRIPTOR,])
 
@@ -71,8 +71,8 @@ _TXRECEIPT_STATUSCODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=855,
-  serialized_end=1038,
+  serialized_start=781,
+  serialized_end=964,
 )
 _sym_db.RegisterEnumDescriptor(_TXRECEIPT_STATUSCODE)
 
@@ -97,8 +97,8 @@ _TRANSACTIONRESPONSE_STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1460,
-  serialized_end=1511,
+  serialized_start=1386,
+  serialized_end=1437,
 )
 _sym_db.RegisterEnumDescriptor(_TRANSACTIONRESPONSE_STATUS)
 
@@ -123,8 +123,8 @@ _SIGNATURE_ALGORITHM = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1613,
-  serialized_end=1665,
+  serialized_start=1539,
+  serialized_end=1591,
 )
 _sym_db.RegisterEnumDescriptor(_SIGNATURE_ALGORITHM)
 
@@ -145,8 +145,8 @@ _BLOCKRESPONSE_STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2413,
-  serialized_end=2452,
+  serialized_start=2339,
+  serialized_end=2378,
 )
 _sym_db.RegisterEnumDescriptor(_BLOCKRESPONSE_STATUS)
 
@@ -167,8 +167,8 @@ _EVENT_TOPIC = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=4966,
-  serialized_end=5015,
+  serialized_start=5377,
+  serialized_end=5426,
 )
 _sym_db.RegisterEnumDescriptor(_EVENT_TOPIC)
 
@@ -197,44 +197,6 @@ _EMPTYREQUEST = _descriptor.Descriptor(
 )
 
 
-_PEERINFO = _descriptor.Descriptor(
-  name='PeerInfo',
-  full_name='rpcpb.PeerInfo',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='id', full_name='rpcpb.PeerInfo.id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='addr', full_name='rpcpb.PeerInfo.addr', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=73,
-  serialized_end=109,
-)
-
-
 _NETWORKINFO = _descriptor.Descriptor(
   name='NetworkInfo',
   full_name='rpcpb.NetworkInfo',
@@ -256,13 +218,6 @@ _NETWORKINFO = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='peer_info', full_name='rpcpb.NetworkInfo.peer_info', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -275,8 +230,8 @@ _NETWORKINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=111,
-  serialized_end=192,
+  serialized_start=73,
+  serialized_end=118,
 )
 
 
@@ -334,8 +289,8 @@ _RAMINFORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=194,
-  serialized_end=310,
+  serialized_start=120,
+  serialized_end=236,
 )
 
 
@@ -386,8 +341,8 @@ _NODEINFORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=312,
-  serialized_end=419,
+  serialized_start=238,
+  serialized_end=345,
 )
 
 
@@ -424,8 +379,8 @@ _AMOUNTLIMIT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=421,
-  serialized_end=464,
+  serialized_start=347,
+  serialized_end=390,
 )
 
 
@@ -469,8 +424,8 @@ _ACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=466,
-  serialized_end=527,
+  serialized_start=392,
+  serialized_end=453,
 )
 
 
@@ -507,8 +462,8 @@ _TXRECEIPT_RAMUSAGEENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=758,
-  serialized_end=805,
+  serialized_start=684,
+  serialized_end=731,
 )
 
 _TXRECEIPT_RECEIPT = _descriptor.Descriptor(
@@ -544,8 +499,8 @@ _TXRECEIPT_RECEIPT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=807,
-  serialized_end=852,
+  serialized_start=733,
+  serialized_end=778,
 )
 
 _TXRECEIPT = _descriptor.Descriptor(
@@ -617,8 +572,8 @@ _TXRECEIPT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=530,
-  serialized_end=1038,
+  serialized_start=456,
+  serialized_end=964,
 )
 
 
@@ -732,8 +687,8 @@ _TRANSACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1041,
-  serialized_end=1342,
+  serialized_start=967,
+  serialized_end=1268,
 )
 
 
@@ -771,8 +726,8 @@ _TRANSACTIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1345,
-  serialized_end=1511,
+  serialized_start=1271,
+  serialized_end=1437,
 )
 
 
@@ -817,8 +772,8 @@ _SIGNATURE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1514,
-  serialized_end=1665,
+  serialized_start=1440,
+  serialized_end=1591,
 )
 
 
@@ -925,8 +880,8 @@ _TRANSACTIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1668,
-  serialized_end=1983,
+  serialized_start=1594,
+  serialized_end=1909,
 )
 
 
@@ -970,8 +925,8 @@ _BLOCK_INFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2262,
-  serialized_end=2319,
+  serialized_start=2188,
+  serialized_end=2245,
 )
 
 _BLOCK = _descriptor.Descriptor(
@@ -1077,8 +1032,8 @@ _BLOCK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1986,
-  serialized_end=2319,
+  serialized_start=1912,
+  serialized_end=2245,
 )
 
 
@@ -1116,8 +1071,8 @@ _BLOCKRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2322,
-  serialized_end=2452,
+  serialized_start=2248,
+  serialized_end=2378,
 )
 
 
@@ -1184,6 +1139,13 @@ _CHAININFORESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='lib_witness_list', full_name='rpcpb.ChainInfoResponse.lib_witness_list', index=8,
+      number=9, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -1196,8 +1158,8 @@ _CHAININFORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2455,
-  serialized_end=2646,
+  serialized_start=2381,
+  serialized_end=2598,
 )
 
 
@@ -1227,8 +1189,8 @@ _TXHASHREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2648,
-  serialized_end=2677,
+  serialized_start=2600,
+  serialized_end=2629,
 )
 
 
@@ -1265,8 +1227,8 @@ _GETBLOCKBYHASHREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2679,
-  serialized_end=2734,
+  serialized_start=2631,
+  serialized_end=2686,
 )
 
 
@@ -1303,8 +1265,8 @@ _GETBLOCKBYNUMBERREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2736,
-  serialized_end=2795,
+  serialized_start=2688,
+  serialized_end=2747,
 )
 
 
@@ -1341,8 +1303,171 @@ _FROZENBALANCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2797,
-  serialized_end=2842,
+  serialized_start=2749,
+  serialized_end=2794,
+)
+
+
+_VOTEINFO = _descriptor.Descriptor(
+  name='VoteInfo',
+  full_name='rpcpb.VoteInfo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='option', full_name='rpcpb.VoteInfo.option', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='votes', full_name='rpcpb.VoteInfo.votes', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='cleared_votes', full_name='rpcpb.VoteInfo.cleared_votes', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2796,
+  serialized_end=2860,
+)
+
+
+_GETPRODUCERVOTEINFOREQUEST = _descriptor.Descriptor(
+  name='GetProducerVoteInfoRequest',
+  full_name='rpcpb.GetProducerVoteInfoRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='account', full_name='rpcpb.GetProducerVoteInfoRequest.account', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='by_longest_chain', full_name='rpcpb.GetProducerVoteInfoRequest.by_longest_chain', index=1,
+      number=2, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2862,
+  serialized_end=2933,
+)
+
+
+_GETPRODUCERVOTEINFORESPONSE = _descriptor.Descriptor(
+  name='GetProducerVoteInfoResponse',
+  full_name='rpcpb.GetProducerVoteInfoResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='pubkey', full_name='rpcpb.GetProducerVoteInfoResponse.pubkey', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='loc', full_name='rpcpb.GetProducerVoteInfoResponse.loc', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='url', full_name='rpcpb.GetProducerVoteInfoResponse.url', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='net_id', full_name='rpcpb.GetProducerVoteInfoResponse.net_id', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='is_producer', full_name='rpcpb.GetProducerVoteInfoResponse.is_producer', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='rpcpb.GetProducerVoteInfoResponse.status', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='online', full_name='rpcpb.GetProducerVoteInfoResponse.online', index=6,
+      number=7, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='votes', full_name='rpcpb.GetProducerVoteInfoResponse.votes', index=7,
+      number=8, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2936,
+  serialized_end=3091,
 )
 
 
@@ -1379,8 +1504,8 @@ _GASRATIORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2844,
-  serialized_end=2914,
+  serialized_start=3093,
+  serialized_end=3163,
 )
 
 
@@ -1417,8 +1542,8 @@ _ACCOUNT_PLEDGEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3188,
-  serialized_end=3233,
+  serialized_start=3474,
+  serialized_end=3519,
 )
 
 _ACCOUNT_GASINFO = _descriptor.Descriptor(
@@ -1482,8 +1607,8 @@ _ACCOUNT_GASINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3236,
-  serialized_end=3402,
+  serialized_start=3522,
+  serialized_end=3688,
 )
 
 _ACCOUNT_RAMINFO = _descriptor.Descriptor(
@@ -1526,8 +1651,8 @@ _ACCOUNT_RAMINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3404,
-  serialized_end=3461,
+  serialized_start=3690,
+  serialized_end=3747,
 )
 
 _ACCOUNT_ITEM = _descriptor.Descriptor(
@@ -1577,8 +1702,8 @@ _ACCOUNT_ITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3463,
-  serialized_end=3538,
+  serialized_start=3749,
+  serialized_end=3824,
 )
 
 _ACCOUNT_GROUP = _descriptor.Descriptor(
@@ -1614,8 +1739,8 @@ _ACCOUNT_GROUP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3540,
-  serialized_end=3597,
+  serialized_start=3826,
+  serialized_end=3883,
 )
 
 _ACCOUNT_PERMISSION = _descriptor.Descriptor(
@@ -1665,8 +1790,8 @@ _ACCOUNT_PERMISSION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3599,
-  serialized_end=3701,
+  serialized_start=3885,
+  serialized_end=3987,
 )
 
 _ACCOUNT_PERMISSIONSENTRY = _descriptor.Descriptor(
@@ -1702,8 +1827,8 @@ _ACCOUNT_PERMISSIONSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3703,
-  serialized_end=3780,
+  serialized_start=3989,
+  serialized_end=4066,
 )
 
 _ACCOUNT_GROUPSENTRY = _descriptor.Descriptor(
@@ -1739,8 +1864,8 @@ _ACCOUNT_GROUPSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3782,
-  serialized_end=3849,
+  serialized_start=4068,
+  serialized_end=4135,
 )
 
 _ACCOUNT = _descriptor.Descriptor(
@@ -1799,6 +1924,13 @@ _ACCOUNT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='vote_infos', full_name='rpcpb.Account.vote_infos', index=7,
+      number=8, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -1811,8 +1943,8 @@ _ACCOUNT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2917,
-  serialized_end=3849,
+  serialized_start=3166,
+  serialized_end=4135,
 )
 
 
@@ -1849,8 +1981,8 @@ _GETACCOUNTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3851,
-  serialized_end=3910,
+  serialized_start=4137,
+  serialized_end=4196,
 )
 
 
@@ -1894,8 +2026,8 @@ _CONTRACT_ABI = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4021,
-  serialized_end=4096,
+  serialized_start=4307,
+  serialized_end=4382,
 )
 
 _CONTRACT = _descriptor.Descriptor(
@@ -1952,8 +2084,8 @@ _CONTRACT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3913,
-  serialized_end=4096,
+  serialized_start=4199,
+  serialized_end=4382,
 )
 
 
@@ -1990,8 +2122,8 @@ _GETCONTRACTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4098,
-  serialized_end=4156,
+  serialized_start=4384,
+  serialized_end=4442,
 )
 
 
@@ -2042,8 +2174,8 @@ _GETCONTRACTSTORAGEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4158,
-  serialized_end=4251,
+  serialized_start=4444,
+  serialized_end=4537,
 )
 
 
@@ -2061,6 +2193,20 @@ _GETCONTRACTSTORAGERESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='block_hash', full_name='rpcpb.GetContractStorageResponse.block_hash', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='block_number', full_name='rpcpb.GetContractStorageResponse.block_number', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -2073,8 +2219,8 @@ _GETCONTRACTSTORAGERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4253,
-  serialized_end=4295,
+  serialized_start=4539,
+  serialized_end=4623,
 )
 
 
@@ -2093,7 +2239,7 @@ _GETCONTRACTSTORAGEFIELDSREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='fields', full_name='rpcpb.GetContractStorageFieldsRequest.fields', index=1,
+      name='key', full_name='rpcpb.GetContractStorageFieldsRequest.key', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -2118,8 +2264,8 @@ _GETCONTRACTSTORAGEFIELDSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4297,
-  serialized_end=4384,
+  serialized_start=4625,
+  serialized_end=4709,
 )
 
 
@@ -2131,9 +2277,23 @@ _GETCONTRACTSTORAGEFIELDSRESPONSE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='data', full_name='rpcpb.GetContractStorageFieldsResponse.data', index=0,
-      number=1, type=9, cpp_type=9, label=1,
+      name='fields', full_name='rpcpb.GetContractStorageFieldsResponse.fields', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='block_hash', full_name='rpcpb.GetContractStorageFieldsResponse.block_hash', index=1,
+      number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='block_number', full_name='rpcpb.GetContractStorageFieldsResponse.block_number', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -2149,8 +2309,8 @@ _GETCONTRACTSTORAGEFIELDSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4386,
-  serialized_end=4434,
+  serialized_start=4711,
+  serialized_end=4803,
 )
 
 
@@ -2168,6 +2328,13 @@ _SENDTRANSACTIONRESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pre_tx_receipt', full_name='rpcpb.SendTransactionResponse.pre_tx_receipt', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -2180,8 +2347,8 @@ _SENDTRANSACTIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4436,
-  serialized_end=4475,
+  serialized_start=4805,
+  serialized_end=4886,
 )
 
 
@@ -2218,8 +2385,8 @@ _GETTOKENBALANCERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4477,
-  serialized_end=4566,
+  serialized_start=4888,
+  serialized_end=4977,
 )
 
 
@@ -2263,8 +2430,8 @@ _GETTOKENBALANCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4568,
-  serialized_end=4650,
+  serialized_start=4979,
+  serialized_end=5061,
 )
 
 
@@ -2301,8 +2468,8 @@ _GETTOKEN721BALANCERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4652,
-  serialized_end=4715,
+  serialized_start=5063,
+  serialized_end=5126,
 )
 
 
@@ -2346,8 +2513,8 @@ _GETTOKEN721INFOREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4717,
-  serialized_end=4800,
+  serialized_start=5128,
+  serialized_end=5211,
 )
 
 
@@ -2377,8 +2544,8 @@ _GETTOKEN721METADATARESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4802,
-  serialized_end=4849,
+  serialized_start=5213,
+  serialized_end=5260,
 )
 
 
@@ -2408,8 +2575,8 @@ _GETTOKEN721OWNERRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4851,
-  serialized_end=4892,
+  serialized_start=5262,
+  serialized_end=5303,
 )
 
 
@@ -2454,8 +2621,8 @@ _EVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4894,
-  serialized_end=5015,
+  serialized_start=5305,
+  serialized_end=5426,
 )
 
 
@@ -2485,8 +2652,8 @@ _SUBSCRIBEREQUEST_FILTER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5122,
-  serialized_end=5151,
+  serialized_start=5533,
+  serialized_end=5562,
 )
 
 _SUBSCRIBEREQUEST = _descriptor.Descriptor(
@@ -2522,8 +2689,8 @@ _SUBSCRIBEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5018,
-  serialized_end=5151,
+  serialized_start=5429,
+  serialized_end=5562,
 )
 
 
@@ -2553,11 +2720,10 @@ _SUBSCRIBERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5153,
-  serialized_end=5201,
+  serialized_start=5564,
+  serialized_end=5612,
 )
 
-_NETWORKINFO.fields_by_name['peer_info'].message_type = _PEERINFO
 _NODEINFORESPONSE.fields_by_name['network'].message_type = _NETWORKINFO
 _TXRECEIPT_RAMUSAGEENTRY.containing_type = _TXRECEIPT
 _TXRECEIPT_RECEIPT.containing_type = _TXRECEIPT
@@ -2601,9 +2767,11 @@ _ACCOUNT.fields_by_name['ram_info'].message_type = _ACCOUNT_RAMINFO
 _ACCOUNT.fields_by_name['permissions'].message_type = _ACCOUNT_PERMISSIONSENTRY
 _ACCOUNT.fields_by_name['groups'].message_type = _ACCOUNT_GROUPSENTRY
 _ACCOUNT.fields_by_name['frozen_balances'].message_type = _FROZENBALANCE
+_ACCOUNT.fields_by_name['vote_infos'].message_type = _VOTEINFO
 _CONTRACT_ABI.fields_by_name['amount_limit'].message_type = _AMOUNTLIMIT
 _CONTRACT_ABI.containing_type = _CONTRACT
 _CONTRACT.fields_by_name['abis'].message_type = _CONTRACT_ABI
+_SENDTRANSACTIONRESPONSE.fields_by_name['pre_tx_receipt'].message_type = _TXRECEIPT
 _GETTOKENBALANCERESPONSE.fields_by_name['frozen_balances'].message_type = _FROZENBALANCE
 _EVENT.fields_by_name['topic'].enum_type = _EVENT_TOPIC
 _EVENT_TOPIC.containing_type = _EVENT
@@ -2612,7 +2780,6 @@ _SUBSCRIBEREQUEST.fields_by_name['topics'].enum_type = _EVENT_TOPIC
 _SUBSCRIBEREQUEST.fields_by_name['filter'].message_type = _SUBSCRIBEREQUEST_FILTER
 _SUBSCRIBERESPONSE.fields_by_name['event'].message_type = _EVENT
 DESCRIPTOR.message_types_by_name['EmptyRequest'] = _EMPTYREQUEST
-DESCRIPTOR.message_types_by_name['PeerInfo'] = _PEERINFO
 DESCRIPTOR.message_types_by_name['NetworkInfo'] = _NETWORKINFO
 DESCRIPTOR.message_types_by_name['RAMInfoResponse'] = _RAMINFORESPONSE
 DESCRIPTOR.message_types_by_name['NodeInfoResponse'] = _NODEINFORESPONSE
@@ -2630,6 +2797,9 @@ DESCRIPTOR.message_types_by_name['TxHashRequest'] = _TXHASHREQUEST
 DESCRIPTOR.message_types_by_name['GetBlockByHashRequest'] = _GETBLOCKBYHASHREQUEST
 DESCRIPTOR.message_types_by_name['GetBlockByNumberRequest'] = _GETBLOCKBYNUMBERREQUEST
 DESCRIPTOR.message_types_by_name['FrozenBalance'] = _FROZENBALANCE
+DESCRIPTOR.message_types_by_name['VoteInfo'] = _VOTEINFO
+DESCRIPTOR.message_types_by_name['GetProducerVoteInfoRequest'] = _GETPRODUCERVOTEINFOREQUEST
+DESCRIPTOR.message_types_by_name['GetProducerVoteInfoResponse'] = _GETPRODUCERVOTEINFORESPONSE
 DESCRIPTOR.message_types_by_name['GasRatioResponse'] = _GASRATIORESPONSE
 DESCRIPTOR.message_types_by_name['Account'] = _ACCOUNT
 DESCRIPTOR.message_types_by_name['GetAccountRequest'] = _GETACCOUNTREQUEST
@@ -2657,13 +2827,6 @@ EmptyRequest = _reflection.GeneratedProtocolMessageType('EmptyRequest', (_messag
   # @@protoc_insertion_point(class_scope:rpcpb.EmptyRequest)
   ))
 _sym_db.RegisterMessage(EmptyRequest)
-
-PeerInfo = _reflection.GeneratedProtocolMessageType('PeerInfo', (_message.Message,), dict(
-  DESCRIPTOR = _PEERINFO,
-  __module__ = 'rpc.pb.rpc_pb2'
-  # @@protoc_insertion_point(class_scope:rpcpb.PeerInfo)
-  ))
-_sym_db.RegisterMessage(PeerInfo)
 
 NetworkInfo = _reflection.GeneratedProtocolMessageType('NetworkInfo', (_message.Message,), dict(
   DESCRIPTOR = _NETWORKINFO,
@@ -2807,6 +2970,27 @@ FrozenBalance = _reflection.GeneratedProtocolMessageType('FrozenBalance', (_mess
   # @@protoc_insertion_point(class_scope:rpcpb.FrozenBalance)
   ))
 _sym_db.RegisterMessage(FrozenBalance)
+
+VoteInfo = _reflection.GeneratedProtocolMessageType('VoteInfo', (_message.Message,), dict(
+  DESCRIPTOR = _VOTEINFO,
+  __module__ = 'rpc.pb.rpc_pb2'
+  # @@protoc_insertion_point(class_scope:rpcpb.VoteInfo)
+  ))
+_sym_db.RegisterMessage(VoteInfo)
+
+GetProducerVoteInfoRequest = _reflection.GeneratedProtocolMessageType('GetProducerVoteInfoRequest', (_message.Message,), dict(
+  DESCRIPTOR = _GETPRODUCERVOTEINFOREQUEST,
+  __module__ = 'rpc.pb.rpc_pb2'
+  # @@protoc_insertion_point(class_scope:rpcpb.GetProducerVoteInfoRequest)
+  ))
+_sym_db.RegisterMessage(GetProducerVoteInfoRequest)
+
+GetProducerVoteInfoResponse = _reflection.GeneratedProtocolMessageType('GetProducerVoteInfoResponse', (_message.Message,), dict(
+  DESCRIPTOR = _GETPRODUCERVOTEINFORESPONSE,
+  __module__ = 'rpc.pb.rpc_pb2'
+  # @@protoc_insertion_point(class_scope:rpcpb.GetProducerVoteInfoResponse)
+  ))
+_sym_db.RegisterMessage(GetProducerVoteInfoResponse)
 
 GasRatioResponse = _reflection.GeneratedProtocolMessageType('GasRatioResponse', (_message.Message,), dict(
   DESCRIPTOR = _GASRATIORESPONSE,
@@ -3032,8 +3216,8 @@ _APISERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=5204,
-  serialized_end=7338,
+  serialized_start=5615,
+  serialized_end=7903,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetNodeInfo',
@@ -3153,9 +3337,18 @@ _APISERVICE = _descriptor.ServiceDescriptor(
     serialized_options=_b('\202\323\344\223\002\016\022\014/getGasRatio'),
   ),
   _descriptor.MethodDescriptor(
+    name='GetProducerVoteInfo',
+    full_name='rpcpb.ApiService.GetProducerVoteInfo',
+    index=13,
+    containing_service=None,
+    input_type=_GETPRODUCERVOTEINFOREQUEST,
+    output_type=_GETPRODUCERVOTEINFORESPONSE,
+    serialized_options=_b('\202\323\344\223\0023\0221/getProducerVoteInfo/{account}/{by_longest_chain}'),
+  ),
+  _descriptor.MethodDescriptor(
     name='GetContract',
     full_name='rpcpb.ApiService.GetContract',
-    index=13,
+    index=14,
     containing_service=None,
     input_type=_GETCONTRACTREQUEST,
     output_type=_CONTRACT,
@@ -3164,7 +3357,7 @@ _APISERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetContractStorage',
     full_name='rpcpb.ApiService.GetContractStorage',
-    index=14,
+    index=15,
     containing_service=None,
     input_type=_GETCONTRACTSTORAGEREQUEST,
     output_type=_GETCONTRACTSTORAGERESPONSE,
@@ -3173,7 +3366,7 @@ _APISERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetContractStorageFields',
     full_name='rpcpb.ApiService.GetContractStorageFields',
-    index=15,
+    index=16,
     containing_service=None,
     input_type=_GETCONTRACTSTORAGEFIELDSREQUEST,
     output_type=_GETCONTRACTSTORAGEFIELDSRESPONSE,
@@ -3182,7 +3375,7 @@ _APISERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SendTransaction',
     full_name='rpcpb.ApiService.SendTransaction',
-    index=16,
+    index=17,
     containing_service=None,
     input_type=_TRANSACTIONREQUEST,
     output_type=_SENDTRANSACTIONRESPONSE,
@@ -3191,7 +3384,7 @@ _APISERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ExecTransaction',
     full_name='rpcpb.ApiService.ExecTransaction',
-    index=17,
+    index=18,
     containing_service=None,
     input_type=_TRANSACTIONREQUEST,
     output_type=_TXRECEIPT,
@@ -3200,7 +3393,7 @@ _APISERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='Subscribe',
     full_name='rpcpb.ApiService.Subscribe',
-    index=18,
+    index=19,
     containing_service=None,
     input_type=_SUBSCRIBEREQUEST,
     output_type=_SUBSCRIBERESPONSE,
