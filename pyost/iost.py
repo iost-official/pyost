@@ -531,7 +531,7 @@ class IOST:
 
     def create_new_account_tx(self, new_name: str, creator_name: str,
                               owner_key: str, active_key: str,
-                              initial_ram: int = 0, initial_gas_pledge: float = 11.0,
+                              initial_ram: int = 0, initial_gas_pledge: float = 10.0,
                               initial_coins: float = 0.0) -> Transaction:
         """Creates a `Transaction` that contains a list of `Actions` to create an account,
             pledge tokens, buy RAM and transfer coins to the new account.
@@ -552,9 +552,10 @@ class IOST:
         tx.add_action('auth.iost', 'signUp', new_name, owner_key, active_key)
         if initial_ram > 0:
             tx.add_action('ram.iost', 'buy', creator_name, new_name, initial_ram)
-        if initial_gas_pledge <= 10.0:
+        if initial_gas_pledge < 10.0:
             raise ValueError('minimum gas pledge is 10.0')
-        tx.add_action('gas.iost', 'pledge', creator_name, new_name, str(initial_gas_pledge - 10.0))
+        if initial_gas_pledge - 10.0 > 0:
+            tx.add_action('gas.iost', 'pledge', creator_name, new_name, str(initial_gas_pledge - 10.0))
         if initial_coins > 0.0:
             tx.add_action('token.iost', 'transfer', 'iost', creator_name, new_name, str(initial_coins), '')
         return tx
