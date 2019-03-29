@@ -94,6 +94,11 @@ class ApiServiceStub(object):
         request_serializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageRequest.SerializeToString,
         response_deserializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageResponse.FromString,
         )
+    self.GetBatchContractStorage = channel.unary_unary(
+        '/rpcpb.ApiService/GetBatchContractStorage',
+        request_serializer=rpc_dot_pb_dot_rpc__pb2.GetBatchContractStorageRequest.SerializeToString,
+        response_deserializer=rpc_dot_pb_dot_rpc__pb2.GetBatchContractStorageResponse.FromString,
+        )
     self.GetContractStorageFields = channel.unary_unary(
         '/rpcpb.ApiService/GetContractStorageFields',
         request_serializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageFieldsRequest.SerializeToString,
@@ -113,6 +118,21 @@ class ApiServiceStub(object):
         '/rpcpb.ApiService/Subscribe',
         request_serializer=rpc_dot_pb_dot_rpc__pb2.SubscribeRequest.SerializeToString,
         response_deserializer=rpc_dot_pb_dot_rpc__pb2.SubscribeResponse.FromString,
+        )
+    self.GetVoterBonus = channel.unary_unary(
+        '/rpcpb.ApiService/GetVoterBonus',
+        request_serializer=rpc_dot_pb_dot_rpc__pb2.GetAccountRequest.SerializeToString,
+        response_deserializer=rpc_dot_pb_dot_rpc__pb2.VoterBonus.FromString,
+        )
+    self.GetCandidateBonus = channel.unary_unary(
+        '/rpcpb.ApiService/GetCandidateBonus',
+        request_serializer=rpc_dot_pb_dot_rpc__pb2.GetAccountRequest.SerializeToString,
+        response_deserializer=rpc_dot_pb_dot_rpc__pb2.CandidateBonus.FromString,
+        )
+    self.GetTokenInfo = channel.unary_unary(
+        '/rpcpb.ApiService/GetTokenInfo',
+        request_serializer=rpc_dot_pb_dot_rpc__pb2.GetTokenInfoRequest.SerializeToString,
+        response_deserializer=rpc_dot_pb_dot_rpc__pb2.TokenInfo.FromString,
         )
 
 
@@ -232,6 +252,13 @@ class ApiServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetBatchContractStorage(self, request, context):
+    """get batch contract storage
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def GetContractStorageFields(self, request, context):
     """get contract fields storage
     """
@@ -256,6 +283,27 @@ class ApiServiceServicer(object):
   def Subscribe(self, request, context):
     """subscribe an event
     """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetVoterBonus(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetCandidateBonus(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetTokenInfo(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
@@ -343,6 +391,11 @@ def add_ApiServiceServicer_to_server(servicer, server):
           request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageRequest.FromString,
           response_serializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageResponse.SerializeToString,
       ),
+      'GetBatchContractStorage': grpc.unary_unary_rpc_method_handler(
+          servicer.GetBatchContractStorage,
+          request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetBatchContractStorageRequest.FromString,
+          response_serializer=rpc_dot_pb_dot_rpc__pb2.GetBatchContractStorageResponse.SerializeToString,
+      ),
       'GetContractStorageFields': grpc.unary_unary_rpc_method_handler(
           servicer.GetContractStorageFields,
           request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetContractStorageFieldsRequest.FromString,
@@ -362,6 +415,21 @@ def add_ApiServiceServicer_to_server(servicer, server):
           servicer.Subscribe,
           request_deserializer=rpc_dot_pb_dot_rpc__pb2.SubscribeRequest.FromString,
           response_serializer=rpc_dot_pb_dot_rpc__pb2.SubscribeResponse.SerializeToString,
+      ),
+      'GetVoterBonus': grpc.unary_unary_rpc_method_handler(
+          servicer.GetVoterBonus,
+          request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetAccountRequest.FromString,
+          response_serializer=rpc_dot_pb_dot_rpc__pb2.VoterBonus.SerializeToString,
+      ),
+      'GetCandidateBonus': grpc.unary_unary_rpc_method_handler(
+          servicer.GetCandidateBonus,
+          request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetAccountRequest.FromString,
+          response_serializer=rpc_dot_pb_dot_rpc__pb2.CandidateBonus.SerializeToString,
+      ),
+      'GetTokenInfo': grpc.unary_unary_rpc_method_handler(
+          servicer.GetTokenInfo,
+          request_deserializer=rpc_dot_pb_dot_rpc__pb2.GetTokenInfoRequest.FromString,
+          response_serializer=rpc_dot_pb_dot_rpc__pb2.TokenInfo.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

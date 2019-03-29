@@ -194,7 +194,7 @@ class Transaction:
         self.status: Transaction.Status = Transaction.Status.UNKNOWN
 
     def __str__(self) -> str:
-        return pformat(protobuf_to_dict(self.to_request_raw()))
+        return pformat(protobuf_to_dict(self.to_raw()))
 
     def add_action(self, contract: str, abi: str, *args) -> Transaction:
         """Adds an `Action` (i.e. an ABI call) to the list of `Action`.
@@ -372,6 +372,7 @@ class Transaction:
             publisher=self.publisher,
             referred_tx=self.referred_tx,
             chain_id=self.chain_id,
+            tx_receipt=self.tx_receipt.to_raw(),
         )
 
     def to_bytes(self, level='base') -> bytes:
