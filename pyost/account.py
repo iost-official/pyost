@@ -207,6 +207,7 @@ class AccountInfo:
         permissions: A mapping from `permission` KeyPair to `Permission` objects.
         groups: A mapping of `Group` objects.
         frozen_balances: A list of `FrozenBalance` objects.
+        vote_infos: A list of `VoteInfo` objects.
     """
 
     class PledgeInfo:
@@ -477,6 +478,48 @@ class AccountInfo:
                 threshold=self.threshold
             )
 
+    class VoteInfo:
+        """Contains information about vote info.
+
+        Attributes:
+            option: Vote option
+            votes: Current votes
+            cleared_votes: Votes that has been clead
+        """
+        def __init__(self):
+            self.option: str = ''
+            self.votes: float = 0.0
+            self.cleared_votes: float = 0
+
+        def __str__(self) -> str:
+            return pformat(protobuf_to_dict(self.to_raw()))
+
+        def from_raw(self, i: pb.VoteInfo) -> AccountInfo.VoteInfo:
+            """Deserializes a protobuf object to update this object's members.
+
+            Args:
+                i: The protobuf object.
+
+            Returns:
+                Itself.
+            """
+            self.option = i.option
+            self.votes = i.votes
+            self.cleared_votes = i.cleared_votes
+            return self
+
+        def to_raw(self) -> pb.VoteInfo:
+            """Serializes this object's members to a protobuf object.
+
+            Returns:
+                A protobuf object.
+            """
+            return pb.VoteInfo(
+                option=self.option,
+                votes=self.votes,
+                cleared_votes=self.cleared_votes
+            )
+
     def __init__(self):
         self.name: str = ''
         self.balance: float = 0.0
@@ -508,6 +551,7 @@ class AccountInfo:
                        for key, val in a.groups.items()} if a.groups is not None else {}
         self.frozen_balances = [FrozenBalance().from_raw(fb)
                                 for fb in a.frozen_balances] if a.frozen_balances is not None else []
+        self.vote_infos = [AccountInfo.VoteInfo().from_raw(vi) for vi in a.vote_infos] if a.vote_infos is not None else []
         return self
 
     def to_raw(self) -> pb.Account:
@@ -523,5 +567,6 @@ class AccountInfo:
             ram_info=self.ram_info.to_raw(),
             permissions={key: val.to_raw() for key, val in self.permissions.items()},
             groups={key: val.to_raw() for key, val in self.groups.items()},
-            frozen_balances=[fb.to_raw() for fb in self.frozen_balances]
+            frozen_balances=[fb.to_raw() for fb in self.frozen_balances],
+            vote_infos=[vi.to_raw() for vi in self.vote_infos]
         )
