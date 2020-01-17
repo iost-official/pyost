@@ -328,7 +328,7 @@ class Transaction:
         self.publisher_signatures = []
         self.chain_id = tr.chain_id
         self.referred_tx = tr.referred_tx
-        self.tx_receipt = TxReceipt().from_raw(tr.tx_receipt)
+        self.tx_receipt = TxReceipt().from_raw(tr.tx_receipt) if tr.tx_receipt.tx_hash != "" else None
         return self
 
     def to_request_raw(self) -> pb.TransactionRequest:
@@ -372,7 +372,7 @@ class Transaction:
             publisher=self.publisher,
             referred_tx=self.referred_tx,
             chain_id=self.chain_id,
-            tx_receipt=self.tx_receipt.to_raw(),
+            tx_receipt=self.tx_receipt.to_raw() if self.tx_receipt and self.tx_receipt.tx_hash != "" else None,
         )
 
     def to_bytes(self, level='base') -> bytes:

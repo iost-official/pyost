@@ -526,7 +526,7 @@ class IOST:
             A `Transaction` object.
         """
         tx = self.create_call_tx('token.iost', 'transfer', token, from_name, to_name, str(amount), memo)
-        tx.add_amount_limit('iost', str(amount))
+        tx.add_amount_limit(token, str(amount))
         return tx
 
     def create_new_account_tx(self, new_name: str, creator_name: str,
